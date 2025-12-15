@@ -71,7 +71,7 @@ input[type="tel"]:focus {
     border: 1px solid #FFC107; /* 黃金框線 */
     border-radius: 6px;
     background: #D32F2F; /* 更亮的紅色背景 */
-    color: #FFEBEE; /* 文字顏色改為淺米白色 */
+    color: #333; /* 文字顏色改為深色 (黑色) */
 }
 
 .radio-group-container input[type="radio"] {
@@ -84,7 +84,7 @@ input[type="tel"]:focus {
     font-weight: normal;
     margin-top: 0;
     cursor: pointer;
-    color: #FFEBEE; /* 確保選項文字是白色 */
+    color: #333; /* 確保選項文字是深色 (黑色) */
 }
 /* === 修正結束 === */
 

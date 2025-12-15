@@ -570,39 +570,41 @@ function handleAnswerClick() {
 }
 
 /**
- * 顯示測驗結果，並計算潛能等級 (取代積分)
- */
+ * 顯示測驗結果，並計算潛能等級 (取代積分)
+ */
 function showQuizResult() {
-    document.getElementById('quiz-content').classList.add('hidden');
-    const resultDiv = document.getElementById('quiz-result');
-    resultDiv.classList.remove('hidden');
-    
-    document.getElementById('score').innerText = currentScore;
-    
-    let potentialLevel = '';
-    let comment = '';
-    
-    // **[修正] 設定潛能等級和評語**
-    if (currentScore === 100) {
-        potentialLevel = 'S 級頂尖';
-        comment = `🌟 ${potentialLevel} 學霸潛能！您的知識結構扎實且應用能力極強，遠超多數清交學生！寒假目標：維持手感，挑戰更進階的題型。`;
-    } else if (currentScore >= 80) {
-        potentialLevel = 'A 級強者';
-        comment = `💎 ${potentialLevel} 潛能！您的基礎知識掌握度高，但在特定章節仍有提升空間。寒假目標：鎖定弱點，精準補強，就能晉升 S 級！`;
-    } else if (currentScore >= 60) {
-        potentialLevel = 'B 級穩定';
-        comment = `✨ ${potentialLevel} 潛能。您已具備一定基礎，但面對高難度挑戰時，計算或觀念整合能力略顯不足。寒假目標：建立完整知識地圖，從頭打好根基。`;
-    } else {
-        potentialLevel = 'C 級覺醒中';
-        comment = `💪 ${potentialLevel} 潛能！別灰心！這份測驗剛好幫您找出盲點。立即規劃補強，寒假後逆轉勝！`;
-    }
-    
-    document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${potentialLevel}</strong><br>${comment}`;
+    document.getElementById('quiz-content').classList.add('hidden');
+    const resultDiv = document.getElementById('quiz-result');
+    resultDiv.classList.remove('hidden');
+    
+    document.getElementById('score').innerText = currentScore;
+    
+    let potentialLevel = '';
+    let comment = '';
+    
+    // **[已修改] 設定潛能等級和評語**
+    if (currentScore === 100) {
+        potentialLevel = 'S 級頂尖';
+        comment = `🌟 ${potentialLevel} 學霸潛能！您的知識結構扎實且應用能力極強，遠超多數清交學生！寒假目標：維持手感，挑戰更進階的題型。`;
+    } else if (currentScore >= 80) {
+        potentialLevel = 'A 級強者';
+        comment = `💎 ${potentialLevel} 潛能！您的基礎知識掌握度高，但在特定章節仍有提升空間。寒假目標：鎖定弱點，精準補強，就能晉升 S 級！`;
+    } else if (currentScore >= 60) {
+        // *** 此處為 B 級修改 ***
+        potentialLevel = 'B 級穩定';
+        comment = `✨ ${potentialLevel} 潛能。您已具備一定基礎，但面對高難度挑戰時，計算或觀念整合能力略顯不足。寒假目標：建立完整知識地圖，從頭打好根基。`;
+    } else {
+        // *** 此處為 C 級修改 ***
+        potentialLevel = 'C 級潛能覺醒中';
+        comment = `💪 ${potentialLevel} 潛能。別灰心！這份測驗剛好幫您找出盲點。立即規劃補強，寒假後逆轉勝！`;
+    }
+    
+    document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${potentialLevel}</strong><br>${comment}`;
 
-    // 儲存潛能等級，用於下一頁顯示
-    localStorage.setItem('potentialLevel', potentialLevel);
+    // 儲存潛能等級，用於下一頁顯示
+    localStorage.setItem('potentialLevel', potentialLevel);
 
-    sendScoreAndTime();
+    sendScoreAndTime();
 }
 
 /**

@@ -23,7 +23,6 @@ const FORM_IDS = {
     
     // ------------------------------------------------------------------
     // HTML 欄位屬性名稱/ID (與 index.html 匹配)
-    // *** 這裡已修正為 userUniversity 和 userGrade，這是跳轉成功的關鍵 ***
     HTML_UNI_RADIO_NAME: 'userUniversity',   
     HTML_GRADE_RADIO_NAME: 'userGrade',      
     
@@ -319,15 +318,14 @@ const ALL_QUIZ_DATA = [
     },
 ];
 
-// === C. 影片 ID、師資與 LINE 連結 ===
+// === C. 影片 ID、師資與 LINE 連結 (已修正為 11 位元標準 ID) ===
 const VIDEO_LINKS = {
-    // 這裡的 ID 是 YouTube 影片的短連結或 ID，用於嵌入播放器
-    Math: { title: "工程數學 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "GGnegd" }, 
-    Science: { title: "線性代數 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "bNW7x6" },
-    History: { title: "計算機概論 - 張逸 老師 試聽課程", teacher: "張逸 老師", youtubeId: "3bKOEj" },
-    Geography: { title: "經濟學 - 牧翰 老師 試聽課程", teacher: "牧翰 老師", youtubeId: "VmY8yb" },
-    English: { title: "微積分 - 梁修 老師 試聽課程", teacher: "梁修 老師", youtubeId: "QVYXn0" },
-    Coding: { title: "統計學 - 張翔 老師 試聽課程", teacher: "張翔 老師", youtubeId: "XaAAQ3" }
+    Math: { title: "工程數學 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "LiW8jvHZ7o4" }, 
+    Science: { title: "線性代數 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "dW4cUVU089Q" },
+    History: { title: "計算機概論 - 張逸 老師 試聽課程", teacher: "張逸 老師", youtubeId: "ZC98Wmrtb7o" },
+    Geography: { title: "經濟學 - 牧翰 老師 試聽課程", teacher: "牧翰 老師", youtubeId: "2ZXmDGBC4c4" },
+    English: { title: "微積分 - 梁修 老師 試聽課程", teacher: "梁修 老師", youtubeId: "QNLL0qfEPmI" },
+    Coding: { title: "統計學 - 張翔 老師 試聽課程", teacher: "張翔 老師", youtubeId: "GhAxVkA1He8" }
 };
 const LINE_CTA_LINK = "https://lin.ee/Oj42w8M"; // 您的 LINE 連結
 
@@ -345,7 +343,7 @@ function showPage(pageId) {
     document.getElementById(pageId).classList.remove('hidden');
     
     if (pageId === 'resourcePage') {
-        initYouTube();
+        initYouTube(); // 確保每次進入資源頁都嘗試初始化 YT 播放器
         generateStudyPlan(); 
     }
 }
@@ -658,18 +656,18 @@ function generateStudyPlan() {
         const w1Topics = topics.slice(0, half);
         const w2Topics = topics.slice(half);
 
-        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
+        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：：</strong>整理該章節筆記與公式推導</li></ul>`;
         
         if (w2Topics.length > 0) {
-            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：：</strong>完成相關單元練習題 20 題</li></ul>`;
+            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
         } else {
-            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：：：</strong>開始練習跨章節綜合題</li></ul>`;
+            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
         }
 
     } else {
         weaknessTag.innerText = "全數答對！菁英強化版";
-        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
-        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：：：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
+        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
+        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
     }
 
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
@@ -678,30 +676,32 @@ function generateStudyPlan() {
     week3.innerHTML = `
         <ul>
             <li>🧩 <strong>${sName} 跨章節整合：</strong>將各單元觀念串聯，繪製心智圖。</li>
-            <li>✍️ <strong>五年考古題演練 (Part 1)：：</strong>完成近五年台聯大/台大試題。</li>
+            <li>✍️ <strong>五年考古題演練 (Part 1)：</strong>完成近五年台聯大/台大試題。</li>
         </ul>`;
     
     week4.innerHTML = `
         <ul>
-            <li>🏁 <strong>考前實戰模擬：：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
-            <li>❤️ <strong>調整身心狀態：：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
+            <li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
+            <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
         </ul>`;
 }
 
 
-// === I. YouTube API ===
+// === I. YouTube 嵌入邏輯 (簡化版) ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
     // 防止重複載入 iframe
     if (container.querySelector('iframe')) return;
     
     const vidId = VIDEO_LINKS[currentSubject].youtubeId;
-    const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1`;
-
-    if (vidId) {
+    
+    // 檢查 ID 是否為 11 位元且存在
+    if (vidId && vidId.length === 11) {
+        // 使用標準 YouTube 嵌入連結
+        const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1`;
         container.innerHTML = `<iframe width="100%" height="100%" src="${youtubeEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
     } else {
-        container.innerHTML = `<p style="color: red;">抱歉，該科目的試聽影片連結目前缺失。</p>`;
+        container.innerHTML = `<p style="color: red; padding: 20px; text-align: center;">影片 ID 錯誤或缺失。請檢查 script.js 檔案中的 ID 格式是否為 11 個字元。</p>`;
     }
 }
 

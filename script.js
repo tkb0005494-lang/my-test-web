@@ -1,222 +1,33 @@
-// === A. 測驗資料庫 (30題完整版 - 新增 topic 屬性) ===
-const ALL_QUIZ_DATA = [
-    // 工程數學 (Math)
-    { subject: "Math", topic: "一階微分方程", question: "求解 $\\frac{dy}{dx} + 2xy = x, y(0)=1$。則 $y(1)=?$", answerOptions: [
-        { text: "$\\frac{1}{2}(1 + e^{-1})$", isCorrect: true, rationale: "積分因子 $\\mu=e^{x^2}$。通解 $y=\\frac{1}{2}+Ce^{-x^2}$。代入初值 $C=1/2$。" },
-        { text: "$\\frac{1}{2}(1 + e)$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$1 + e^{-1}$", isCorrect: false, rationale: "係數錯誤。" },
-        { text: "$e^{-1}$", isCorrect: false, rationale: "常數項遺漏。" }
-    ]},
-    { subject: "Math", topic: "拉氏轉換", question: "$f(t) = t \\cos(3t)$ 的拉氏轉換 $F(s)$ 為何？", answerOptions: [
-        { text: "$\\frac{s^2 - 9}{(s^2 + 9)^2}$", isCorrect: true, rationale: "利用微分性質 $\\mathcal{L}\\{t f(t)\\} = -F'(s)$ 對 $\\frac{s}{s^2+9}$ 微分。" },
-        { text: "$\\frac{2s}{(s^2 + 9)^2}$", isCorrect: false, rationale: "分子計算錯誤。" },
-        { text: "$\\frac{s^2 + 9}{(s^2 + 9)^2}$", isCorrect: false, rationale: "分母正確但分子錯誤。" },
-        { text: "$\\frac{s}{s^2 + 9}$", isCorrect: false, rationale: "這是 $\\cos(3t)$ 的轉換。" }
-    ]},
-    { subject: "Math", topic: "高階常係數微分方程", question: "求 $y'' + 4y' + 5y = 0$ 的通解。", answerOptions: [
-        { text: "$e^{-2x}(C_1 \\cos x + C_2 \\sin x)$", isCorrect: true, rationale: "特徵根 $r = -2 \\pm i$。" },
-        { text: "$C_1 e^{-2x} + C_2 e^{-x}$", isCorrect: false, rationale: "特徵根判別錯誤。" },
-        { text: "$e^{2x}(C_1 \\cos x + C_2 \\sin x)$", isCorrect: false, rationale: "實部符號錯誤。" },
-        { text: "$C_1 \cos 2x + C_2 \sin 2x$", isCorrect: false, rationale: "忽略了實部衰減項。" }
-    ]},
-    { subject: "Math", topic: "傅立葉級數", question: "$f(x)=x^2$ 在 $(-\\pi, \\pi)$ 的傅立葉係數 $a_n (n \\ge 1)$？", answerOptions: [
-        { text: "$\\frac{4(-1)^n}{n^2}$", isCorrect: true, rationale: "利用分部積分法計算 $\\frac{2}{\\pi}\\int_0^\\pi x^2\\cos(nx)dx$。" },
-        { text: "$0$", isCorrect: false, rationale: "偶函數 $b_n=0$，但 $a_n$ 不為0。" },
-        { text: "$\\frac{2}{n}$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$\\frac{(-1)^n}{n}$", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "Math", topic: "矩陣特徵值", question: "矩陣 $A = \\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix}$ 的特徵向量？", answerOptions: [
-        { text: "$\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$", isCorrect: true, rationale: "對應 $\\lambda=2$。" },
-        { text: "$\\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}$", isCorrect: false, rationale: "驗證 $A\\mathbf{v} \\ne \\lambda \\mathbf{v}$。" },
-        { text: "$\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$\\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}$", isCorrect: false, rationale: "這是對應 $\\lambda=3$ 的特徵向量。" }
-    ]},
+// === B. 參數與變數設定 (已修改為雙表單) ===
 
-    // 線性代數 (Science)
-    { subject: "Science", topic: "基底與維度", question: "下列何者為 $\\mathbb{R}^3$ 的基底？", answerOptions: [
-        { text: "$\\{(1,0,0), (1,1,0), (1,1,1)\\}$", isCorrect: true, rationale: "行列式不為0，線性獨立且生成 $\\mathbb{R}^3$。" },
-        { text: "$\\{(1,0,0), (0,1,0)\\}$", isCorrect: false, rationale: "向量數不足。" },
-        { text: "$\\{(1,0,0), (2,0,0), (0,0,1)\\}$", isCorrect: false, rationale: "線性相依。" },
-        { text: "$\\{(1,2,3), (4,5,6), (7,8,9)\\}$", isCorrect: false, rationale: "行列式為0，線性相依。" }
-    ]},
-    { subject: "Science", topic: "行列式計算", question: "$A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 4 & 5 \\\\ 0 & 0 & 6 \\end{pmatrix}$，$\\det(A)=?$", answerOptions: [
-        { text: "$24$", isCorrect: true, rationale: "上三角矩陣行列式為對角線乘積 $1 \\times 4 \\times 6$。" },
-        { text: "$12$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$10$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$0$", isCorrect: false, rationale: "對角線無0，行列式不為0。" }
-    ]},
-    { subject: "Science", topic: "矩陣Rank", question: "$A = \\begin{pmatrix} 1 & 0 & 1 \\\\ 2 & 1 & 3 \\\\ 1 & 1 & 2 \\end{pmatrix}$ 的 Rank？", answerOptions: [
-        { text: "$2$", isCorrect: true, rationale: "第三列是第二列減第一列，故線性相依。" },
-        { text: "$3$", isCorrect: false, rationale: "行列式為0，未滿秩。" },
-        { text: "$1$", isCorrect: false, rationale: "至少有兩行線性獨立。" },
-        { text: "$0$", isCorrect: false, rationale: "非零矩陣。" }
-    ]},
-    { subject: "Science", topic: "線性轉換", question: "線性轉換 $T(1,1)=(3,3), T(1,-1)=(-1,1)$，求標準矩陣 $[T]$。", answerOptions: [
-        { text: "$\\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$", isCorrect: true, rationale: "解出 $T(1,0)$ 和 $T(0,1)$ 即可得行向量。" },
-        { text: "$\\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$", isCorrect: false, rationale: "轉置了。" },
-        { text: "$\\begin{pmatrix} 3 & -1 \\\\ 3 & 1 \\end{pmatrix}$", isCorrect: false, rationale: "直接使用了映像值。" },
-        { text: "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{ίζεται}$", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "Science", topic: "投影與冪等矩陣", question: "若 $A^2=A$ 且 $A \\ne I$，特徵值為何？", answerOptions: [
-        { text: "$0$ 或 $1$", isCorrect: true, rationale: "由 $\\lambda^2 = \\lambda$ 解得。" },
-        { text: "$1$ 或 $-1$", isCorrect: false, rationale: "這是 $A^2=I$ 的性質。" },
-        { text: "僅 $1$", isCorrect: false, rationale: "還有0的可能。" },
-        { text: "任意實數", isCorrect: false, rationale: "受方程式限制。" }
-    ]},
+// **表單 A: 使用者資訊** (您的第一個表單)
+const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 
-    // 計算機概論 (History)
-    { subject: "History", topic: "資料結構(Heap)", question: "實作最小堆積 (Min Heap) 最適合的資料結構？", answerOptions: [
-        { text: "陣列 (Array)", isCorrect: true, rationale: "完全二元樹用陣列實作效率最高。" },
-        { text: "鏈結串列 (Linked List)", isCorrect: false, rationale: "指標操作較慢。" },
-        { text: "堆疊 (Stack)", isCorrect: false, rationale: "性質不同。" },
-        { text: "雜湊表 (Hash Table)", isCorrect: false, rationale: "不具備樹狀結構。" }
-    ]},
-    { subject: "History", topic: "作業系統(Memory)", question: "關於虛擬記憶體，何者**錯誤**？", answerOptions: [
-        { text: "它徹底消除了外部碎片問題。", isCorrect: true, rationale: "分段機制仍可能有外部碎片。" },
-        { text: "擴大了可用位址空間。", isCorrect: false, rationale: "正確。" },
-        { text: "使用分頁或分段技術。", isCorrect: false, rationale: "正確。" },
-        { text: "涉及硬碟交換 (Swapping)。", isCorrect: false, rationale: "正確。" }
-    ]},
-    { subject: "History", topic: "演算法(Graph)", question: "稀疏圖使用鄰接串列實作 BFS 的時間複雜度？", answerOptions: [
-        { text: "$O(V+E)$", isCorrect: true, rationale: "需走訪所有點與邊。" },
-        { text: "$O(V^2)$", isCorrect: false, rationale: "這是鄰接矩陣的複雜度。" },
-        { text: "$O(V \\log V)$", isCorrect: false, rationale: "排序的複雜度。" },
-        { text: "$O(E \\log E)$", isCorrect: false, rationale: "MST 相關複雜度。" }
-    ]},
-    { subject: "History", topic: "網路(Network Layer)", question: "TCP/IP 中，傳輸層 (Transport Layer) **不負責**？", answerOptions: [
-        { text: "路徑選擇 (Routing)", isCorrect: true, rationale: "這是網路層 (IP) 的工作。" },
-        { text: "流量控制", isCorrect: false, rationale: "TCP 負責。" },
-        { text: "錯誤更正", isCorrect: false, rationale: "TCP 負責。" },
-        { text: "連接埠定址", isCorrect: false, rationale: "TCP/UDP 負責。" }
-    ]},
-    { subject: "History", topic: "資料庫(SQL)", question: "`SELECT ... FROM S LEFT JOIN M WHERE M.ID IS NULL` 的作用？", answerOptions: [
-        { text: "找出沒有主修的學生。", isCorrect: true, rationale: "篩選出左表有但右表無法匹配的資料。" },
-        { text: "找出有主修的學生。", isCorrect: false, rationale: "這是 INNER JOIN。" },
-        { text: "找出所有學生。", isCorrect: false, rationale: "不應加 WHERE 條件。" },
-        { text: "找出沒有學生的主修。", isCorrect: false, rationale: "應反向 JOIN。" }
-    ]},
+// **表單 B: 測驗結果** (您新提供的第二個表單)
+const GOOGLE_FORM_B_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScrCgzXQ2Rpi4ARsIQ7-KKYzgsADVW6syIJj37Hk0mapCc9Hw/formResponse';
 
-    // 經濟學 (Geography)
-    { subject: "Geography", topic: "供需彈性", question: "$Q_d = 20 - 2P$，當 $P=5$ 時的價格彈性？", answerOptions: [
-        { text: "$1.0$", isCorrect: true, rationale: "$Q=10, |dQ/dP \\times P/Q| = |-2 \\times 5/10| = 1$。" },
-        { text: "$0.5$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$2.0$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$0$", isCorrect: false, rationale: "計算錯誤。" }
-    ]},
-    { subject: "Geography", topic: "市場結構", question: "完全競爭廠商短期利潤最大化條件？", answerOptions: [
-        { text: "$P = MC$ 且 $MC$ 遞增", isCorrect: true, rationale: "價格等於邊際成本。" },
-        { text: "$P = ATC$", isCorrect: false, rationale: "這是零利潤點。" },
-        { text: "$MR > MC$", isCorrect: false, rationale: "應增加產量。" },
-        { text: "$P = AVC$", isCorrect: false, rationale: "這是歇業點。" }
-    ]},
-    { subject: "Geography", topic: "總體經濟(IS-LM)", question: "IS-LM 模型中，擴張性財政政策 ($G \\uparrow$) 造成？", answerOptions: [
-        { text: "利率上升，產出增加", isCorrect: true, rationale: "IS 右移，沿著 LM 移動。" },
-        { text: "利率下降，產出增加", isCorrect: false, rationale: "這是貨幣政策的效果。" },
-        { text: "利率上升，產出減少", isCorrect: false, rationale: "不可能。" },
-        { text: "利率不變，產出增加", isCorrect: false, rationale: "除非 LM 水平。" }
-    ]},
-    { subject: "Geography", topic: "國民所得", question: "計入 GNP 但不計入 GDP 的項目？", answerOptions: [
-        { text: "本國公司在國外的獲利", isCorrect: true, rationale: "屬人主義 vs 屬地主義。" },
-        { text: "外國人在本國的薪資", isCorrect: false, rationale: "計入 GDP。" },
-        { text: "政府移轉支付", isCorrect: false, rationale: "都不計入。" },
-        { text: "國內二手車交易", isCorrect: false, rationale: "都不計入。" }
-    ]},
-    { subject: "Geography", topic: "寡佔市場", question: "哪種市場結構廠商間相互依存度最高？", answerOptions: [
-        { text: "寡佔 (Oligopoly)", isCorrect: true, rationale: "少數廠商互相牽制。" },
-        { text: "完全競爭", isCorrect: false, rationale: "無影響力。" },
-        { text: "獨佔", isCorrect: false, rationale: "無競爭者。" },
-        { text: "獨佔性競爭", isCorrect: false, rationale: "影響力低。" }
-    ]},
-
-    // 微積分 (English)
-    { subject: "English", topic: "極限與羅必達", question: "$\\lim_{x \\to 0} \\frac{\\sin(2x) - 2x}{x^3} = ?$", answerOptions: [
-        { text: "$-\\frac{4}{3}$", isCorrect: true, rationale: "羅必達法則三次：$\\frac{-8\\cos 2x}{6} \\to -4/3$。" },
-        { text: "$0$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$-1$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$\\infty$", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "English", topic: "微分應用", question: "$f(x) = \\ln\\sqrt{\\frac{1-\\sin x}{1+\\sin x}}$，$f'(x)=?$", answerOptions: [
-        { text: "$-\\sec x$", isCorrect: true, rationale: "化簡後微分 $\\ln(\\sec x - \\tan x)$。" },
-        { text: "$\\sec x$", isCorrect: false, rationale: "符號錯誤。" },
-        { text: "$\\cos x$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$\\tan x$", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "English", topic: "積分技巧", question: "$\\int_0^1 x e^{-x} dx = ?$", answerOptions: [
-        { text: "$1 - 2e^{-1}$", isCorrect: true, rationale: "分部積分：$-xe^{-x} - e^{-x}$ 代入上下限。" },
-        { text: "$1 - e^{-1}$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$e^{-1}$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$1$", isCorrect: false, rationale: "計算錯誤。" }
-    ]},
-    { subject: "English", topic: "級數收斂", question: "級數 $\\sum \\frac{(x-3)^n}{n 2^n}$ 收斂區間？", answerOptions: [
-        { text: "$[1, 5)$", isCorrect: true, rationale: "半徑2，中心3。端點1收斂，5發散。" },
-        { text: "$(1, 5)$", isCorrect: false, rationale: "端點判斷錯誤。" },
-        { text: "$[1, 5]$", isCorrect: false, rationale: "端點判斷錯誤。" },
-        { text: "$(-\\infty, \\infty)$", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "English", topic: "重積分", question: "$\\iint_R (x+2y)dA$，區域由 $y=x, y=2x, x=1$ 圍成。", answerOptions: [
-        { text: "$\\frac{4}{3}$", isCorrect: true, rationale: "積分 $\\int_0^1 \\int_x^{2x} (x+2y) dy dx$。" },
-        { text: "$1$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$2$", isCorrect: false, rationale: "計算錯誤。" },
-        { text: "$\\frac{5}{3}$", isCorrect: false, rationale: "計算錯誤。" }
-    ]},
-
-    // 統計學 (Coding)
-    { subject: "Coding", topic: "期望值與變異數", question: "$P(X=x) = x/10, x=1,2,3,4$。$E[X]=?$", answerOptions: [
-        { text: "$3.0$", isCorrect: true, rationale: "$1(0.1)+2(0.2)+3(0.3)+4(0.4)=3$。" },
-        { text: "$2.5$", isCorrect: false, rationale: "不是均勻分佈。" },
-        { text: "$2.0$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$3.5$", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "Coding", topic: "中央極限定理", question: "CLT 指出樣本平均數 $\\bar{X}$ 的分佈趨近於？", answerOptions: [
-        { text: "常態分佈，標準差 $\\sigma/\\sqrt{n}$", isCorrect: true, rationale: "中央極限定理定義。" },
-        { text: "常態分佈，標準差 $\\sigma$", isCorrect: false, rationale: "標準誤需除根號n。" },
-        { text: "T 分佈", isCorrect: false, rationale: "那是小樣本且母體常態時。" },
-        { text: "母體分佈", isCorrect: false, rationale: "錯誤。" }
-    ]},
-    { subject: "Coding", topic: "假說檢定", question: "想證明新藥效用「優於」舊藥，對立假設 $H_a$ 應設為？", answerOptions: [
-        { text: "$\\mu > \\mu_0$", isCorrect: true, rationale: "研究者想證明的放 $H_a$。" },
-        { text: "$\\mu = \\mu_0$", isCorrect: false, rationale: "這是 $H_0$。" },
-        { text: "$\\mu \\ne \\mu_0$", isCorrect: false, rationale: "這是雙尾檢定。" },
-        { text: "$\\mu < \\mu_0$", isCorrect: false, rationale: "這是劣於。" }
-    ]},
-    { subject: "Coding", topic: "P-value", question: "$p$-value $= 0.02, \\alpha=0.05$，結論？", answerOptions: [
-        { text: "拒絕 $H_0$", isCorrect: true, rationale: "$p < \\alpha$，結果顯著。" },
-        { text: "不拒絕 $H_0$", isCorrect: false, rationale: "錯誤。" },
-        { text: "$H_0$ 成立", isCorrect: false, rationale: "不能說 $H_0$ 成立。" },
-        { text: "資料不足", isCorrect: false, rationale: "已有結論。" }
-    ]},
-    { subject: "Coding", topic: "迴歸分析", question: "簡單迴歸 $Y=\\beta_0+\\beta_1 X$，$\\beta_1$ 意義？", answerOptions: [
-        { text: "$X$ 每增1單位，$Y$ 的平均變動量", isCorrect: true, rationale: "斜率定義。" },
-        { text: "$Y$ 的截距", isCorrect: false, rationale: "那是 $\\beta_0$。" },
-        { text: "相關係數", isCorrect: false, rationale: "不相等。" },
-        { text: "判定係數", isCorrect: false, rationale: "那是 $R^2$。" }
-    ]}
-];
-
-// === B. 參數與變數設定 (已修改) ===
-
-// **重要：替換成您提供的表單提交網址！**
-// 這是您提供的 iframe URL 轉換成的 POST 提交網址
-const GOOGLE_FORM_POST_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
-
-// **Google 表單欄位 ID 映射 (已修改)**
+// **Google 表單欄位 ID 映射 (已更新)**
 const FORM_IDS = {
-    // 原始 HTML 中的欄位 ID (與您的表單相符)
-    NAME: 'entry.1000000001',      // 姓名
-    UNI: 'entry.1000000002',       // 就讀大學 (Radio Group)
-    OTHER_UNI: 'entry.1000000003', // 其他大學 (Text)
-    DEPT: 'entry.1000000004',      // 系所
-    GRADE: 'entry.1000000005',     // 年級 (Radio Group)
-    PHONE: 'entry.1000000006',     // 手機
-
-    // 您提供的額外 ID (現在統一使用這些 ID)
-    FORM_NAME: 'entry.1711447572',     // 姓名
-    FORM_DEPT_GRADE: 'entry.1169658860',// 科系+年級 (整合欄位)
-    FORM_PHONE: 'entry.1253545059',    // 電話
-    FORM_SCORE: 'entry.1656922648',    // 測驗分數
-    FORM_TIME: 'entry.2030066456',     // 時間
-    FORM_UNI: 'entry.651877505',       // 學校
-    FORM_GRADE: 'entry.247937200',     // 年級
+    // ------------------------------------------------------------------
+    // 表單 A: 用戶資訊 (entry.1711447572, entry.1169658860, etc.)
+    FORM_A_NAME: 'entry.1711447572',     // 姓名
+    FORM_A_DEPT_GRADE: 'entry.1169658860',// 科系+年級 (整合欄位)
+    FORM_A_PHONE: 'entry.1253545059',    // 電話
+    FORM_A_UNI: 'entry.651877505',       // 學校
+    FORM_A_GRADE: 'entry.247937200',     // 年級
+    
+    // ------------------------------------------------------------------
+    // 表單 B: 測驗結果 (新 ID)
+    FORM_B_SCORE: 'entry.1428871778',    // 測驗分數
+    FORM_B_TIME: 'entry.1695428454',     // 作答時間
+    
+    // ------------------------------------------------------------------
+    // 原始 HTML 中的欄位 ID (用於前端讀取值)
+    HTML_UNI_RADIO: 'entry.1000000002',       // 就讀大學 (Radio Group)
+    HTML_UNI_OTHER: 'entry.1000000003', // 其他大學 (Text)
+    HTML_DEPT: 'entry.1000000004',      // 系所
+    HTML_GRADE_RADIO: 'entry.1000000005',     // 年級 (Radio Group)
+    
 };
 
 
@@ -233,34 +44,35 @@ const LINE_CTA_LINK = "https://lin.ee/Oj42w8M";
 let currentSubject = ''; 
 let currentScore = 0; 
 let answeredQuestions = new Set();
-let wrongQuestionsData = []; // 儲存錯題資料
-let startTime; // 記錄開始時間 (新增)
+let wrongQuestionsData = []; 
+let startTime; // 記錄開始時間
 let player; 
+
 
 // === C. 頁面控制 (無修改) ===
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
     
-    // 如果進入資源頁，載入影片並生成計畫
     if (pageId === 'resourcePage') {
         initYouTube();
-        generateStudyPlan(); // 生成讀書計畫
+        generateStudyPlan(); 
     }
 }
 
-// === D. 表單資料提交函數 (已修改) ===
+// === D. 表單資料提交函數 (通用化) ===
 
 /**
  * 提交表單資料到 Google 表單
- * @param {object} dataToSubmit 包含要提交數據的物件
+ * @param {string} url - 表單提交 URL
+ * @param {object} dataToSubmit - 包含要提交數據的物件 (鍵值對應 ID: Value)
  * @returns {Promise<boolean>}
  */
-async function submitDataToGoogleForm(dataToSubmit) {
+async function submitDataToGoogleForm(url, dataToSubmit) {
     const formError = document.getElementById('formError');
-    formError.style.display = 'none';
+    // 僅在提交用戶資訊時顯示錯誤訊息
+    if (url === GOOGLE_FORM_A_URL) formError.style.display = 'none';
 
-    const url = GOOGLE_FORM_POST_URL;
     const body = new URLSearchParams();
 
     // 填充數據
@@ -269,35 +81,37 @@ async function submitDataToGoogleForm(dataToSubmit) {
     }
     
     try {
-        const response = await fetch(url, {
+        await fetch(url, {
             method: 'POST',
             body: body,
-            // 必須設定 'no-cors' 才能將資料送到 Google Forms
             mode: 'no-cors' 
         });
 
-        console.log("資料已發送到 Google Forms (無法驗證成功狀態碼)");
+        console.log(`資料已發送到 Google Forms (${url})`);
         return true;
 
     } catch (error) {
         console.error('Google Forms 提交失敗:', error);
-        formError.textContent = '資料提交失敗，請檢查網路。';
-        formError.style.display = 'block';
+        if (url === GOOGLE_FORM_A_URL) {
+            formError.textContent = '使用者資訊提交失敗，請檢查網路。';
+            formError.style.display = 'block';
+        }
         return false;
     }
 }
 
-// === E. 表單邏輯 (已修改) ===
+// === E. 表單邏輯 (主要修改：驗證與提交 A 表單) ===
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // 1. 驗證特殊欄位 (其他大學名稱)
-    const uniRadio = document.querySelector('input[name="entry.1000000002"]:checked');
+    // 1. 驗證欄位
+    const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO}"]:checked`);
     const uniOtherText = document.getElementById('uniOtherText').value.trim();
     const userDepartment = document.getElementById('userDepartment').value.trim();
-    const gradeRadio = document.querySelector('input[name="entry.1000000005"]:checked');
+    const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO}"]:checked`);
     const formError = document.getElementById('formError');
 
+    // 必填欄位檢查
     if (!uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio) {
         formError.textContent = "請完整填寫所有必填欄位。";
         formError.style.display = 'block';
@@ -309,20 +123,18 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     const userPhone = document.getElementById('userPhone').value.trim();
     const userGrade = gradeRadio.value;
     
-    // 2. 準備提交數據
+    // 2. 準備提交數據 (表單 A: 用戶資訊)
     const dataToSubmit = {
-        [FORM_IDS.FORM_NAME]: userName,
-        [FORM_IDS.FORM_UNI]: uniValue,
-        [FORM_IDS.FORM_DEPT_GRADE]: `${userDepartment}/${userGrade}`, // 將系所與年級合併
-        [FORM_IDS.FORM_PHONE]: userPhone,
-        [FORM_IDS.FORM_GRADE]: userGrade,
-        // 分數和時間先留空，等測驗完再發送第二次
-        [FORM_IDS.FORM_SCORE]: '',
-        [FORM_IDS.FORM_TIME]: ''
+        [FORM_IDS.FORM_A_NAME]: userName,
+        [FORM_IDS.FORM_A_UNI]: uniValue,
+        [FORM_IDS.FORM_A_DEPT_GRADE]: `${userDepartment} / ${userGrade}`, // 將系所與年級合併
+        [FORM_IDS.FORM_A_PHONE]: userPhone,
+        [FORM_IDS.FORM_A_GRADE]: userGrade,
+        // 刪除分數和時間欄位，因為它們不屬於表單 A
     };
 
-    // 3. 提交資料到 Google Form (第一次提交：使用者資訊)
-    const isSubmitted = await submitDataToGoogleForm(dataToSubmit);
+    // 3. 提交資料到 Google Form A
+    const isSubmitted = await submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit);
 
     if (isSubmitted) {
         // 4. 提交成功後，儲存使用者資訊和起始時間
@@ -339,12 +151,14 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     }
 });
 
+// ... (其他 UI 邏輯，如 '其他' 大學的顯示/隱藏，無修改) ...
+
 document.querySelectorAll('input[name="entry.1000000002"]').forEach(r => {
     r.addEventListener('change', function() {
         const textInput = document.getElementById('uniOtherText');
         if (this.value === '其他') {
             textInput.disabled = false;
-            textInput.required = true; // 設置必填
+            textInput.required = true; 
             textInput.focus();
         } else {
             textInput.disabled = true;
@@ -354,7 +168,8 @@ document.querySelectorAll('input[name="entry.1000000002"]').forEach(r => {
     });
 });
 
-// === E. 測驗邏輯 (部分修改) ===
+// === F. 測驗邏輯 (無修改) ===
+// (startQuiz, handleAnswerClick, showQuizResult 等邏輯不變)
 
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -364,9 +179,10 @@ document.querySelectorAll('.subject-button').forEach(btn => {
 });
 
 function startQuiz(subject) {
+    // ... (保持原 startQuiz 函數邏輯) ...
     currentScore = 0;
     answeredQuestions.clear();
-    wrongQuestionsData = []; // 重置錯題
+    wrongQuestionsData = []; 
     
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-content').classList.remove('hidden');
@@ -420,42 +236,34 @@ function handleAnswerClick() {
     const card = this.closest('.question-card');
     const qIdx = parseInt(card.dataset.index);
     
-    // 防止重複作答
     if (answeredQuestions.has(qIdx)) return;
     answeredQuestions.add(qIdx);
 
-    // 取得題目資料
     const quizList = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
     const currentQ = quizList[qIdx];
     
-    // 判斷對錯
     const selectedIdx = parseInt(this.dataset.idx);
     const isCorrect = currentQ.answerOptions[selectedIdx].isCorrect;
     
-    // UI 顯示
     this.classList.add('selected');
     if (isCorrect) {
         this.classList.add('correct');
-        currentScore += 20; // 5題，每題20分
+        currentScore += 20; 
     } else {
         this.classList.add('incorrect');
-        // 標示正確答案
         const correctIdx = currentQ.answerOptions.findIndex(o => o.isCorrect);
         card.querySelectorAll('.option-item')[correctIdx].classList.add('correct');
         
-        // 紀錄錯題 (重要邏輯)
         wrongQuestionsData.push({
             topic: currentQ.topic,
             question: currentQ.question
         });
     }
 
-    // 顯示詳解
     const ratDiv = document.getElementById(`rat-${qIdx}`);
     ratDiv.innerHTML = `<strong>💡 解析：</strong> ${currentQ.answerOptions.find(o => o.isCorrect).rationale}`;
     ratDiv.classList.add('visible');
     
-    // 重新渲染該區塊的 Math
     if (window.renderMathInElement) {
         renderMathInElement(ratDiv, {
             delimiters: [
@@ -465,7 +273,6 @@ function handleAnswerClick() {
         });
     }
 
-    // 檢查是否全部完成
     if (answeredQuestions.size === 5) {
         setTimeout(showQuizResult, 800);
     }
@@ -479,7 +286,6 @@ function showQuizResult() {
     const scoreSpan = document.getElementById('score');
     scoreSpan.innerText = currentScore;
     
-    // 根據分數給評語
     let comment = "";
     if (currentScore === 100) comment = "太強了！您的觀念非常清晰，絕對是頂大的料！";
     else if (currentScore >= 60) comment = "不錯喔！掌握了大部分觀念，針對弱點補強就能更上一層樓！";
@@ -487,15 +293,15 @@ function showQuizResult() {
     
     document.getElementById('scoreComment').innerText = comment;
 
-    // **新增：完成測驗後，發送分數與時間**
+    // **新增：完成測驗後，發送分數與時間給表單 B**
     sendScoreAndTime();
 }
 
 /**
- * 計算作答時間並提交分數與時間到 Google Form (第二次提交)
+ * 計算作答時間並提交分數與時間到 Google Form B
  */
 function sendScoreAndTime() {
-    if (!startTime) return; // 如果沒有開始時間，則不執行
+    if (!startTime) return; 
     
     const endTime = Date.now();
     const durationMs = endTime - startTime;
@@ -507,33 +313,26 @@ function sendScoreAndTime() {
     const seconds = totalSeconds % 60;
     const timeString = `${hours}小時${minutes}分${seconds}秒`;
     
-    // 從 localStorage 讀取用戶資料，以便 Google Form 能夠根據用戶資訊紀錄分數
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    
-    // 準備第二次提交的數據：包含分數和作答時間
+    // 準備第二次提交的數據：只包含分數和作答時間 (表單 B)
     const scoreDataToSubmit = {
-        [FORM_IDS.FORM_SCORE]: currentScore,
-        [FORM_IDS.FORM_TIME]: timeString,
-        // 為了讓 Google Sheet 紀錄能對應到人，將關鍵資訊也帶上
-        [FORM_IDS.FORM_NAME]: userData.name,
-        [FORM_IDS.FORM_UNI]: userData.uni,
-        [FORM_IDS.FORM_PHONE]: userData.phone
+        [FORM_IDS.FORM_B_SCORE]: currentScore,
+        [FORM_IDS.FORM_B_TIME]: timeString,
     };
     
-    // 提交到 Google Form
-    submitDataToGoogleForm(scoreDataToSubmit).then(success => {
+    // 提交到 Google Form B
+    submitDataToGoogleForm(GOOGLE_FORM_B_URL, scoreDataToSubmit).then(success => {
         if (success) {
-            console.log("分數與時間已成功提交。");
+            console.log("分數與時間已成功提交到 Form B。");
         } else {
-            console.error("分數與時間提交失敗。");
+            console.error("分數與時間提交到 Form B 失敗。");
         }
     });
 }
 
+// ... (G, H, I, J 讀書計畫和 YouTube 邏輯，無修改) ...
 
 // 點擊前往資源頁
 document.getElementById('goToResourceBtn').addEventListener('click', function() {
-    // 設定資源頁數據
     document.getElementById('finalScoreDisplay').innerText = currentScore;
     
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
@@ -551,7 +350,7 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
     showPage('resourcePage');
 });
 
-// === F. 讀書計畫生成引擎 (無修改) ===
+// === 讀書計畫生成引擎 (無修改) ===
 function generateStudyPlan() {
     const week1 = document.getElementById('plan-week-1');
     const week2 = document.getElementById('plan-week-2');
@@ -559,36 +358,31 @@ function generateStudyPlan() {
     const week4 = document.getElementById('plan-week-4');
     const weaknessTag = document.getElementById('weaknessTag');
 
-    // 清空舊內容
     [week1, week2, week3, week4].forEach(el => el.innerHTML = '');
 
     let topics = [];
     if (wrongQuestionsData.length > 0) {
-        // 有錯題：針對錯題生成
         topics = wrongQuestionsData.map(d => d.topic);
         weaknessTag.innerText = topics.join('、');
         
-        // 分配錯題到前兩週
         const half = Math.ceil(topics.length / 2);
         const w1Topics = topics.slice(0, half);
         const w2Topics = topics.slice(half);
 
-        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：：</strong>整理該章節筆記與公式推導</li></ul>`;
+        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
         
         if (w2Topics.length > 0) {
-            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
+            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
         } else {
-             week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：：</strong>開始練習跨章節綜合題</li></ul>`;
+             week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
         }
 
     } else {
-        // 全對：菁英計畫
         weaknessTag.innerText = "全數答對！菁英強化版";
         week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
         week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
     }
 
-    // 後兩週固定行程 (根據科目動態微調文字)
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
     const sName = button ? button.innerText.replace(/[^\u4e00-\u9fa5]/g, '') : "該科目";
 
@@ -600,15 +394,14 @@ function generateStudyPlan() {
     
     week4.innerHTML = `
         <ul>
-            <li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
+            <li>🏁 <strong>考前實戰模擬：：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
             <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
         </ul>`;
 }
 
-// === G. YouTube API (無修改) ===
+// === YouTube API (無修改) ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
-    // 避免重複載入
     if (container.querySelector('iframe')) return;
     
     const vidId = VIDEO_LINKS[currentSubject].youtubeId;

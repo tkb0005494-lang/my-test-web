@@ -10,21 +10,21 @@ const GOOGLE_FORM_B_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScrCgzXQ2Rpi
 const FORM_IDS = {
     // ------------------------------------------------------------------
     // 表單 A: 用戶資訊 (Google Entry ID)
-    FORM_A_NAME: 'entry.1711447572',        
-    FORM_A_DEPT_GRADE: 'entry.1169658860',  
-    FORM_A_PHONE: 'entry.1253545059',       
-    FORM_A_UNI: 'entry.651877505',          
-    FORM_A_GRADE: 'entry.247937200',        
+    FORM_A_NAME: 'entry.1711447572',
+    FORM_A_DEPT_GRADE: 'entry.1169658860',
+    FORM_A_PHONE: 'entry.1253545059',
+    FORM_A_UNI: 'entry.651877505',
+    FORM_A_GRADE: 'entry.247937200',
     
     // ------------------------------------------------------------------
     // 表單 B: 測驗結果 (Google Entry ID)
-    FORM_B_SCORE: 'entry.1428871778',       
-    FORM_B_TIME: 'entry.1695428454',        
+    FORM_B_SCORE: 'entry.1428871778',
+    FORM_B_TIME: 'entry.1695428454',
     
     // ------------------------------------------------------------------
     // HTML 欄位屬性名稱/ID (與 index.html 匹配)
-    HTML_UNI_RADIO_NAME: 'userUniversity',   
-    HTML_GRADE_RADIO_NAME: 'userGrade',      
+    HTML_UNI_RADIO_NAME: 'userUniversity',
+    HTML_GRADE_RADIO_NAME: 'userGrade',
     
     // 以下是 input 的 ID
     HTML_NAME_ID: 'userName',
@@ -320,7 +320,7 @@ const ALL_QUIZ_DATA = [
 
 // === C. 影片 ID、師資與 LINE 連結 (已修正為 11 位元標準 ID) ===
 const VIDEO_LINKS = {
-    Math: { title: "工程數學 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "LiW8jvHZ7o4" }, 
+    Math: { title: "工程數學 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "LiW8jvHZ7o4" },
     Science: { title: "線性代數 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "dW4cUVU089Q" },
     History: { title: "計算機概論 - 張逸 老師 試聽課程", teacher: "張逸 老師", youtubeId: "ZC98Wmrtb7o" },
     Geography: { title: "經濟學 - 牧翰 老師 試聽課程", teacher: "牧翰 老師", youtubeId: "2ZXmDGBC4c4" },
@@ -329,20 +329,20 @@ const VIDEO_LINKS = {
 };
 const LINE_CTA_LINK = "https://lin.ee/Oj42w8M"; // 您的 LINE 連結
 
-let currentSubject = ''; 
-let currentScore = 0; 
+let currentSubject = '';
+let currentScore = 0;
 let answeredQuestions = new Set();
-let wrongQuestionsData = []; 
-let startTime; 
-let player; 
+let wrongQuestionsData = [];
+let startTime;
+let player;
 
 // **[新增] 積分變數與規則**
-let userPoints = 0; 
+let userPoints = 0;
 const POINT_SYSTEM = {
     100: 5000,
     80: 3000, // 80-99
     60: 2000, // 60-79
-    0: 1000   // 0-59
+    0: 1000    // 0-59
 };
 
 
@@ -353,7 +353,7 @@ function showPage(pageId) {
     
     if (pageId === 'resourcePage') {
         initYouTube(); // 確保每次進入資源頁都嘗試初始化 YT 播放器
-        generateStudyPlan(); 
+        generateStudyPlan();
     }
 }
 
@@ -407,9 +407,9 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     if (!userName || !uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio || !userPhone) {
         formError.textContent = "請完整填寫所有必填欄位。";
         formError.style.display = 'block';
-        return; 
+        return;
     }
-    formError.style.display = 'none'; 
+    formError.style.display = 'none';
 
     const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
     const userGrade = gradeRadio.value;
@@ -418,7 +418,7 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     const dataToSubmit = {
         [FORM_IDS.FORM_A_NAME]: userName,
         [FORM_IDS.FORM_A_UNI]: uniValue,
-        [FORM_IDS.FORM_A_DEPT_GRADE]: `${userDepartment} / ${userGrade}`, 
+        [FORM_IDS.FORM_A_DEPT_GRADE]: `${userDepartment} / ${userGrade}`,
         [FORM_IDS.FORM_A_PHONE]: userPhone,
         [FORM_IDS.FORM_A_GRADE]: userGrade,
     };
@@ -435,19 +435,19 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
             grade: userGrade,
             phone: userPhone
         }));
-        startTime = Date.now(); 
+        startTime = Date.now();
 
         showPage('subjectSelectPage'); // 成功跳轉
     }
 });
 
-// "其他" 大學的顯示/隱藏邏輯 
+// "其他" 大學的顯示/隱藏邏輯
 document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEach(r => {
     r.addEventListener('change', function() {
         const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
         if (this.value === '其他') {
             textInput.disabled = false;
-            textInput.required = true; 
+            textInput.required = true;
             textInput.focus();
         } else {
             textInput.disabled = true;
@@ -471,19 +471,19 @@ document.querySelectorAll('.subject-button').forEach(btn => {
 function startQuiz(subject) {
     currentScore = 0;
     answeredQuestions.clear();
-    wrongQuestionsData = []; 
+    wrongQuestionsData = [];
     
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-content').classList.remove('hidden');
     
     // 取得該科目的試題
-    const quizList = ALL_QUIZ_DATA.filter(q => q.subject === subject); 
+    const quizList = ALL_QUIZ_DATA.filter(q => q.subject === subject);
     const container = document.getElementById('quiz-content');
     container.innerHTML = '';
     
     // 處理科目名稱顯示
     const button = document.querySelector(`.subject-button[data-subject="${subject}"]`);
-    const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, ''); 
+    const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
     
     document.getElementById('quizTitle').innerText = `正在測驗：${subjectName}`;
 
@@ -492,7 +492,7 @@ function startQuiz(subject) {
         const qNum = index + 1;
         const card = document.createElement('div');
         card.className = 'question-card';
-        card.dataset.index = index; 
+        card.dataset.index = index;
         
         card.innerHTML = `
             <div class="question-text">Q${qNum}. ${q.question}</div>
@@ -542,7 +542,7 @@ function handleAnswerClick() {
     this.classList.add('selected');
     if (isCorrect) {
         this.classList.add('correct');
-        currentScore += 20; 
+        currentScore += 20;
     } else {
         this.classList.add('incorrect');
         const correctIdx = currentQ.answerOptions.findIndex(o => o.isCorrect);
@@ -570,7 +570,7 @@ function handleAnswerClick() {
 
     // 檢查是否所有題目都已作答 (5 題)
     if (answeredQuestions.size === 5) {
-        setTimeout(showQuizResult, 800); 
+        setTimeout(showQuizResult, 800);
     }
 }
 
@@ -586,19 +586,19 @@ function showQuizResult() {
     
     let comment = "";
     
-    // **[修正] 計算積分與對應文案**
+    // **[修正] 計算積分與對應文案 (移除星號)**
     if (currentScore === 100) {
         userPoints = POINT_SYSTEM[100];
-        comment = `🌟 滿分學霸！您已達標最高 **${userPoints} 積分**，立即解鎖最強專屬大禮包！`;
+        comment = `🌟 滿分學霸！您已達標最高 ${userPoints} 積分，立即解鎖最強專屬大禮包！`;
     } else if (currentScore >= 80) {
         userPoints = POINT_SYSTEM[80];
-        comment = `💎 表現優異！您已獲得 **${userPoints} 積分**，觀念基礎紮實，鎖定弱點後即可衝刺頂大！`;
+        comment = `💎 表現優異！您已獲得 ${userPoints} 積分，觀念基礎紮實，鎖定弱點後即可衝刺頂大！`;
     } else if (currentScore >= 60) {
         userPoints = POINT_SYSTEM[60];
-        comment = `✨ 實力中上！您已獲得 **${userPoints} 積分**，寒假是拉開差距的關鍵期，立刻領取補強計畫！`;
+        comment = `✨ 實力中上！您已獲得 ${userPoints} 積分，寒假是拉開差距的關鍵期，立刻領取補強計畫！`;
     } else {
         userPoints = POINT_SYSTEM[0];
-        comment = `💪 潛力股！別灰心！分數低不代表能力差，這份測驗剛好幫您找出盲點，您仍獲得 **${userPoints} 積分**！立即規劃補強，寒假後逆轉勝！`;
+        comment = `💪 潛力股！別灰心！分數低不代表能力差，這份測驗剛好幫您找出盲點，您仍獲得 ${userPoints} 積分！立即規劃補強，寒假後逆轉勝！`;
     }
     
     document.getElementById('scoreComment').innerText = comment;
@@ -610,7 +610,7 @@ function showQuizResult() {
  * 計算作答時間並提交分數與時間到 Google Form B
  */
 function sendScoreAndTime() {
-    if (!startTime) return; 
+    if (!startTime) return;
     
     const endTime = Date.now();
     const durationMs = endTime - startTime;
@@ -649,7 +649,7 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
     document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
     
     // **[修正] 顯示積分**
-    document.getElementById('userTotalPoints').innerText = userPoints; 
+    document.getElementById('userTotalPoints').innerText = userPoints;
 
     let msg = "";
     if (currentScore === 100) msg = "實力驚人！看這部進階影片來挑戰極限吧！";
@@ -662,7 +662,7 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
 });
 
 
-// === H. 讀書計畫生成引擎 (保持不變) ===
+// === H. 讀書計畫生成引擎 (修正多餘冒號) ===
 function generateStudyPlan() {
     const week1 = document.getElementById('plan-week-1');
     const week2 = document.getElementById('plan-week-2');
@@ -698,6 +698,7 @@ function generateStudyPlan() {
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
     const sName = button ? button.innerText.replace(/[^\u4e00-\u9fa5]/g, '') : "該科目";
 
+    // 修正：這裡的 <strong> 標籤內移除了多餘的冒號
     week3.innerHTML = `
         <ul>
             <li>🧩 <strong>${sName} 跨章節整合：</strong>將各單元觀念串聯，繪製心智圖。</li>

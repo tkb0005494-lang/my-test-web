@@ -1,12 +1,12 @@
-// === A. Google 表單設定與變數 (保留上次的表單 ID) ===
+// === A. Google 表單設定與變數 ===
 
-// **表單 A: 使用者資訊**
+// **表單 A: 使用者資訊 (請確認這是您正確的表單 A 連結)**
 const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 
-// **表單 B: 測驗結果**
+// **表單 B: 測驗結果 (請確認這是您正確的表單 B 連結)**
 const GOOGLE_FORM_B_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScrCgzXQ2Rpi4ARsIQ7-KKYzgsADVW6syIJj37Hk0mapCc9Hw/formResponse';
 
-// **Google 表單欄位 ID 映射 (已修正)**
+// **Google 表單欄位 ID 映射 (HTML 欄位名稱已修正以匹配 index.html)**
 const FORM_IDS = {
     // ------------------------------------------------------------------
     // 表單 A: 用戶資訊 (Google Entry ID)
@@ -23,8 +23,9 @@ const FORM_IDS = {
     
     // ------------------------------------------------------------------
     // HTML 欄位屬性名稱/ID (與 index.html 匹配)
-    HTML_UNI_RADIO_NAME: 'userUniversity',   // <-- 配合您提供的 HTML Name
-    HTML_GRADE_RADIO_NAME: 'userGrade',      // <-- 配合您提供的 HTML Name
+    // *** 這裡已修正為 userUniversity 和 userGrade，這是跳轉成功的關鍵 ***
+    HTML_UNI_RADIO_NAME: 'userUniversity',   
+    HTML_GRADE_RADIO_NAME: 'userGrade',      
     
     // 以下是 input 的 ID
     HTML_NAME_ID: 'userName',
@@ -33,7 +34,7 @@ const FORM_IDS = {
     HTML_PHONE_ID: 'userPhone',
 };
 
-// === B. 核心資料結構：題目與測驗設定 (整合並轉換您的 QUIZZES 結構，補齊每科 5 題) ===
+// === B. 核心資料結構：題目與測驗設定 (使用您提供的資料並補齊) ===
 const ALL_QUIZ_DATA = [
     // --- 工程數學 (Math) ---
     {
@@ -318,9 +319,9 @@ const ALL_QUIZ_DATA = [
     },
 ];
 
-// === C. 影片 ID、師資與 LINE 連結 (使用您提供的資訊) ===
+// === C. 影片 ID、師資與 LINE 連結 ===
 const VIDEO_LINKS = {
-    // 您提供的資訊已轉換為此結構，確保與播放器邏輯相符
+    // 這裡的 ID 是 YouTube 影片的短連結或 ID，用於嵌入播放器
     Math: { title: "工程數學 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "GGnegd" }, 
     Science: { title: "線性代數 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "bNW7x6" },
     History: { title: "計算機概論 - 張逸 老師 試聽課程", teacher: "張逸 老師", youtubeId: "3bKOEj" },
@@ -328,30 +329,29 @@ const VIDEO_LINKS = {
     English: { title: "微積分 - 梁修 老師 試聽課程", teacher: "梁修 老師", youtubeId: "QVYXn0" },
     Coding: { title: "統計學 - 張翔 老師 試聽課程", teacher: "張翔 老師", youtubeId: "XaAAQ3" }
 };
-const LINE_CTA_LINK = "https://lin.ee/Oj42w8M"; 
+const LINE_CTA_LINK = "https://lin.ee/Oj42w8M"; // 您的 LINE 連結
 
 let currentSubject = ''; 
 let currentScore = 0; 
 let answeredQuestions = new Set();
 let wrongQuestionsData = []; 
-let startTime; // 記錄開始時間
-let player; // YouTube 播放器變數（但我們只用 iframe，此變數可能未被使用）
+let startTime; 
+let player; 
 
 
-// === D. 頁面控制 (無修改) ===
+// === D. 頁面控制 ===
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
     
     if (pageId === 'resourcePage') {
-        // 確保 YouTube 和讀書計畫在資源頁顯示時初始化
         initYouTube();
         generateStudyPlan(); 
     }
 }
 
 
-// === E. 表單資料提交函數 (通用化) ===
+// === E. 表單資料提交函數 (發送 POST 請求到 Google Forms) ===
 async function submitDataToGoogleForm(url, dataToSubmit) {
     const formError = document.getElementById('formError');
     if (url === GOOGLE_FORM_A_URL) formError.style.display = 'none';
@@ -363,11 +363,10 @@ async function submitDataToGoogleForm(url, dataToSubmit) {
     }
     
     try {
-        // 使用 fetch 發送 POST 請求
         await fetch(url, {
             method: 'POST',
             body: body,
-            mode: 'no-cors' 
+            mode: 'no-cors' // 必須設定為 no-cors 才能避免跨域錯誤
         });
 
         console.log(`資料已發送到 Google Forms (${url})`);
@@ -384,7 +383,7 @@ async function submitDataToGoogleForm(url, dataToSubmit) {
 }
 
 
-// === F. 表單邏輯 (修正：整合您的 HTML 欄位名稱與 Google ID 邏輯) ===
+// === F. 表單邏輯 (解決跳轉問題的關鍵區塊) ===
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -395,19 +394,22 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
     const formError = document.getElementById('formError');
 
+    // *** 關鍵修正點：使用修正後的 name 屬性來找到選中的 radio button ***
     const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]:checked`);
     const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO_NAME}"]:checked`);
 
+    // 必填欄位檢查
     if (!userName || !uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio || !userPhone) {
         formError.textContent = "請完整填寫所有必填欄位。";
         formError.style.display = 'block';
-        return;
+        return; // 檢查失敗，中斷執行
     }
+    formError.style.display = 'none'; // 檢查成功，隱藏錯誤
 
     const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
     const userGrade = gradeRadio.value;
     
-    // 2. 準備提交數據 (表單 A: 用戶資訊)
+    // 2. 準備提交數據 (表單 A)
     const dataToSubmit = {
         [FORM_IDS.FORM_A_NAME]: userName,
         [FORM_IDS.FORM_A_UNI]: uniValue,
@@ -420,7 +422,7 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     const isSubmitted = await submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit);
 
     if (isSubmitted) {
-        // 4. 提交成功後，儲存使用者資訊和起始時間
+        // 4. 提交成功後，跳轉到第二頁
         localStorage.setItem('userData', JSON.stringify({
             name: userName,
             uni: uniValue,
@@ -428,14 +430,13 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
             grade: userGrade,
             phone: userPhone
         }));
-        startTime = Date.now(); // 記錄開始作答時間
+        startTime = Date.now(); 
 
-        // 成功後跳轉到第二頁 (科目選擇頁)
-        showPage('subjectSelectPage');
+        showPage('subjectSelectPage'); // 成功跳轉
     }
 });
 
-// "其他" 大學的顯示/隱藏邏輯 (使用您的 HTML 名稱)
+// "其他" 大學的顯示/隱藏邏輯 
 document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEach(r => {
     r.addEventListener('change', function() {
         const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
@@ -452,9 +453,9 @@ document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEa
 });
 
 
-// === G. 測驗邏輯 (確保點擊能觸發) ===
+// === G. 測驗邏輯 (第二頁開始) ===
 
-// **修正：使用您提供的事件監聽器邏輯**
+// **第二頁點擊科目按鈕的事件監聽器**
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
         currentSubject = this.getAttribute('data-subject');
@@ -470,14 +471,13 @@ function startQuiz(subject) {
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-content').classList.remove('hidden');
     
-    // 從 ALL_QUIZ_DATA 過濾出該科目的試題
+    // 取得該科目的試題
     const quizList = ALL_QUIZ_DATA.filter(q => q.subject === subject); 
     const container = document.getElementById('quiz-content');
     container.innerHTML = '';
     
     // 處理科目名稱顯示
     const button = document.querySelector(`.subject-button[data-subject="${subject}"]`);
-    // 從按鈕文字中提取中文科目名稱
     const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, ''); 
     
     document.getElementById('quizTitle').innerText = `正在測驗：${subjectName}`;
@@ -503,14 +503,14 @@ function startQuiz(subject) {
         container.appendChild(card);
     });
 
+    // 監聽選項點擊事件
     document.querySelectorAll('.option-item').forEach(item => {
         item.addEventListener('click', handleAnswerClick);
     });
 
-    // 執行跳轉
-    showPage('quizPage'); 
+    showPage('quizPage'); // 跳轉到測驗頁
     
-    // 渲染 LaTeX 數學公式
+    // 渲染數學公式
     if (window.renderMathInElement) {
         renderMathInElement(container, {
             delimiters: [
@@ -537,14 +537,12 @@ function handleAnswerClick() {
     this.classList.add('selected');
     if (isCorrect) {
         this.classList.add('correct');
-        currentScore += 20; // 每題 20 分 (共 5 題)
+        currentScore += 20; 
     } else {
         this.classList.add('incorrect');
         const correctIdx = currentQ.answerOptions.findIndex(o => o.isCorrect);
-        // 標記正確答案
         card.querySelectorAll('.option-item')[correctIdx].classList.add('correct');
         
-        // 記錄錯誤題目，用於讀書計畫
         wrongQuestionsData.push({
             topic: currentQ.topic,
             question: currentQ.question
@@ -567,7 +565,6 @@ function handleAnswerClick() {
 
     // 檢查是否所有題目都已作答 (5 題)
     if (answeredQuestions.size === 5) {
-        // 增加一個提交按鈕的邏輯，但這裡我們用自動跳轉
         setTimeout(showQuizResult, 800); 
     }
 }
@@ -586,7 +583,6 @@ function showQuizResult() {
     
     document.getElementById('scoreComment').innerText = comment;
 
-    // 完成測驗後，發送分數與時間給表單 B
     sendScoreAndTime();
 }
 
@@ -599,14 +595,14 @@ function sendScoreAndTime() {
     const endTime = Date.now();
     const durationMs = endTime - startTime;
     
-    // 格式化時間 (例如: 0小時5分12秒)
+    // 格式化時間
     const totalSeconds = Math.floor(durationMs / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
     const timeString = `${hours}小時${minutes}分${seconds}秒`;
     
-    // 準備第二次提交的數據：只包含分數和作答時間 (表單 B)
+    // 準備第二次提交的數據 (表單 B)
     const scoreDataToSubmit = {
         [FORM_IDS.FORM_B_SCORE]: currentScore,
         [FORM_IDS.FORM_B_TIME]: timeString,
@@ -630,7 +626,6 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
     const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
     document.getElementById('finalSubjectName').innerText = subjectName;
     
-    // 根據 VIDEO_LINKS 設定資源頁的影片資訊
     document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
     
     let msg = "";
@@ -644,7 +639,7 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
 });
 
 
-// === H. 讀書計畫生成引擎 (無修改，使用 wrongQuestionsData) ===
+// === H. 讀書計畫生成引擎 ===
 function generateStudyPlan() {
     const week1 = document.getElementById('plan-week-1');
     const week2 = document.getElementById('plan-week-2');
@@ -659,7 +654,6 @@ function generateStudyPlan() {
         topics = wrongQuestionsData.map(d => d.topic);
         weaknessTag.innerText = topics.join('、');
         
-        // 平均分配到前兩週
         const half = Math.ceil(topics.length / 2);
         const w1Topics = topics.slice(0, half);
         const w2Topics = topics.slice(half);
@@ -669,7 +663,7 @@ function generateStudyPlan() {
         if (w2Topics.length > 0) {
             week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：：</strong>完成相關單元練習題 20 題</li></ul>`;
         } else {
-            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：：</strong>開始練習跨章節綜合題</li></ul>`;
+            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：：：</strong>開始練習跨章節綜合題</li></ul>`;
         }
 
     } else {
@@ -690,15 +684,15 @@ function generateStudyPlan() {
     week4.innerHTML = `
         <ul>
             <li>🏁 <strong>考前實戰模擬：：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
-            <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
+            <li>❤️ <strong>調整身心狀態：：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
         </ul>`;
 }
 
 
-// === I. YouTube API (與資源頁邏輯整合) ===
+// === I. YouTube API ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
-    // 只有當容器內沒有 iframe 時才嵌入，避免重複載入
+    // 防止重複載入 iframe
     if (container.querySelector('iframe')) return;
     
     const vidId = VIDEO_LINKS[currentSubject].youtubeId;
@@ -712,9 +706,9 @@ function initYouTube() {
 }
 
 
-// 初始化：載入時顯示使用者資訊頁
+// 初始化：檢查是否有儲存的使用者資料，決定顯示哪個頁面
 document.addEventListener('DOMContentLoaded', () => {
-    // 預設顯示第一頁 (或依據您提供的 localStorage 邏輯)
+    // 預設跳轉到科目選擇頁（如果已有資料）或用戶資訊頁
     if (localStorage.getItem('userData')) {
         showPage('subjectSelectPage');
     } else {

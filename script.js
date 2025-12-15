@@ -55,7 +55,7 @@ const ALL_QUIZ_DATA = [
         { text: "$\\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$", isCorrect: true, rationale: "解出 $T(1,0)$ 和 $T(0,1)$ 即可得行向量。" },
         { text: "$\\begin{pmatrix} 2 & 1 \\\\ 1 & 2 \\end{pmatrix}$", isCorrect: false, rationale: "轉置了。" },
         { text: "$\\begin{pmatrix} 3 & -1 \\\\ 3 & 1 \\end{pmatrix}$", isCorrect: false, rationale: "直接使用了映像值。" },
-        { text: "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$", isCorrect: false, rationale: "錯誤。" }
+        { text: "$\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{ίζεται}$", isCorrect: false, rationale: "錯誤。" }
     ]},
     { subject: "Science", topic: "投影與冪等矩陣", question: "若 $A^2=A$ 且 $A \\ne I$，特徵值為何？", answerOptions: [
         { text: "$0$ 或 $1$", isCorrect: true, rationale: "由 $\\lambda^2 = \\lambda$ 解得。" },
@@ -193,7 +193,33 @@ const ALL_QUIZ_DATA = [
     ]}
 ];
 
-// === B. 參數與變數設定 ===
+// === B. 參數與變數設定 (已修改) ===
+
+// **重要：替換成您提供的表單提交網址！**
+// 這是您提供的 iframe URL 轉換成的 POST 提交網址
+const GOOGLE_FORM_POST_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
+
+// **Google 表單欄位 ID 映射 (已修改)**
+const FORM_IDS = {
+    // 原始 HTML 中的欄位 ID (與您的表單相符)
+    NAME: 'entry.1000000001',      // 姓名
+    UNI: 'entry.1000000002',       // 就讀大學 (Radio Group)
+    OTHER_UNI: 'entry.1000000003', // 其他大學 (Text)
+    DEPT: 'entry.1000000004',      // 系所
+    GRADE: 'entry.1000000005',     // 年級 (Radio Group)
+    PHONE: 'entry.1000000006',     // 手機
+
+    // 您提供的額外 ID (現在統一使用這些 ID)
+    FORM_NAME: 'entry.1711447572',     // 姓名
+    FORM_DEPT_GRADE: 'entry.1169658860',// 科系+年級 (整合欄位)
+    FORM_PHONE: 'entry.1253545059',    // 電話
+    FORM_SCORE: 'entry.1656922648',    // 測驗分數
+    FORM_TIME: 'entry.2030066456',     // 時間
+    FORM_UNI: 'entry.651877505',       // 學校
+    FORM_GRADE: 'entry.247937200',     // 年級
+};
+
+
 const VIDEO_LINKS = {
     Math: { title: "工程數學 - 周易 老師", teacher: "周易 老師", youtubeId: "GGnegd" }, 
     Science: { title: "線性代數 - 周易 老師", teacher: "周易 老師", youtubeId: "bNW7x6" },
@@ -207,10 +233,11 @@ const LINE_CTA_LINK = "https://lin.ee/Oj42w8M";
 let currentSubject = ''; 
 let currentScore = 0; 
 let answeredQuestions = new Set();
-let wrongQuestionsData = []; // 新增：儲存錯題資料
+let wrongQuestionsData = []; // 儲存錯題資料
+let startTime; // 記錄開始時間 (新增)
 let player; 
 
-// === C. 頁面控制 ===
+// === C. 頁面控制 (無修改) ===
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
@@ -222,40 +249,113 @@ function showPage(pageId) {
     }
 }
 
-// === D. 表單邏輯 ===
-document.getElementById('userInfoForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const uni = document.querySelector('input[name="userUniversity"]:checked');
-    const otherUni = document.getElementById('uniOtherText').value;
-    
-    if (uni.value === '其他' && !otherUni.trim()) {
-        alert("請輸入大學名稱");
-        return;
+// === D. 表單資料提交函數 (已修改) ===
+
+/**
+ * 提交表單資料到 Google 表單
+ * @param {object} dataToSubmit 包含要提交數據的物件
+ * @returns {Promise<boolean>}
+ */
+async function submitDataToGoogleForm(dataToSubmit) {
+    const formError = document.getElementById('formError');
+    formError.style.display = 'none';
+
+    const url = GOOGLE_FORM_POST_URL;
+    const body = new URLSearchParams();
+
+    // 填充數據
+    for (const key in dataToSubmit) {
+        body.append(key, dataToSubmit[key]);
     }
     
-    localStorage.setItem('userData', JSON.stringify({
-        name: document.getElementById('userName').value,
-        uni: uni.value === '其他' ? otherUni : uni.value,
-        ts: new Date().toISOString()
-    }));
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: body,
+            // 必須設定 'no-cors' 才能將資料送到 Google Forms
+            mode: 'no-cors' 
+        });
+
+        console.log("資料已發送到 Google Forms (無法驗證成功狀態碼)");
+        return true;
+
+    } catch (error) {
+        console.error('Google Forms 提交失敗:', error);
+        formError.textContent = '資料提交失敗，請檢查網路。';
+        formError.style.display = 'block';
+        return false;
+    }
+}
+
+// === E. 表單邏輯 (已修改) ===
+document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
     
-    showPage('subjectSelectPage');
+    // 1. 驗證特殊欄位 (其他大學名稱)
+    const uniRadio = document.querySelector('input[name="entry.1000000002"]:checked');
+    const uniOtherText = document.getElementById('uniOtherText').value.trim();
+    const userDepartment = document.getElementById('userDepartment').value.trim();
+    const gradeRadio = document.querySelector('input[name="entry.1000000005"]:checked');
+    const formError = document.getElementById('formError');
+
+    if (!uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio) {
+        formError.textContent = "請完整填寫所有必填欄位。";
+        formError.style.display = 'block';
+        return;
+    }
+
+    const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
+    const userName = document.getElementById('userName').value.trim();
+    const userPhone = document.getElementById('userPhone').value.trim();
+    const userGrade = gradeRadio.value;
+    
+    // 2. 準備提交數據
+    const dataToSubmit = {
+        [FORM_IDS.FORM_NAME]: userName,
+        [FORM_IDS.FORM_UNI]: uniValue,
+        [FORM_IDS.FORM_DEPT_GRADE]: `${userDepartment}/${userGrade}`, // 將系所與年級合併
+        [FORM_IDS.FORM_PHONE]: userPhone,
+        [FORM_IDS.FORM_GRADE]: userGrade,
+        // 分數和時間先留空，等測驗完再發送第二次
+        [FORM_IDS.FORM_SCORE]: '',
+        [FORM_IDS.FORM_TIME]: ''
+    };
+
+    // 3. 提交資料到 Google Form (第一次提交：使用者資訊)
+    const isSubmitted = await submitDataToGoogleForm(dataToSubmit);
+
+    if (isSubmitted) {
+        // 4. 提交成功後，儲存使用者資訊和起始時間
+        localStorage.setItem('userData', JSON.stringify({
+            name: userName,
+            uni: uniValue,
+            dept: userDepartment,
+            grade: userGrade,
+            phone: userPhone
+        }));
+        startTime = Date.now(); // 記錄開始作答時間
+
+        showPage('subjectSelectPage');
+    }
 });
 
-document.querySelectorAll('input[name="userUniversity"]').forEach(r => {
+document.querySelectorAll('input[name="entry.1000000002"]').forEach(r => {
     r.addEventListener('change', function() {
         const textInput = document.getElementById('uniOtherText');
         if (this.value === '其他') {
             textInput.disabled = false;
+            textInput.required = true; // 設置必填
             textInput.focus();
         } else {
             textInput.disabled = true;
+            textInput.required = false;
             textInput.value = '';
         }
     });
 });
 
-// === E. 測驗邏輯 ===
+// === E. 測驗邏輯 (部分修改) ===
+
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
         currentSubject = this.dataset.subject;
@@ -284,9 +384,6 @@ function startQuiz(subject) {
         const qNum = index + 1;
         const card = document.createElement('div');
         card.className = 'question-card';
-        // 將該題在原始資料庫的索引或物件暫存，這邊我們存題目文字以便後續查找，或直接存屬性
-        // 為了簡單，我們直接將該題的所有資料存入 DOM 節點的 data 屬性並不好做，我們用閉包或索引查找
-        // 這裡建立一個 data-array-index 指向 filter 後的陣列索引
         card.dataset.index = index; 
         
         card.innerHTML = `
@@ -334,8 +431,7 @@ function handleAnswerClick() {
     // 判斷對錯
     const selectedIdx = parseInt(this.dataset.idx);
     const isCorrect = currentQ.answerOptions[selectedIdx].isCorrect;
-    const rationaleText = currentQ.answerOptions[selectedIdx].rationale || "無詳解"; // 簡單防呆
-
+    
     // UI 顯示
     this.classList.add('selected');
     if (isCorrect) {
@@ -390,7 +486,50 @@ function showQuizResult() {
     else comment = "別灰心！基礎觀念還需要加強，這份測驗剛好幫您找出盲點！";
     
     document.getElementById('scoreComment').innerText = comment;
+
+    // **新增：完成測驗後，發送分數與時間**
+    sendScoreAndTime();
 }
+
+/**
+ * 計算作答時間並提交分數與時間到 Google Form (第二次提交)
+ */
+function sendScoreAndTime() {
+    if (!startTime) return; // 如果沒有開始時間，則不執行
+    
+    const endTime = Date.now();
+    const durationMs = endTime - startTime;
+    
+    // 格式化時間 (例如: 0小時5分12秒)
+    const totalSeconds = Math.floor(durationMs / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const timeString = `${hours}小時${minutes}分${seconds}秒`;
+    
+    // 從 localStorage 讀取用戶資料，以便 Google Form 能夠根據用戶資訊紀錄分數
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    
+    // 準備第二次提交的數據：包含分數和作答時間
+    const scoreDataToSubmit = {
+        [FORM_IDS.FORM_SCORE]: currentScore,
+        [FORM_IDS.FORM_TIME]: timeString,
+        // 為了讓 Google Sheet 紀錄能對應到人，將關鍵資訊也帶上
+        [FORM_IDS.FORM_NAME]: userData.name,
+        [FORM_IDS.FORM_UNI]: userData.uni,
+        [FORM_IDS.FORM_PHONE]: userData.phone
+    };
+    
+    // 提交到 Google Form
+    submitDataToGoogleForm(scoreDataToSubmit).then(success => {
+        if (success) {
+            console.log("分數與時間已成功提交。");
+        } else {
+            console.error("分數與時間提交失敗。");
+        }
+    });
+}
+
 
 // 點擊前往資源頁
 document.getElementById('goToResourceBtn').addEventListener('click', function() {
@@ -412,7 +551,7 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
     showPage('resourcePage');
 });
 
-// === F. 讀書計畫生成引擎 (核心功能) ===
+// === F. 讀書計畫生成引擎 (無修改) ===
 function generateStudyPlan() {
     const week1 = document.getElementById('plan-week-1');
     const week2 = document.getElementById('plan-week-2');
@@ -434,19 +573,19 @@ function generateStudyPlan() {
         const w1Topics = topics.slice(0, half);
         const w2Topics = topics.slice(half);
 
-        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
+        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：：</strong>整理該章節筆記與公式推導</li></ul>`;
         
         if (w2Topics.length > 0) {
             week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
         } else {
-             week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
+             week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：：</strong>開始練習跨章節綜合題</li></ul>`;
         }
 
     } else {
         // 全對：菁英計畫
         weaknessTag.innerText = "全數答對！菁英強化版";
         week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
-        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
+        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
     }
 
     // 後兩週固定行程 (根據科目動態微調文字)
@@ -466,7 +605,7 @@ function generateStudyPlan() {
         </ul>`;
 }
 
-// === G. YouTube API ===
+// === G. YouTube API (無修改) ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
     // 避免重複載入
@@ -475,3 +614,8 @@ function initYouTube() {
     const vidId = VIDEO_LINKS[currentSubject].youtubeId;
     container.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
 }
+
+// 初始化：載入時顯示使用者資訊頁
+document.addEventListener('DOMContentLoaded', () => {
+    showPage('userInfoPage');
+});

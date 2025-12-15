@@ -1,7 +1,7 @@
 body {
     font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
-    /* 背景改為深紅色/暗色系，製造節慶氛圍 */
-    background-color: #3E2723; /* 深棕紅色 */
+    /* 背景改為深棕紅色 */
+    background-color: #3E2723;
     color: #333;
     padding: 20px;
     margin: 0;
@@ -10,7 +10,7 @@ body {
 .page {
     max-width: 700px;
     margin: 0 auto;
-    background: white; /* 頁面內容仍為白色，保持清晰度 */
+    background: white;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
@@ -61,16 +61,17 @@ input[type="tel"]:focus {
     outline: none;
 }
 
+/* === 修正部分：大學與年級選項顏色 === */
 .radio-group-container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 15px;
     padding: 10px;
-    border: 1px solid #D84315; /* 紅色框線 */
+    border: 1px solid #FFC107; /* 黃金框線 */
     border-radius: 6px;
-    background: #FFEBEE; /* 淺色背景 */
-    color: #333;
+    background: #D32F2F; /* 更亮的紅色背景 */
+    color: #FFEBEE; /* 文字顏色改為淺米白色 */
 }
 
 .radio-group-container input[type="radio"] {
@@ -78,12 +79,14 @@ input[type="tel"]:focus {
 }
 
 .radio-group-container label {
+    /* 這裡必須覆寫外層的 label 樣式 */
     display: inline;
     font-weight: normal;
     margin-top: 0;
     cursor: pointer;
-    color: #333;
+    color: #FFEBEE; /* 確保選項文字是白色 */
 }
+/* === 修正結束 === */
 
 .start-btn {
     width: 100%;

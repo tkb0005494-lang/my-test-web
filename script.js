@@ -9,25 +9,29 @@ const GOOGLE_FORM_B_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScrCgzXQ2Rpi
 // **Google 表單欄位 ID 映射 (已更新)**
 const FORM_IDS = {
     // ------------------------------------------------------------------
-    // 表單 A: 用戶資訊 (entry.1711447572, entry.1169658860, etc.)
-    FORM_A_NAME: 'entry.1711447572',     // 姓名
-    FORM_A_DEPT_GRADE: 'entry.1169658860',// 科系+年級 (整合欄位)
-    FORM_A_PHONE: 'entry.1253545059',    // 電話
-    FORM_A_UNI: 'entry.651877505',       // 學校
-    FORM_A_GRADE: 'entry.247937200',     // 年級
+    // 表單 A: 用戶資訊 (用於提交 POST Request 的 Google Entry ID)
+    FORM_A_NAME: 'entry.1711447572',        // 姓名
+    FORM_A_DEPT_GRADE: 'entry.1169658860',  // 科系+年級 (整合欄位)
+    FORM_A_PHONE: 'entry.1253545059',       // 電話
+    FORM_A_UNI: 'entry.651877505',          // 學校
+    FORM_A_GRADE: 'entry.247937200',        // 年級
     
     // ------------------------------------------------------------------
-    // 表單 B: 測驗結果 (新 ID)
-    FORM_B_SCORE: 'entry.1428871778',    // 測驗分數
-    FORM_B_TIME: 'entry.1695428454',     // 作答時間
+    // 表單 B: 測驗結果 (用於提交 POST Request 的 Google Entry ID)
+    FORM_B_SCORE: 'entry.1428871778',       // 測驗分數
+    FORM_B_TIME: 'entry.1695428454',        // 作答時間
     
     // ------------------------------------------------------------------
-    // 原始 HTML 中的欄位 ID (用於前端讀取值)
-    HTML_UNI_RADIO: 'entry.1000000002',       // 就讀大學 (Radio Group)
-    HTML_UNI_OTHER: 'entry.1000000003', // 其他大學 (Text)
-    HTML_DEPT: 'entry.1000000004',      // 系所
-    HTML_GRADE_RADIO: 'entry.1000000005',     // 年級 (Radio Group)
+    // HTML 欄位屬性名稱/ID (用於前端讀取值，與 index.html 匹配)
+    // Radio group 用 name 屬性 (即 Google Form 的 Entry ID)，其他用 id
+    HTML_UNI_RADIO_NAME: 'entry.1000000002',   // 就讀大學 (Radio Group 的 name，與 HTML 匹配)
+    HTML_GRADE_RADIO_NAME: 'entry.1000000005', // 年級 (Radio Group 的 name，與 HTML 匹配)
     
+    // 以下是 input 的 ID (用於 document.getElementById)
+    HTML_NAME_ID: 'userName',
+    HTML_UNI_OTHER_ID: 'uniOtherText',
+    HTML_DEPT_ID: 'userDepartment',
+    HTML_PHONE_ID: 'userPhone',
 };
 
 
@@ -61,21 +65,12 @@ function showPage(pageId) {
 }
 
 // === D. 表單資料提交函數 (通用化) ===
-
-/**
- * 提交表單資料到 Google 表單
- * @param {string} url - 表單提交 URL
- * @param {object} dataToSubmit - 包含要提交數據的物件 (鍵值對應 ID: Value)
- * @returns {Promise<boolean>}
- */
 async function submitDataToGoogleForm(url, dataToSubmit) {
     const formError = document.getElementById('formError');
-    // 僅在提交用戶資訊時顯示錯誤訊息
     if (url === GOOGLE_FORM_A_URL) formError.style.display = 'none';
 
     const body = new URLSearchParams();
 
-    // 填充數據
     for (const key in dataToSubmit) {
         body.append(key, dataToSubmit[key]);
     }
@@ -104,23 +99,25 @@ async function submitDataToGoogleForm(url, dataToSubmit) {
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // 1. 驗證欄位
-    const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO}"]:checked`);
-    const uniOtherText = document.getElementById('uniOtherText').value.trim();
-    const userDepartment = document.getElementById('userDepartment').value.trim();
-    const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO}"]:checked`);
+    // 1. 驗證欄位：現在我們使用 FORM_IDS.HTML_*_ID 來抓取前端元素
+    const userName = document.getElementById(FORM_IDS.HTML_NAME_ID).value.trim();
+    const userDepartment = document.getElementById(FORM_IDS.HTML_DEPT_ID).value.trim();
+    const userPhone = document.getElementById(FORM_IDS.HTML_PHONE_ID).value.trim();
+    const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
     const formError = document.getElementById('formError');
 
+    // 透過 name 屬性尋找被選中的 Radio
+    const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]:checked`);
+    const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO_NAME}"]:checked`);
+
     // 必填欄位檢查
-    if (!uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio) {
+    if (!userName || !uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio || !userPhone) {
         formError.textContent = "請完整填寫所有必填欄位。";
         formError.style.display = 'block';
         return;
     }
 
     const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
-    const userName = document.getElementById('userName').value.trim();
-    const userPhone = document.getElementById('userPhone').value.trim();
     const userGrade = gradeRadio.value;
     
     // 2. 準備提交數據 (表單 A: 用戶資訊)
@@ -130,7 +127,6 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
         [FORM_IDS.FORM_A_DEPT_GRADE]: `${userDepartment} / ${userGrade}`, // 將系所與年級合併
         [FORM_IDS.FORM_A_PHONE]: userPhone,
         [FORM_IDS.FORM_A_GRADE]: userGrade,
-        // 刪除分數和時間欄位，因為它們不屬於表單 A
     };
 
     // 3. 提交資料到 Google Form A
@@ -151,11 +147,10 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     }
 });
 
-// ... (其他 UI 邏輯，如 '其他' 大學的顯示/隱藏，無修改) ...
-
-document.querySelectorAll('input[name="entry.1000000002"]').forEach(r => {
+// "其他" 大學的顯示/隱藏邏輯，現在使用新的 HTML_UNI_RADIO_NAME 和 ID
+document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEach(r => {
     r.addEventListener('change', function() {
-        const textInput = document.getElementById('uniOtherText');
+        const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
         if (this.value === '其他') {
             textInput.disabled = false;
             textInput.required = true; 
@@ -169,8 +164,6 @@ document.querySelectorAll('input[name="entry.1000000002"]').forEach(r => {
 });
 
 // === F. 測驗邏輯 (無修改) ===
-// (startQuiz, handleAnswerClick, showQuizResult 等邏輯不變)
-
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
         currentSubject = this.dataset.subject;
@@ -329,8 +322,6 @@ function sendScoreAndTime() {
     });
 }
 
-// ... (G, H, I, J 讀書計畫和 YouTube 邏輯，無修改) ...
-
 // 點擊前往資源頁
 document.getElementById('goToResourceBtn').addEventListener('click', function() {
     document.getElementById('finalScoreDisplay').innerText = currentScore;
@@ -372,15 +363,15 @@ function generateStudyPlan() {
         week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
         
         if (w2Topics.length > 0) {
-            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
+            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：：</strong>完成相關單元練習題 20 題</li></ul>`;
         } else {
-             week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
+            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
         }
 
     } else {
         weaknessTag.innerText = "全數答對！菁英強化版";
-        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
-        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
+        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
+        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
     }
 
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);

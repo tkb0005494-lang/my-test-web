@@ -1,261 +1,300 @@
-/* --- 新增/修改用於最終頁面的樣式 (Resource Page CSS) --- */
-
-/* 基礎設定 - 營造節慶氛圍的深藍背景 */
-#resourcePage {
-    padding: 30px 20px;
-    background-color: #0b1a2e; /* 深夜藍，類聖誕夜/跨年夜的背景色 */
-    color: #f0f0f0; /* 白色文字 */
-    border-radius: 12px;
-    border: 3px solid #ffc107; /* 金色邊框 */
-    box-shadow: 0 0 30px rgba(255, 193, 7, 0.5); /* 金色發光效果 */
-}
-
-/* 報告標頭 */
-.report-header {
-    text-align: center;
-    padding-bottom: 25px;
-    margin-bottom: 40px;
-    border-bottom: 3px solid #dc3545; /* 節慶紅色底線 */
-}
-
-.report-title {
-    color: #ffc107; /* 金色標題 */
-    font-size: 2.5em;
-    margin-bottom: 5px;
-    text-shadow: 1px 1px 3px #000;
-}
-
-.report-subtitle {
-    color: #e0e0e0; /* 淺灰色副標 */
-    font-size: 1.2em;
-    font-weight: 400;
-}
-
-/* 總結數據區塊 (Grid Layout for Data) */
-.summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 兩欄佈局 */
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.summary-box {
-    background: #1e3a5f; /* 深色卡片背景 */
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    border-top: 5px solid #dc3545; /* 紅色裝飾條 */
-}
-
-.box-label {
-    font-weight: 500;
-    color: #cccccc;
-    margin-bottom: 8px;
-    font-size: 1em;
-    letter-spacing: 1px;
-}
-
-.box-value {
-    font-size: 3em;
-    font-weight: 900;
+body {
+    /* 🍾 新年背景：午夜藍/黑，模擬夜空，迎接煙火和慶典 */
+    font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+    background-color: #0d1a26; /* 深午夜藍 */
+    /* 增加一點點金色/銀色閃爍的感覺 */
+    background-image: radial-gradient(circle at top right, rgba(255, 215, 0, 0.1) 0%, rgba(13, 26, 38, 0) 60%);
+    color: #f0f8ff; /* 淺色字體 */
+    padding: 20px;
     margin: 0;
-    line-height: 1.1;
 }
 
-/* 等級顯示特殊色 */
-.grade-display {
-    color: #ffc107; /* 金色強調等級 */
-}
-.score-data {
-    color: #dc3545; /* 紅色強調分數 */
-}
-.subject-tag {
-    font-size: 0.8em;
-    font-weight: 500;
-    color: #cccccc;
-    display: block;
-    margin-top: 5px;
-}
-
-/* 核心評語區塊 */
-.feedback-section {
-    background-color: #2c4a6e; /* 比背景稍淺的深藍色 */
-    padding: 30px;
-    border-radius: 10px;
-    margin-bottom: 40px;
-    border-left: 8px solid #ffc107; /* 金色側邊裝飾 */
-    box-shadow: 0 0 15px rgba(255, 193, 7, 0.2);
-}
-
-.feedback-section h3 {
-    color: #ffc107;
-    margin-top: 0;
-    border-bottom: 1px solid #dc3545;
-    padding-bottom: 8px;
-    margin-bottom: 20px;
-    font-size: 1.5em;
-}
-
-.comment-content {
-    font-size: 1.2em;
-    line-height: 1.8;
-    color: #f4f4f4; /* 淺色文字 */
-    font-weight: 700; /* 等級評語加粗 */
-    white-space: pre-wrap;
-}
-/* 處理 script.js 中 #scoreMessage 的內容 */
-#scoreMessage {
-    font-size: 1.2em;
-    line-height: 1.8;
-    color: #f4f4f4;
-    font-weight: 700;
-    white-space: pre-wrap;
-}
-
-.weakness-focus {
-    font-size: 1em;
-    color: #ffc107;
-    margin-top: 15px;
-    border-top: 1px dashed #4b6b8b;
-    padding-top: 10px;
-}
-
-/* 影片區塊 */
-.youtube-player {
-    width: 100%;
+.page {
+    /* 內容卡片：保持乾淨的背景，但增加金色邊框的細節 */
     max-width: 700px;
-    margin: 25px auto;
-    aspect-ratio: 16 / 9;
-    background: #1e3a5f;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
-    border: 3px solid #dc3545; /* 紅色外框 */
-}
-
-/* 行動呼籲/獎勵區塊 */
-.action-section {
-    padding: 1px;
-    margin-top: 40px;
-}
-
-.cta-box {
-    background-color: #2c4a6e;
+    margin: 0 auto;
+    background: #1c2e40; /* 較淺的藍色，與 body 區分 */
     padding: 30px;
-    border-radius: 10px;
-    border: 3px solid #dc3545; /* 紅色邊框 */
-    text-align: center;
-    box-shadow: 0 0 20px rgba(220, 53, 69, 0.3); /* 紅色發光效果 */
+    border-radius: 12px;
+    /* 金色邊框與優雅的陰影 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 15px #ffd700; 
+    border: 1px solid #ffd700; /* 金色邊框 */
 }
 
-.reward-list {
+.hidden {
+    display: none !important;
+}
+
+/* --- Form Styles (userInfoPage) --- */
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffd700; /* 金色標籤 */
+    font-size: 1.05em;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"] {
+    /* 輸入框：深色背景，淺色字體 */
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #4a6886;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #2c445c;
+    color: #f0f8ff;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus {
+    /* 焦點顏色：閃耀的金色 */
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+    outline: none;
+}
+
+.radio-group-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #4a6886;
+    border-radius: 6px;
+    background-color: #2c445c; /* 淺一點的深藍 */
+}
+
+.radio-group-container input[type="radio"] {
+    margin-right: 5px;
+}
+
+.radio-group-container label {
+    display: inline;
+    font-weight: normal;
+    margin-top: 0;
+    cursor: pointer;
+    color: #f0f8ff; /* 普通字體顏色 */
+}
+
+.start-btn {
+    /* 主要按鈕：金色 */
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #ffd700; /* 金色 */
+    color: #0d1a26; /* 深色字體 */
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+
+.start-btn:hover {
+    /* 懸停效果：更亮的金色，帶有閃耀效果 */
+    background-color: #ffeb3b; 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
+}
+
+/* --- Subject Select Page --- */
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.subject-button {
+    /* 科目按鈕：使用深藍色，強調感用金色陰影 */
+    background-color: #0277bd;
+    color: white;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.subject-button:hover {
+    /* 懸停：更深的藍色，更明顯的金色光暈 */
+    background-color: #01579b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.subject-icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+    color: #ffd700; /* 圖標使用金色 */
+}
+
+/* --- Quiz Page --- */
+.question-card {
+    background: #2c445c; /* 深色卡片背景 */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    /* 邊條：金色 */
+    border-left: 5px solid #ffd700;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.question-text {
+    font-size: 1.15em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    line-height: 1.5;
+    color: #f0f8ff; /* 淺色文字 */
+}
+
+.options-list {
     list-style: none;
     padding: 0;
-    text-align: left;
-    max-width: 450px;
-    margin: 20px auto;
 }
 
-.reward-list li {
-    margin-bottom: 12px;
-    padding-left: 30px;
-    position: relative;
-    font-size: 1em;
-    color: #f0f0f0;
-}
-
-.reward-list li::before {
-    content: "🎁"; /* 換成禮物圖案 */
-    position: absolute;
-    left: 0;
-    color: #ffc107;
-    font-weight: bold;
-}
-
-.line-cta-link {
-    text-decoration: none;
-    display: block;
-    margin-top: 25px;
-}
-
-.line-cta-button {
-    width: 100%;
-    padding: 20px;
-    font-size: 1.4em;
-    background: linear-gradient(135deg, #06C755, #00b347); /* LINE 綠漸層 */
-    color: white;
-    border: none;
-    border-radius: 12px;
+.option-item {
+    /* 選項：淺一點的背景，白色文字 */
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #4a6886;
+    border-radius: 6px;
     cursor: pointer;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    transition: background-color 0.2s, border-color 0.2s;
+    line-height: 1.4;
+    background-color: #1c2e40;
+    color: #f0f8ff;
+}
+
+.option-item:hover {
+    /* 懸停效果：閃爍的銀色/白色 */
+    background-color: #3b5a77;
+    border-color: #ffffff;
+}
+
+.option-item.selected {
+    /* 選中時：金色邊框 */
+    border-color: #ffd700;
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.option-item.correct {
+    /* 正確答案：慶祝的淺綠色/綠色 */
+    background-color: #4caf50; /* Green */
+    border-color: #81c784;
     font-weight: bold;
-    letter-spacing: 1px;
-    transition: all 0.2s ease-in-out;
+    color: white;
 }
-.line-cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+
+.option-item.incorrect {
+    /* 錯誤答案：優雅的深紅色 */
+    background-color: #e53935; /* Darker Red */
+    border-color: #ef9a9a;
+    font-weight: bold;
+    color: white;
 }
-.cta-note {
-    font-size: 0.85em;
-    color: #ffc107; /* 金色提示 */
+
+.rationale {
     margin-top: 15px;
+    padding: 10px;
+    /* 解析：橙色/暖色調，代表溫暖和啟示 */
+    border-left: 3px solid #ff9800;
+    background-color: #3b5a77; 
+    font-size: 0.95em;
+    color: #fffaf0; /* 淺色文字 */
+    display: none;
 }
 
-/* 學習計畫區塊 (Study Plan) */
-.study-plan-section {
-    margin-top: 50px;
-    padding: 30px 0;
-    border-top: 1px solid #4b6b8b;
+.rationale.visible {
+    display: block;
 }
 
-.plan-main-title {
-    color: #dc3545; /* 紅色主要標題 */
-    font-size: 2.2em;
+.quiz-result {
     text-align: center;
-    margin-bottom: 15px;
-    text-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+    padding: 30px;
+    /* 結果邊框：金色煙火線條 */
+    border: 2px dashed #ffd700; 
+    border-radius: 10px;
+    margin-top: 30px;
+    color: #f0f8ff;
+    background-color: #1c2e40;
 }
 
+.resource-btn {
+    /* 資源按鈕：輔助金色 */
+    background-color: #b8860b; /* DarkGoldenrod */
+    color: white;
+    padding: 15px 30px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+
+.resource-btn:hover {
+    background-color: #daa520; /* Goldenrod */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
+}
+
+/* --- Resource Page (Study Plan) --- */
 .plan-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
-    margin-top: 25px;
 }
 
 .plan-week {
-    background: #1e3a5f;
-    border-radius: 10px;
-    border: 1px solid #4b6b8b;
+    background: #1c2e40; /* 深色卡片 */
+    border: 1px solid #4a6886;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 .week-title {
-    background-color: #dc3545; /* 紅色標題背景 */
-    color: #ffc107; /* 金色標題文字 */
+    /* 週次標題：深藍色，金色文字 */
+    background-color: #01579b;
+    color: #ffd700;
     padding: 12px 15px;
-    font-weight: 900;
-    text-align: center;
+    font-weight: bold;
     font-size: 1.1em;
-    letter-spacing: 1px;
+    text-align: center;
 }
 
 .week-content {
     padding: 15px;
-}
-.week-content ul {
-    list-style: none;
-    padding-left: 0;
-}
-.week-content li {
-    margin-bottom: 10px;
     font-size: 0.95em;
-    color: #e0e0e0;
+    line-height: 1.5;
+    color: #f0f8ff;
 }
+
+.week-content ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
 .week-content li {
     margin-bottom: 8px;
-    font-size: 0.9em;
+}
+
+/* KaTeX 修正 */
+.katex {
+    font-size: 1.1em !important;
+    color: #ffd700; /* 讓數學公式在深色背景中更清晰 */
 }

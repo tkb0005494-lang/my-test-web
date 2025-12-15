@@ -33,7 +33,7 @@ const FORM_IDS = {
     HTML_PHONE_ID: 'userPhone',
 };
 
-// === B. 核心資料結構：題目與測驗設定 (使用您提供的資料並補齊) ===
+// === B. 核心資料結構：題目與測驗設定 (保持不變) ===
 const ALL_QUIZ_DATA = [
     // --- 工程數學 (Math) ---
     {
@@ -336,6 +336,15 @@ let wrongQuestionsData = [];
 let startTime; 
 let player; 
 
+// **[新增] 積分變數與規則**
+let userPoints = 0; 
+const POINT_SYSTEM = {
+    100: 5000,
+    80: 3000, // 80-99
+    60: 2000, // 60-79
+    0: 1000   // 0-59
+};
+
 
 // === D. 頁面控制 ===
 function showPage(pageId) {
@@ -381,7 +390,7 @@ async function submitDataToGoogleForm(url, dataToSubmit) {
 }
 
 
-// === F. 表單邏輯 (解決跳轉問題的關鍵區塊) ===
+// === F. 表單邏輯 ===
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -392,17 +401,15 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
     const formError = document.getElementById('formError');
 
-    // *** 關鍵修正點：使用修正後的 name 屬性來找到選中的 radio button ***
     const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]:checked`);
     const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO_NAME}"]:checked`);
 
-    // 必填欄位檢查
     if (!userName || !uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio || !userPhone) {
         formError.textContent = "請完整填寫所有必填欄位。";
         formError.style.display = 'block';
-        return; // 檢查失敗，中斷執行
+        return; 
     }
-    formError.style.display = 'none'; // 檢查成功，隱藏錯誤
+    formError.style.display = 'none'; 
 
     const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
     const userGrade = gradeRadio.value;
@@ -567,6 +574,9 @@ function handleAnswerClick() {
     }
 }
 
+/**
+ * 顯示測驗結果，並計算積分
+ */
 function showQuizResult() {
     document.getElementById('quiz-content').classList.add('hidden');
     const resultDiv = document.getElementById('quiz-result');
@@ -575,9 +585,21 @@ function showQuizResult() {
     document.getElementById('score').innerText = currentScore;
     
     let comment = "";
-    if (currentScore === 100) comment = "太強了！您的觀念非常清晰，絕對是頂大的料！";
-    else if (currentScore >= 60) comment = "不錯喔！掌握了大部分觀念，針對弱點補強就能更上一層樓！";
-    else comment = "別灰心！基礎觀念還需要加強，這份測驗剛好幫您找出盲點！";
+    
+    // **[修正] 計算積分與對應文案**
+    if (currentScore === 100) {
+        userPoints = POINT_SYSTEM[100];
+        comment = `🌟 滿分學霸！您已達標最高 **${userPoints} 積分**，立即解鎖最強專屬大禮包！`;
+    } else if (currentScore >= 80) {
+        userPoints = POINT_SYSTEM[80];
+        comment = `💎 表現優異！您已獲得 **${userPoints} 積分**，觀念基礎紮實，鎖定弱點後即可衝刺頂大！`;
+    } else if (currentScore >= 60) {
+        userPoints = POINT_SYSTEM[60];
+        comment = `✨ 實力中上！您已獲得 **${userPoints} 積分**，寒假是拉開差距的關鍵期，立刻領取補強計畫！`;
+    } else {
+        userPoints = POINT_SYSTEM[0];
+        comment = `💪 潛力股！別灰心！分數低不代表能力差，這份測驗剛好幫您找出盲點，您仍獲得 **${userPoints} 積分**！立即規劃補強，寒假後逆轉勝！`;
+    }
     
     document.getElementById('scoreComment').innerText = comment;
 
@@ -626,6 +648,9 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
     
     document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
     
+    // **[修正] 顯示積分**
+    document.getElementById('userTotalPoints').innerText = userPoints; 
+
     let msg = "";
     if (currentScore === 100) msg = "實力驚人！看這部進階影片來挑戰極限吧！";
     else msg = "針對您的測驗結果，顧問推薦您先由這部影片打底：";
@@ -637,7 +662,7 @@ document.getElementById('goToResourceBtn').addEventListener('click', function() 
 });
 
 
-// === H. 讀書計畫生成引擎 ===
+// === H. 讀書計畫生成引擎 (保持不變) ===
 function generateStudyPlan() {
     const week1 = document.getElementById('plan-week-1');
     const week2 = document.getElementById('plan-week-2');
@@ -659,7 +684,7 @@ function generateStudyPlan() {
         week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：：</strong>整理該章節筆記與公式推導</li></ul>`;
         
         if (w2Topics.length > 0) {
-            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
+            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：：</strong>完成相關單元練習題 20 題</li></ul>`;
         } else {
             week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
         }
@@ -682,7 +707,7 @@ function generateStudyPlan() {
     week4.innerHTML = `
         <ul>
             <li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
-            <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
+            <li>❤️ <strong>調整身心狀態：：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
         </ul>`;
 }
 

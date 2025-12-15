@@ -14,7 +14,7 @@
 
 <div id="userInfoPage" class="page">
     <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="color: #FFC107; font-size: 2.2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); margin-bottom: 5px;">
+        <h1 class="main-title">
             🧧 2026 寒假學霸養成計畫 🧧
         </h1>
         <h2 style="color: #FFEBEE; font-weight: normal; font-size: 1.1em; margin-top: 5px;">
@@ -22,9 +22,14 @@
         </h2>
     </div>
     
-    <p style="text-align: center; font-size: 1.1em; margin-bottom: 30px; color: #f9d8a3;">
-        完成 <strong>5 題</strong> 精選測驗，即可獲得 **[寒假積分]**，兌換<span style="color: #FFC107; font-weight: bold;">限量學習禮包</span>及<span style="color: #FFC107; font-weight: bold;">現金抽獎資格</span>！
+    <p class="incentive-text">
+        完成 <strong>5 題</strong> 精選測驗，即可獲得 **[寒假積分]**，兌換<span class="highlight-gold">限量學習禮包</span>及<span class="highlight-gold">現金抽獎資格</span>！
     </p>
+
+    <div class="social-proof">
+        <span style="margin-right: 15px;">🔥 **已有 8,923 位同學參與！**</span>
+        <span>🏆 **清大/交大/台大 學生熱門活動！**</span>
+    </div>
 
     <div style="background: #FFF8E1; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #FFA000;">
         <p style="margin: 0; font-weight: bold; color: #D84315;">👇 請先建立您的檔案 (所有欄位必填)</p>
@@ -55,8 +60,9 @@
 
         <label for="userPhone">聯絡手機:</label>
         <input type="tel" id="userPhone" placeholder="09xxxxxxxx" required>
+        <p class="privacy-note">我們承諾您的資料只用於本次活動通知，絕不外洩。</p>
 
-        <button type="submit" class="start-btn">🚀 開始挑戰</button>
+        <button type="submit" class="start-btn">立即免費測驗，領取 $500 紅包</button>
     </form>
     <p id="formError" style="color: #FFC107; margin-top: 10px; display: none; text-align: center; background: #B71C1C; padding: 10px; border-radius: 5px;">請完整填寫所有必填欄位。</p>
 </div>

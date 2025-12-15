@@ -24,7 +24,8 @@
     
     <p class="incentive-text">
         完成 <strong>5 題</strong> 精選測驗，即可獲得
-        <span style="font-weight: bold;">[寒假積分]!</span> <br>兌換 <span class="highlight-gold">限量學習禮包</span>及
+        <span style="font-weight: bold;">[寒假積分]!</span> 
+        <br>兌換 <span class="highlight-gold">限量學習禮包</span>及
         <span class="highlight-gold">現金抽獎資格</span>！
     </p>
 
@@ -111,18 +112,18 @@
         </div>
         <p id="scoreComment" style="font-size: 1.1em; padding: 15px; background: #FFEBEE; border-radius: 8px; border-left: 5px solid #D84315;"></p>
         
-        <button id="goToResourceBtn" class="resource-btn">👉 領取積分紅包與詳細分析</button>
+        <button id="goToResourceBtn" class="resource-btn">👉 領取潛能分析與加碼抽獎</button>
     </div>
 </div>
 
 <div id="resourcePage" class="page hidden">
     
     <div style="text-align: center; background: linear-gradient(135deg, #B71C1C 0%, #D32F2F 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); color: white;">
-        <h1 style="color: #FFC107; font-size: 1.8em; margin: 0 0 10px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
-            🔥 恭喜您獲得：<span id="userTotalPoints" style="color:#FFEB3B;">0</span> 寒假積分，已成功兌換抽獎資格！
+        <h1 id="userPotentialLevel" style="color: #FFC107; font-size: 1.8em; margin: 0 0 10px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+            🔥 恭喜您測出：<span id="potentialLevelDisplay" style="color:#FFEB3B;"></span> 學霸潛能！
         </h1>
         <h2 id="resourceSubtitle" style="color: #FFEBEE; font-size: 1.1em; font-weight: normal; margin: 0; background-color: rgba(255,255,255,0.2); display: inline-block; padding: 5px 15px; border-radius: 20px;">
-            限時活動：預約諮詢抽現金 & 名師試聽
+            您的清交競爭力分析與寒假補強計畫
         </h2>
     </div>
 
@@ -142,15 +143,13 @@
     </div>
     
     <div style="background-color: #FFF8E1; padding: 25px; border-radius: 12px; border: 2px dashed #D84315;">
-        <h3 style="text-align: center; color: #B71C1C; margin-top: 0;">🧧 您的專屬獎勵清單</h3>
+        <h3 style="text-align: center; color: #B71C1C; margin-top: 0;">🚀 潛能等級獎勵清單</h3>
         <ul style="list-style: none; padding-left: 0; line-height: 1.6;">
             <li style="margin-bottom: 15px;">
-                <strong>🧧 【兌換紅包抽獎券】最高 $500 現金等你拿：</strong>
-                <div style="color: #D84315; font-size: 0.95em; font-weight: bold;">
-                    <strong>✅ 已消耗 1000 積分 兌換抽獎資格！完成 LINE 線上諮詢，即具備抽獎資格！
-                    <br>一樣有 完成 5 題 精選測驗，即可獲得 [寒假積分]! <br>兌換 限量學習禮包及 現金抽獎資格！</strong>
-                    <br><br>
-                    獎項包含 <span style="background:#FFC107; padding: 2px 4px; border-radius: 3px;">$500 現金紅包</span> 與 <span style="background:#FFC107; padding: 2px 4px; border-radius: 3px;">$100 7-11 商品卡</span>，人人有機會，快來試手氣！
+                <strong>🔥 【清交人氣王挑戰】加碼再送一次抽獎資格！</strong>
+                <div style="color: #D84315; font-size: 0.95em; font-weight: bold; padding-top: 5px;">
+                    只要將您的 **潛能等級截圖** 傳到 IG 限時動態，並 **標註 @daso.hsinchu**
+                    <br>完成 LINE 線上諮詢即具備 **雙重抽獎資格**！挑戰你的同學，看誰才是真學霸！
                 </div>
             </li>
             <li style="margin-bottom: 15px;">
@@ -164,10 +163,18 @@
         
         <a id="lineCtaButton" href="#" target="_blank" style="text-decoration: none; display: block; margin-top: 20px;">
             <button style="width: 100%; padding: 18px; font-size: 1.3em; background-color: #06C755; color: white; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.15); font-weight: bold; transition: transform 0.2s;">
-                <span style="margin-right: 8px;">💬</span> LINE 立即預約抽紅包
+                <span style="margin-right: 8px;">💬</span> LINE 立即預約諮詢
             </button>
         </a>
-    </div>
+
+        <div style="margin-top: 20px; text-align: center; padding: 10px; border-top: 1px dashed #D84315;">
+            <h4 style="color: #B71C1C; margin-top: 5px;">🎁 現金紅包抽獎活動詳情</h4>
+            <p style="margin: 5px 0; font-size: 0.9em; color: #5D4037;">
+                活動期間：**1/1 (三) 至 1/31 (五)**
+                <br>中獎公布：**2/5 (三)** 於官方 IG/LINE 帳號公布
+            </p>
+        </div>
+        </div>
 
     <div id="studyPlanSection" style="margin-top: 30px;">
         <div style="text-align: center; margin-bottom: 15px;">

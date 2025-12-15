@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 寒假學霸大考驗</title>
+    <title>2026 寒假學霸養成計畫</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -14,17 +14,20 @@
 
 <div id="userInfoPage" class="page">
     <div style="text-align: center; margin-bottom: 20px;">
-        <h1 style="color: #d32f2f; font-size: 2.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">🔥 2026 寒假學霸大考驗 🔥</h1>
-        <h2 style="color: #555; font-weight: normal; margin-top: 5px;">你是哪個等級的強者？</h2>
+        <h1 style="color: #FFC107; font-size: 2.2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); margin-bottom: 5px;">
+            🧧 2026 寒假學霸養成計畫 🧧
+        </h1>
+        <h2 style="color: #FFEBEE; font-weight: normal; font-size: 1.1em; margin-top: 5px;">
+            🔥 測出你的「學霸潛能值」，領取寒假專屬紅包！
+        </h2>
     </div>
     
-    <p style="text-align: center; font-size: 1.1em; margin-bottom: 30px;">
-        準備好挑戰頂大研究所的模擬試題了嗎？<br>
-        只要完成 <strong>5 題</strong> 精選測驗，即可獲得<span style="color: #d32f2f; font-weight: bold;">限量學習禮包</span>！
+    <p style="text-align: center; font-size: 1.1em; margin-bottom: 30px; color: #f9d8a3;">
+        完成 <strong>5 題</strong> 精選測驗，即可獲得 **[寒假積分]**，兌換<span style="color: #FFC107; font-weight: bold;">限量學習禮包</span>及<span style="color: #FFC107; font-weight: bold;">現金抽獎資格</span>！
     </p>
 
-    <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffe0b2;">
-        <p style="margin: 0; font-weight: bold; color: #ef6c00;">👇 請先建立您的檔案 (所有欄位必填)</p>
+    <div style="background: #FFF8E1; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #FFA000;">
+        <p style="margin: 0; font-weight: bold; color: #D84315;">👇 請先建立您的檔案 (所有欄位必填)</p>
     </div>
 
     <form id="userInfoForm">
@@ -55,12 +58,12 @@
 
         <button type="submit" class="start-btn">🚀 開始挑戰</button>
     </form>
-    <p id="formError" style="color: red; margin-top: 10px; display: none; text-align: center;">請完整填寫所有必填欄位。</p>
+    <p id="formError" style="color: #FFC107; margin-top: 10px; display: none; text-align: center; background: #B71C1C; padding: 10px; border-radius: 5px;">請完整填寫所有必填欄位。</p>
 </div>
 
 <div id="subjectSelectPage" class="page hidden">
-    <h1 style="text-align: center;">🎯 請選擇挑戰科目</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 30px;">每科精選 5 題，滿分 100 分。測驗你的真實實力！</p>
+    <h1 style="text-align: center; color: #B71C1C;">🎯 請選擇挑戰科目</h1>
+    <p style="text-align: center; color: #5D4037; margin-bottom: 30px;">每科精選 5 題，滿分 100 分。測驗你的真實實力！</p>
     
     <div class="subject-grid">
         <button class="subject-button" data-subject="Math">
@@ -85,62 +88,64 @@
 </div>
 
 <div id="quizPage" class="page hidden">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
-        <h2 id="quizTitle" style="margin: 0; color: #0277bd;">測驗中...</h2>
-        <span style="background: #e1f5fe; color: #0277bd; padding: 5px 10px; border-radius: 15px; font-size: 0.9em;">單選題</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #E0E0E0; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 id="quizTitle" style="margin: 0; color: #B71C1C;">測驗中...</h2>
+        <span style="background: #FFEBEE; color: #B71C1C; padding: 5px 10px; border-radius: 15px; font-size: 0.9em; font-weight: bold;">單選題</span>
     </div>
     
     <div id="quiz-content">
     </div>
     
     <div id="quiz-result" class="quiz-result hidden">
-        <h2 style="color: #2e7d32;">🎉 挑戰完成！</h2>
-        <div style="font-size: 1.5em; margin: 15px 0;">
-            您的最終分數：<span id="score" style="color: #d32f2f; font-weight: bold; font-size: 1.5em;">0</span> / 100 分
+        <h2 style="color: #4CAF50;">🎉 寒假挑戰完成！</h2>
+        <div style="font-size: 1.5em; margin: 15px 0; color: #B71C1C;">
+            您的最終分數：<span id="score" style="color: #D84315; font-weight: bold; font-size: 1.5em;">0</span> / 100 分
         </div>
-        <p id="scoreComment" style="font-size: 1.1em; padding: 10px; background: #f1f8e9; border-radius: 5px;"></p>
+        <p id="scoreComment" style="font-size: 1.1em; padding: 15px; background: #FFEBEE; border-radius: 8px; border-left: 5px solid #D84315;"></p>
         
-        <button id="goToResourceBtn" class="resource-btn">👉 立即解鎖詳細分析與專屬禮包</button>
+        <button id="goToResourceBtn" class="resource-btn">👉 領取積分紅包與詳細分析</button>
     </div>
 </div>
 
 <div id="resourcePage" class="page hidden">
     
-    <div style="text-align: center; background: linear-gradient(135deg, #d32f2f 0%, #ff5252 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); color: white;">
-        <h1 style="color: #fff; font-size: 1.8em; margin: 0 0 10px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">🔥 恭喜！您已獲得紅包抽獎資格 🔥</h1>
-        <h2 id="resourceSubtitle" style="color: #fff; font-size: 1.1em; font-weight: normal; margin: 0; background-color: rgba(255,255,255,0.2); display: inline-block; padding: 5px 15px; border-radius: 20px;">
+    <div style="text-align: center; background: linear-gradient(135deg, #B71C1C 0%, #D32F2F 100%); padding: 20px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); color: white;">
+        <h1 style="color: #FFC107; font-size: 1.8em; margin: 0 0 10px 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+            🔥 恭喜您獲得：<span id="userTotalPoints" style="color:#FFEB3B;">0</span> 寒假積分，已成功兌換抽獎資格！
+        </h1>
+        <h2 id="resourceSubtitle" style="color: #FFEBEE; font-size: 1.1em; font-weight: normal; margin: 0; background-color: rgba(255,255,255,0.2); display: inline-block; padding: 5px 15px; border-radius: 20px;">
             限時活動：預約諮詢抽現金 & 名師試聽
         </h2>
     </div>
 
     <div style="margin-bottom: 30px;">
-        <div style="border-left: 5px solid #0288d1; padding-left: 15px; margin-bottom: 15px;">
-            <h3 style="margin: 0; color: #0277bd;">🔔 您的測驗結果與專屬試聽</h3>
-            <p style="margin: 5px 0; color: #555;">科目：<strong id="finalSubjectName"></strong> &nbsp; | &nbsp; 分數：<strong id="finalScoreDisplay"></strong> 分</p>
+        <div style="border-left: 5px solid #FFC107; padding-left: 15px; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: #B71C1C;">🔔 您的測驗結果與專屬試聽</h3>
+            <p style="margin: 5px 0; color: #5D4037;">科目：<strong id="finalSubjectName"></strong> &nbsp; | &nbsp; 分數：<strong id="finalScoreDisplay"></strong> 分</p>
         </div>
         
-        <p id="scoreMessage" style="background: #e1f5fe; padding: 10px; border-radius: 5px; color: #01579b;"></p>
+        <p id="scoreMessage" style="background: #FFEBEE; padding: 10px; border-radius: 5px; color: #B71C1C; font-weight: bold;"></p>
 
         <div id="videoContainer" style="margin-top: 25px; text-align: center;">
             <p style="font-weight: bold; color: #333; margin-bottom: 10px;">🎥 正在播放：<span id="videoSubjectName"></span></p>
-            <div id="youtubePlayer" style="width: 100%; max-width: 640px; margin: 0 auto; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden;">
+            <div id="youtubePlayer" style="width: 100%; max-width: 640px; margin: 0 auto; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
             </div>
         </div>
     </div>
     
-    <div style="background-color: #fff8e1; padding: 25px; border-radius: 12px; border: 2px dashed #ffa000;">
-        <h3 style="text-align: center; color: #e65100; margin-top: 0;">🧧 您的專屬獎勵清單</h3>
+    <div style="background-color: #FFF8E1; padding: 25px; border-radius: 12px; border: 2px dashed #D84315;">
+        <h3 style="text-align: center; color: #B71C1C; margin-top: 0;">🧧 您的專屬獎勵清單</h3>
         <ul style="list-style: none; padding-left: 0; line-height: 1.6;">
             <li style="margin-bottom: 15px;">
-                <strong>🧧 【諮詢抽紅包】最高 $500 現金等你拿：</strong>
-                <div style="color: #bf360c; font-size: 0.95em; font-weight: bold;">
-                    完成 LINE 線上諮詢，即具備抽獎資格！<br>
-                    獎項包含 <span style="background:yellow;">$500 現金紅包</span> 與 <span style="background:yellow;">$100 7-11 商品卡</span>，人人有機會，快來試手氣！
+                <strong>🧧 【兌換紅包抽獎券】最高 $500 現金等你拿：</strong>
+                <div style="color: #D84315; font-size: 0.95em; font-weight: bold;">
+                    ✅ 已消耗 **1000 積分** 兌換抽獎資格！完成 LINE 線上諮詢，即具備抽獎資格！<br>
+                    獎項包含 <span style="background:#FFC107; padding: 2px 4px; border-radius: 3px;">$500 現金紅包</span> 與 <span style="background:#FFC107; padding: 2px 4px; border-radius: 3px;">$100 7-11 商品卡</span>，人人有機會，快來試手氣！
                 </div>
             </li>
             <li style="margin-bottom: 15px;">
                 <strong>💰 【限時 72hr】$2,000 報名折抵金：</strong>
-                <div style="color: #555; font-size: 0.9em;">倒數計時中！憑此頁面截圖報名享額外折扣。</div>
+                <div style="color: #5D4037; font-size: 0.9em;">倒數計時中！憑此頁面截圖報名享額外折扣。</div>
             </li>
             <li>
                 <strong>✅ 獨家寒假進度規劃表：</strong> 系統已根據您的測驗弱點，在下方生成了量身打造的補救計畫。
@@ -154,10 +159,10 @@
         </a>
     </div>
 
-    <div id="studyPlanSection" style="margin-top: 30px; animation: slideUp 0.8s ease-out;">
+    <div id="studyPlanSection" style="margin-top: 30px;">
         <div style="text-align: center; margin-bottom: 15px;">
-            <h2 style="color: #0d47a1; font-size: 1.6em; margin-bottom: 5px;">📅 顧問獨家：寒假 4 週補強計畫</h2>
-            <p style="color: #666; font-size: 0.9em;">針對您答錯的題型 ( <span id="weaknessTag" style="color:#d32f2f; font-weight:bold;"></span> ) 進行客製化安排</p>
+            <h2 style="color: #B71C1C; font-size: 1.6em; margin-bottom: 5px;">📅 顧問獨家：寒假 4 週補強計畫</h2>
+            <p style="color: #666; font-size: 0.9em;">針對您答錯的題型 ( <span id="weaknessTag" style="color:#D84315; font-weight:bold;"></span> ) 進行客製化安排</p>
         </div>
         
         <div class="plan-container">

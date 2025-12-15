@@ -1,6 +1,7 @@
 body {
     font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
-    background-color: #f4f7f9;
+    /* 背景改為深紅色/暗色系，製造節慶氛圍 */
+    background-color: #3E2723; /* 深棕紅色 */
     color: #333;
     padding: 20px;
     margin: 0;
@@ -9,11 +10,25 @@ body {
 .page {
     max-width: 700px;
     margin: 0 auto;
-    background: white;
+    background: white; /* 頁面內容仍為白色，保持清晰度 */
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
+#userInfoPage {
+    /* 首頁背景改為深色，讓標題更突出 */
+    background: #B71C1C; 
+    color: white;
+}
+#userInfoPage label {
+    color: #FFEBEE;
+}
+#userInfoPage input[type="text"],
+#userInfoPage input[type="tel"] {
+    background-color: #fff;
+    color: #333;
+}
+
 
 .hidden {
     display: none !important;
@@ -25,7 +40,6 @@ label {
     margin-top: 15px;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
     font-size: 1.05em;
 }
 
@@ -43,7 +57,7 @@ input[type="email"] {
 
 input[type="text"]:focus,
 input[type="tel"]:focus {
-    border-color: #d32f2f;
+    border-color: #FFC107;
     outline: none;
 }
 
@@ -53,8 +67,10 @@ input[type="tel"]:focus {
     gap: 15px;
     margin-bottom: 15px;
     padding: 10px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #D84315; /* 紅色框線 */
     border-radius: 6px;
+    background: #FFEBEE; /* 淺色背景 */
+    color: #333;
 }
 
 .radio-group-container input[type="radio"] {
@@ -66,25 +82,27 @@ input[type="tel"]:focus {
     font-weight: normal;
     margin-top: 0;
     cursor: pointer;
+    color: #333;
 }
 
 .start-btn {
     width: 100%;
     padding: 15px;
     margin-top: 20px;
-    background-color: #d32f2f;
-    color: white;
+    background-color: #FFC107; /* 黃金色 */
+    color: #B71C1C; /* 深紅色文字 */
     border: none;
     border-radius: 8px;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
 .start-btn:hover {
-    background-color: #c62828;
-    transform: translateY(-1px);
+    background-color: #FFD700;
+    transform: translateY(-2px);
 }
 
 /* --- Subject Select Page --- */
@@ -95,8 +113,8 @@ input[type="tel"]:focus {
 }
 
 .subject-button {
-    background-color: #039be5;
-    color: white;
+    background-color: #B71C1C; /* 深紅色 */
+    color: #FFEBEE;
     padding: 20px;
     border: none;
     border-radius: 8px;
@@ -107,13 +125,13 @@ input[type="tel"]:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
 .subject-button:hover {
-    background-color: #0277bd;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background-color: #D32F2F;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 
 .subject-icon {
@@ -123,12 +141,12 @@ input[type="tel"]:focus {
 
 /* --- Quiz Page --- */
 .question-card {
-    background: #f9f9f9;
+    background: #FFF8E1; /* 淺黃色/米色背景 */
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 8px;
-    border-left: 5px solid #0277bd;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    border-left: 5px solid #FFC107; /* 黃金左邊線 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
 }
 
 .question-text {
@@ -136,6 +154,7 @@ input[type="tel"]:focus {
     font-weight: bold;
     margin-bottom: 15px;
     line-height: 1.5;
+    color: #5D4037; /* 深色文字 */
 }
 
 .options-list {
@@ -146,40 +165,43 @@ input[type="tel"]:focus {
 .option-item {
     padding: 12px 15px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #E0E0E0;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s, border-color 0.2s;
     line-height: 1.4;
+    background: #ffffff;
 }
 
 .option-item:hover {
-    background-color: #f0f8ff;
-    border-color: #a0c0ff;
+    background-color: #FFFAEE;
+    border-color: #FFC107;
 }
 
 .option-item.selected {
-    border-color: #0277bd;
-    box-shadow: 0 0 5px rgba(2, 119, 189, 0.5);
+    border-color: #B71C1C;
+    box-shadow: 0 0 5px rgba(183, 28, 28, 0.5);
 }
 
 .option-item.correct {
-    background-color: #e8f5e9; /* Light green */
-    border-color: #4caf50;
+    background-color: #E8F5E9; /* Light green */
+    border-color: #4CAF50;
     font-weight: bold;
+    color: #2E7D32;
 }
 
 .option-item.incorrect {
-    background-color: #ffebee; /* Light red */
-    border-color: #d32f2f;
+    background-color: #FFEBEE; /* Light red */
+    border-color: #D84315;
     font-weight: bold;
+    color: #D84315;
 }
 
 .rationale {
     margin-top: 15px;
     padding: 10px;
-    border-left: 3px solid #ff9800;
-    background-color: #fffde7;
+    border-left: 3px solid #D84315;
+    background-color: #FFF8E1;
     font-size: 0.95em;
     color: #555;
     display: none;
@@ -192,14 +214,14 @@ input[type="tel"]:focus {
 .quiz-result {
     text-align: center;
     padding: 30px;
-    border: 2px dashed #4caf50;
+    border: 3px dashed #FFC107; /* 黃金虛線 */
     border-radius: 10px;
     margin-top: 30px;
 }
 
 .resource-btn {
-    background-color: #ff9800;
-    color: white;
+    background-color: #B71C1C;
+    color: #FFEBEE;
     padding: 15px 30px;
     margin-top: 25px;
     border: none;
@@ -208,11 +230,12 @@ input[type="tel"]:focus {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
 }
 
 .resource-btn:hover {
-    background-color: #f57c00;
-    transform: translateY(-1px);
+    background-color: #D32F2F;
+    transform: translateY(-2px);
 }
 
 /* --- Resource Page (Study Plan) --- */
@@ -224,15 +247,15 @@ input[type="tel"]:focus {
 
 .plan-week {
     background: #ffffff;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #E0E0E0;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .week-title {
-    background-color: #0288d1;
-    color: white;
+    background-color: #D84315; /* 橙紅色 */
+    color: #FFEBEE;
     padding: 12px 15px;
     font-weight: bold;
     font-size: 1.1em;

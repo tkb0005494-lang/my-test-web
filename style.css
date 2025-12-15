@@ -34,6 +34,46 @@ body {
     display: none !important;
 }
 
+/* === 視覺衝擊優化區塊 === */
+.main-title {
+    color: #FFC107; 
+    font-size: 2.8em; /* 放大標題 */
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+    margin-bottom: 5px;
+}
+.incentive-text {
+    text-align: center; 
+    font-size: 1.25em; /* 放大誘因文字 */
+    margin-bottom: 30px; 
+    color: #f9d8a3;
+    line-height: 1.5;
+}
+.highlight-gold {
+    color: #FFD700; /* 金黃色強調 */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+.social-proof {
+    background: #FFC107; /* 醒目的金黃色背景 */
+    color: #B71C1C;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 0.95em;
+}
+.privacy-note {
+    font-size: 0.8em; 
+    color: #FFEBEE; /* 淺色，但在深紅背景上可見 */
+    margin-top: -10px; /* 緊貼手機欄位下方 */
+    margin-bottom: 20px;
+    text-align: center;
+}
+/* === 優化區塊結束 === */
+
+
 /* --- Form Styles (userInfoPage) --- */
 label {
     display: block;
@@ -61,7 +101,6 @@ input[type="tel"]:focus {
     outline: none;
 }
 
-/* === 修正部分：大學與年級選項顏色 === */
 .radio-group-container {
     display: flex;
     flex-wrap: wrap;
@@ -86,21 +125,21 @@ input[type="tel"]:focus {
     cursor: pointer;
     color: #333; /* 確保選項文字是深色 (黑色) */
 }
-/* === 修正結束 === */
 
+/* 🎯 CTA 優化：調整文案尺寸 */
 .start-btn {
     width: 100%;
-    padding: 15px;
-    margin-top: 20px;
+    padding: 18px; /* 增加點擊區域 */
+    margin-top: 10px; 
     background-color: #FFC107; /* 黃金色 */
     color: #B71C1C; /* 深紅色文字 */
     border: none;
     border-radius: 8px;
-    font-size: 1.2em;
+    font-size: 1.4em; /* 放大字體 */
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.1s;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 更明顯的陰影 */
 }
 
 .start-btn:hover {

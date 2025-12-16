@@ -1190,7 +1190,7 @@ function showQuizResult() {
 
         potentialLevel = 'C 級覺醒中';
 
-        comment = `💪 ${potentialLevel} 別灰心！這份測驗剛好幫您找出盲點。立即規劃補強，寒假後逆轉勝！`;
+        comment = `💪  別灰心！這份測驗剛好幫您找出盲點。立即規劃補強，寒假後逆轉勝！`;
 
     }
 

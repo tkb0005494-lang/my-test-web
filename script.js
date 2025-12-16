@@ -1172,19 +1172,19 @@ function showQuizResult() {
 
         potentialLevel = 'S 級頂尖';
 
-        comment = `🌟 ${potentialLevel} 學霸潛能！您的知識結構扎實且應用能力極強，遠超多數清交學生！寒假目標：維持手感，挑戰更進階的題型。`;
+        comment = `🌟 學霸潛能！您的知識結構扎實且應用能力極強，遠超多數清交學生！寒假目標：維持手感，挑戰更進階的題型。`;
 
     } else if (currentScore >= 80) {
 
         potentialLevel = 'A 級強者';
 
-        comment = `💎 ${potentialLevel}您的基礎知識掌握度高，但在特定章節仍有提升空間。寒假目標：鎖定弱點，精準補強，就能晉升 S 級！`;
+        comment = `💎 您的基礎知識掌握度高，但在特定章節仍有提升空間。寒假目標：鎖定弱點，精準補強，就能晉升 S 級！`;
 
     } else if (currentScore >= 60) {
 
         potentialLevel = 'B 級穩定';
 
-        comment = `✨ ${potentialLevel} 您已具備一定基礎，但面對高難度挑戰時，計算或觀念整合能力略顯不足。寒假目標：建立完整知識地圖，從頭打好根基。`;
+        comment = `✨  您已具備一定基礎，但面對高難度挑戰時，計算或觀念整合能力略顯不足。寒假目標：建立完整知識地圖，從頭打好根基。`;
 
     } else {
 

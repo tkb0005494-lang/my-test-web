@@ -609,14 +609,17 @@ function generateStudyPlan() {
     }
 }
 
-// === K. YouTube 嵌入 ===
+// === K. YouTube 嵌入 (修正核心) ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
-    if (container.querySelector('iframe')) return;
     const vidId = VIDEO_LINKS[currentSubject].youtubeId;
+    
     if (vidId && vidId.length === 11) {
         const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1`;
+        // 直接更新內容，確保每次點進去都能載入該科目的影片
         container.innerHTML = `<iframe width="100%" height="100%" src="${youtubeEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+    } else {
+        container.innerHTML = `<p style="text-align:center; padding: 20px;">暫無推薦影片</p>`;
     }
 }
 

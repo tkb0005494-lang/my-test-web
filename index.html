@@ -16,9 +16,9 @@
         <h1 class="main-title">🧧 2026 新竹大碩寒假學霸養成計畫 🧧</h1>
         <h2 style="color: #f0f8ff; font-weight: normal; font-size: 1.1em; margin-top: 5px;">🔥 測出你的「學霸潛能值」，領取寒假專屬紅包！</h2>
     </div>
-    <p class="incentive-text">完成 <strong>5 題</strong> 精選測驗，即可獲得 <span style="font-weight: bold;">[專屬讀書計畫]!</span><br>兌換 <span class="highlight-gold">限量學習禮包</span>及 <span class="highlight-gold">現金抽獎資格</span>！</p>
+    <p class="incentive-text">完成 5 題 精選測驗，即可獲得 專屬讀書計畫！<br>兌換 <span class="highlight-gold">限量學習禮包</span>及 <span class="highlight-gold">現金抽獎資格</span>！</p>
     
-    <div class="social-proof"><span>🚀 寒假進步就靠這 5 題！目前已有 852 位同學參加</span></div>
+    <div class="social-proof"><span>🌟 新年快樂！Happy New Year！祝您新的一年學業進步，金榜題名！</span></div>
 
     <form id="userInfoForm">
         <label for="userName">姓名:</label>
@@ -32,8 +32,8 @@
         </div>
         <input type="text" id="uniOtherText" placeholder="請輸入大學名稱" disabled>
 
-        <label for="userDepartment">系所/年級:</label>
-        <input type="text" id="userDepartment" placeholder="例：電機系 大三" required>
+        <label for="userDepartment">就讀系所:</label>
+        <input type="text" id="userDepartment" placeholder="例：電機工程學系" required>
 
         <label>目前年級:</label>
         <div class="radio-group-container">
@@ -54,14 +54,38 @@
 </div>
 
 <div id="subjectSelectPage" class="page hidden">
-    <h1 style="text-align: center; color: var(--color-accent);">🎯 挑選你的強項科目</h1>
+    <h1 style="text-align: center; color: var(--color-accent); margin-bottom: 30px;">🎊 選擇新春挑戰科目 🎊</h1>
     <div class="subject-grid">
-        <button class="subject-button" data-subject="Math"><span class="subject-icon">📐</span>工程數學</button>
-        <button class="subject-button" data-subject="Science"><span class="subject-icon">🔢</span>線性代數</button>
-        <button class="subject-button" data-subject="History"><span class="subject-icon">💻</span>計算機概論</button>
-        <button class="subject-button" data-subject="Geography"><span class="subject-icon">📊</span>經濟學</button>
-        <button class="subject-button" data-subject="English"><span class="subject-icon">∫</span>微積分</button>
-        <button class="subject-button" data-subject="Coding"><span class="subject-icon">📉</span>統計學</button>
+        <button class="subject-button" data-subject="工程數學">
+            <div class="sub-icon">🎉</div>
+            <div class="sub-name">工程數學</div>
+            <div class="sub-tag">工科首選</div>
+        </button>
+        <button class="subject-button" data-subject="線性代數">
+            <div class="sub-icon">🧨</div>
+            <div class="sub-name">線性代數</div>
+            <div class="sub-tag">資工熱門</div>
+        </button>
+        <button class="subject-button" data-subject="計算機概論">
+            <div class="sub-icon">🎆</div>
+            <div class="sub-name">計算機概論</div>
+            <div class="sub-tag">跨考必備</div>
+        </button>
+        <button class="subject-button" data-subject="經濟學">
+            <div class="sub-icon">🧧</div>
+            <div class="sub-name">經濟學</div>
+            <div class="sub-tag">商管首選</div>
+        </button>
+        <button class="subject-button" data-subject="微積分">
+            <div class="sub-icon">🥂</div>
+            <div class="sub-name">微積分</div>
+            <div class="sub-tag">基礎核心</div>
+        </button>
+        <button class="subject-button" data-subject="統計學">
+            <div class="sub-icon">✨</div>
+            <div class="sub-name">統計學</div>
+            <div class="sub-tag">數據之王</div>
+        </button>
     </div>
 </div>
 
@@ -71,40 +95,79 @@
     
     <div id="quiz-result" class="quiz-result hidden">
         <h2 style="color: var(--color-highlight);">🎉 挑戰完成！</h2>
-        <p style="font-size: 1.4em;">您的學霸分數：<span id="score" style="font-weight: bold; color: var(--color-accent);">0</span> / 100</p>
+        <div class="score-display">
+            您的學霸分數：<span id="score">0</span> / 100
+        </div>
         <p id="scoreComment" style="margin: 20px 0; line-height: 1.8;"></p>
         
         <div style="background: #2c445c; padding: 15px; border-radius: 8px; border: 1px solid #ffd700;">
             <p>🎁 <strong>領取資格提示：</strong></p>
-            <p>請將此頁面<strong>截圖</strong>，發布至 IG 限動並標註 <strong>@daso.hsinchu</strong>，即可領取 $500 紅包抽獎金！</p>
-            <p id="screenshotHint" style="color: #ffd700; font-weight: bold; display: none; animation: blink 1s infinite;">✅ 已截圖完成！點擊下方領取分析</p>
+            <p>請將此頁面<strong>截圖</strong>，發布至 IG 限動並標註 <strong>@hsinchu.daso</strong>，即可領取 $500 紅包抽獎金！</p>
         </div>
         <button id="goToResourceBtn" class="resource-btn">查看潛能分析與讀書計畫</button>
     </div>
 </div>
 
 <div id="resourcePage" class="page hidden">
-    <h1 style="text-align: center; color: var(--color-accent);">🚀 您的專屬學霸計畫</h1>
-    <div class="incentive-text">
-        <p>潛能等級：<span id="potentialLevelDisplay" class="highlight-gold"></span></p>
-        <p>科目：<span id="finalSubjectName"></span> | 分數：<span id="finalScoreDisplay"></span></p>
+    <h1 style="text-align: center; color: var(--color-accent);">🚀 您的寒假專屬學霸計劃</h1>
+    
+    <div class="final-report-box">
+        <div class="report-item">潛能等級：<span id="potentialLevelDisplay" class="highlight-gold"></span></div>
+        <div class="report-item">挑戰科目：<span id="finalSubjectName"></span></div>
+        <div class="report-item">最終分數：<span id="finalScoreDisplay"></span></div>
+    </div>
+
+    <div id="reward-section">
+        <div style="background-color: #2c445c; padding: 25px; border-radius: 12px; border: 2px dashed #ffd700; margin-bottom: 30px;">
+            <h3 style="text-align: center; color: #ffeb3b; margin-top: 0;">🚀 潛能等級獎勵清單</h3>
+            <ul style="list-style: none; padding-left: 0; line-height: 1.6;">
+                <li style="margin-bottom: 15px; background: #4a6886; padding: 15px; border-radius: 8px; border: 2px solid #ffeb3b;">
+                    <strong style="color: #ffeb3b; display: block; font-size: 1.1em; margin-bottom: 5px;">
+                        🏆 【限時加碼 24hr】機會 2: 線上諮詢
+                    </strong>
+                    <div style="color: #f0f8ff; font-size: 0.95em; font-weight: bold; padding-top: 5px;">
+                        只要在 <strong>24 小時內</strong>透過下方按鈕預約 <strong>線上諮詢</strong>，即可：
+                        <br>👉 再獲得一次抽獎機會，中獎機率直接提升 50%！
+                    </div>
+                    <div style="color: #ffd700; font-size: 0.9em; margin-top: 10px; padding-top: 5px; border-top: 1px dashed #6b8fa9;">
+                        🎁 抽獎獎品清單：
+                        <br>現金 500 元 (共 3 位)
+                        <br>7-11 禮券 100 元 (共 15 位)
+                    </div>
+                </li>
+                <li style="margin-bottom: 15px;">
+                    <strong>💰 【限時 72hr】$2,000 報名折抵金：</strong>
+                    <div style="color: #b0c4de; font-size: 0.9em;">倒數計時中！憑此頁面截圖報名享額外折扣。</div>
+                </li>
+                <li>
+                    <strong>✅ 獨家寒假進度規劃表：</strong> 系統已根據您的測驗弱點，在下方生成了量身打造的補救計畫。
+                </li>
+            </ul>
+            
+            <a id="lineCtaButton" href="https://lin.ee/Oj42w8M" target="_blank" style="text-decoration: none; display: block; margin-top: 20px;">
+                <button style="width: 100%; padding: 18px; font-size: 1.3em; background-color: #06C755; color: white; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.15); font-weight: bold; transition: transform 0.2s;">
+                    <span style="margin-right: 8px;">💬</span> LINE 立即預約諮詢
+                </button>
+            </a>
+
+            <div style="margin-top: 20px; text-align: center; padding: 10px; border-top: 1px dashed #ffd700;">
+                <h4 style="color: #ffd700; margin-top: 5px;">🎁 現金紅包抽獎活動詳情</h4>
+                <p style="margin: 5px 0; font-size: 0.9em; color: #b0c4de;">
+                    活動期間：1/1 (三) 至 1/31 (五)
+                    <br>中獎公布：2/5 (三) 於官方 IG/LINE 帳號公布
+                </p>
+            </div>
+        </div>
     </div>
 
     <div class="video-section">
-        <h3 id="videoSubjectName" style="color: var(--color-accent);"></h3>
-        <p id="scoreMessage"></p>
+        <h3 id="videoSubjectName" style="color: var(--color-accent); text-align: center;"></h3>
+        <p id="scoreMessage" style="text-align: center; color: var(--color-text-muted); margin-bottom: 15px;"></p>
         <div class="youtube-container" id="youtubePlayer"></div>
     </div>
 
-    <div style="margin: 25px 0; text-align: center;">
-        <a id="lineCtaButton" href="#" target="_blank">
-            <button style="background: #06C755; color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: bold; font-size: 1.1em; cursor: pointer; width: 100%;">💬 LINE 領取 $500 紅包與實體好禮</button>
-        </a>
-    </div>
-
-    <div id="studyPlanSection">
+    <div id="studyPlanSection" style="margin-top: 40px;">
         <h2 style="text-align: center; color: var(--color-accent);">📅 四週逆襲讀書計畫</h2>
-        <p style="text-align: center; color: var(--color-text-muted);">針對弱點單元：<span id="weaknessTag" style="color: #ffeb3b;"></span></p>
         <div class="plan-container">
             <div class="plan-week"><div class="week-title">Week 1</div><div class="week-content" id="plan-week-1"></div></div>
             <div class="plan-week"><div class="week-title">Week 2</div><div class="week-content" id="plan-week-2"></div></div>
@@ -116,13 +179,13 @@
 
 <div id="igModal" class="modal-overlay hidden">
     <div class="modal-content">
-        <h3 style="color: #ffd700;">📢 抽獎任務第一步</h3>
-        <p>請將目前的測驗結果<strong>「截圖」</strong></p>
-        <p>並點擊圖示標註大碩 IG 私訊我們</p>
-        <a href="https://www.instagram.com/daso.hsinchu/" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="80" style="margin: 15px 0;">
+        <h3 style="color: #ffd700;">📢 抽獎任務提醒</h3>
+        <p style="font-size: 1.1em;">請將待會出現的<strong>分數結果截圖</strong></p>
+        <p>並發布 IG 限時動態標記 <span style="color: #ffeb3b;">@hsinchu.daso</span> 即可參加抽獎！</p>
+        <a href="https://www.instagram.com/hsinchu.daso/" target="_blank">
+            <img src="ig-icon.png" alt="IG Icon" width="80" style="margin: 20px 0;">
         </a>
-        <p style="font-size: 0.8em; color: #b0c4de;">(完成截圖後，點擊背景關閉此視窗)</p>
+        <p style="font-size: 0.85em; color: #b0c4de;">(點擊背景關閉此通知)</p>
     </div>
 </div>
 

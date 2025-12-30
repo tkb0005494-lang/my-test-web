@@ -1,13 +1,10 @@
-// Google Form 連結
+// Google Form 連結與欄位
 const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 const FORM_FIELDS = { 
-    name: 'entry.1711447572', 
-    uni: 'entry.651877505', 
-    dept: 'entry.1169658860', 
-    phone: 'entry.1253545059' 
+    name: 'entry.1711447572', uni: 'entry.651877505', dept: 'entry.1169658860', phone: 'entry.1253545059' 
 };
 
-// 題目資料庫
+// 題目庫 (簡略)
 const ALL_QUIZ_DATA = [
     { subject: "工程數學", question: "請問 $y' + y = 0$ 的通解為何？", answerOptions: [{ text: "$y = Ce^{-x}$", isCorrect: true, rationale: "一階線性 ODE 基本解。" }, { text: "$y = Ce^x$", isCorrect: false, rationale: "符號錯誤。" }, { text: "$y = C\\sin x$", isCorrect: false, rationale: "這是二階振盪解。" }, { text: "$y = x + C$", isCorrect: false, rationale: "這是積分。" }] },
     { subject: "工程數學", question: "$\\mathcal{L}\{1\}$ 等於？", answerOptions: [{ text: "$1/s$", isCorrect: true, rationale: "拉氏轉換基本公式。" }, { text: "$s$", isCorrect: false, rationale: "錯。" }, { text: "$1/s^2$", isCorrect: false, rationale: "那是 $t$。" }, { text: "$e^s$", isCorrect: false, rationale: "錯。" }] },
@@ -31,135 +28,94 @@ const VIDEO_LINKS = { "工程數學": "LiW8jvHZ7o4", "線性代數": "dW4cUVU089
 
 let currentSubject = '', currentScore = 0, answeredCount = 0;
 
-// --- 新增：懸浮通知邏輯 ---
-const notifications = [
-    "🔥 剛剛有一位清大學生完成了測驗！",
-    "⚡ 統計：85% 的同學獲得了 S 級評分！",
-    "🚀 交大電資系學生正在領取讀書計畫...",
-    "🧧 限量紅包領取倒數最後 12 名！",
-    "✨ 剛剛有人在 IG 標記了 @hsinchu.daso"
-];
-
-function showNotification() {
-    const notifyDiv = document.getElementById('floating-notification');
-    const notifyText = document.getElementById('notify-text');
-    if (!notifyDiv || !notifyText) return;
-
-    const randomMsg = notifications[Math.floor(Math.random() * notifications.length)];
-    notifyText.innerText = randomMsg;
-    notifyDiv.classList.remove('hidden');
-
-    setTimeout(() => {
-        notifyDiv.classList.add('hidden');
-    }, 4000); // 顯示 4 秒
-}
-
-// 每 10 秒觸發一次通知
-setInterval(showNotification, 10000);
-
-// --- 你的原始邏輯 (完整保留) ---
-
+// 通用顯示頁面
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    const targetPage = document.getElementById(id);
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
-        window.scrollTo(0, 0);
-    }
+    document.getElementById(id).classList.remove('hidden');
+    window.scrollTo(0,0);
 }
 
-document.querySelectorAll('input[name="userUniversity"]').forEach(r => {
-    r.onchange = function() {
-        document.getElementById('uniOtherText').disabled = (this.value !== '其他');
-    };
-});
+// 懸浮通知邏輯
+const msgs = ["🔥 剛剛有一位清大學生完成了測驗！", "⚡ 85% 的同學獲得了 S 級評分！", "🚀 交大電資系學生正在領取計畫...", "✨ 剛剛有人在 IG 標記了 @hsinchu.daso"];
+function showNotification() {
+    const box = document.getElementById('floating-notification');
+    const txt = document.getElementById('notify-text');
+    txt.innerText = msgs[Math.floor(Math.random() * msgs.length)];
+    box.classList.remove('hidden');
+    setTimeout(() => box.classList.add('hidden'), 4000);
+}
+// 啟動通知 (每10秒一次)
+setInterval(showNotification, 10000);
 
-document.getElementById('userInfoForm').addEventListener('submit', function(e) {
+// 提交資料
+document.getElementById('userInfoForm').onsubmit = function(e) {
     e.preventDefault();
-    const uniInput = document.querySelector('input[name="userUniversity"]:checked');
-    const university = uniInput.value === '其他' ? document.getElementById('uniOtherText').value : uniInput.value;
-    const formData = new FormData();
-    formData.append(FORM_FIELDS.name, document.getElementById('userName').value);
-    formData.append(FORM_FIELDS.uni, university);
-    formData.append(FORM_FIELDS.dept, document.getElementById('userDepartment').value);
-    formData.append(FORM_FIELDS.phone, document.getElementById('userPhone').value);
-    fetch(GOOGLE_FORM_URL, { method: 'POST', body: formData, mode: 'no-cors' });
+    const uni = document.querySelector('input[name="userUniversity"]:checked').value === '其他' ? 
+                document.getElementById('uniOtherText').value : document.querySelector('input[name="userUniversity"]:checked').value;
+    const f = new FormData();
+    f.append(FORM_FIELDS.name, document.getElementById('userName').value);
+    f.append(FORM_FIELDS.uni, uni);
+    f.append(FORM_FIELDS.dept, document.getElementById('userDepartment').value);
+    f.append(FORM_FIELDS.phone, document.getElementById('userPhone').value);
+    fetch(GOOGLE_FORM_URL, { method: 'POST', body: f, mode: 'no-cors' });
     showPage('subjectSelectPage');
+};
+
+// 大學選單切換
+document.querySelectorAll('input[name="userUniversity"]').forEach(r => {
+    r.onchange = () => document.getElementById('uniOtherText').disabled = (r.value !== '其他');
 });
 
-document.querySelectorAll('.subject-button').forEach(btn => {
-    btn.onclick = function() {
+// 點擊科目
+document.querySelectorAll('.subject-button').forEach(b => {
+    b.onclick = function() {
         currentSubject = this.getAttribute('data-subject');
         startQuiz();
     };
 });
 
 function startQuiz() {
-    currentScore = 0;
-    answeredCount = 0;
-    const quizData = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
-    const container = document.getElementById('quiz-content');
-    container.innerHTML = '';
-    document.getElementById('quizTitle').innerText = `正在挑戰：${currentSubject}`;
-    const displayData = quizData.slice(0, 5);
-    displayData.forEach((q, idx) => {
+    currentScore = 0; answeredCount = 0;
+    const data = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject).slice(0, 5);
+    const box = document.getElementById('quiz-content');
+    box.innerHTML = '';
+    data.forEach((q, i) => {
         const div = document.createElement('div');
         div.className = 'question-card';
-        div.innerHTML = `
-            <div class="question-text">Q${idx+1}. ${q.question}</div>
-            <div class="opt-box">
-                ${q.answerOptions.map((opt, i) => `
-                    <div class="option-item" onclick="handleSelect(this, ${idx}, ${i})">
-                        ${String.fromCharCode(65+i)}. ${opt.text}
-                    </div>
-                `).join('')}
-            </div>
-            <div class="rationale" id="rat-${idx}"></div>
-        `;
-        container.appendChild(div);
+        div.innerHTML = `<p class="question-text">Q${i+1}. ${q.question}</p>
+            ${q.answerOptions.map((o, oi) => `<div class="option-item" onclick="check(this, ${i}, ${oi})">${o.text}</div>`).join('')}
+            <div class="rationale" id="r-${i}"></div>`;
+        box.appendChild(div);
     });
     showPage('quizPage');
-    if(window.renderMathInElement) renderMathInElement(container, { delimiters: [{left: "$", right: "$", display: false}] });
+    if(window.renderMathInElement) renderMathInElement(box, { delimiters: [{left: "$", right: "$", display: false}] });
 }
 
-function handleSelect(el, qIdx, oIdx) {
-    const parent = el.parentElement;
-    if (parent.classList.contains('done')) return;
-    parent.classList.add('done');
-    const quizDataForSubject = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
-    const isCorrect = quizDataForSubject[qIdx].answerOptions[oIdx].isCorrect;
-    el.classList.add(isCorrect ? 'correct' : 'incorrect');
-    if (isCorrect) currentScore += 20;
-    const rationale = document.getElementById(`rat-${qIdx}`);
-    rationale.innerHTML = `<strong>💡 解析：</strong>${quizDataForSubject[qIdx].answerOptions.find(o=>o.isCorrect).rationale}`;
-    rationale.classList.add('visible');
+function check(el, qi, oi) {
+    const p = el.parentElement; if(p.dataset.done) return; p.dataset.done = true;
+    const data = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
+    const ok = data[qi].answerOptions[oi].isCorrect;
+    el.classList.add(ok ? 'correct' : 'incorrect');
+    if(ok) currentScore += 20;
+    const rat = document.getElementById(`r-${qi}`);
+    rat.innerHTML = `<strong>💡 解析：</strong>${data[qi].answerOptions.find(o=>o.isCorrect).rationale}`;
+    rat.style.display = 'block';
     answeredCount++;
-    if (answeredCount === 5 || answeredCount === quizDataForSubject.length) {
-        setTimeout(finishQuiz, 1000);
-    }
+    if(answeredCount === 5) setTimeout(() => {
+        document.getElementById('score').innerText = currentScore;
+        let lv = currentScore >= 80 ? 'S級：學霸領袖' : (currentScore >= 60 ? 'A級：進步神速' : 'B級：穩打基礎');
+        document.getElementById('scoreComment').innerText = `測驗結果：${lv}！`;
+        document.getElementById('potentialLevelDisplay').innerText = lv;
+        document.getElementById('finalScoreDisplay').innerText = currentScore;
+        document.getElementById('finalSubjectName').innerText = currentSubject;
+        showPage('scorePage'); // 關鍵：跳轉到分數頁面
+    }, 1500);
 }
-
-function finishQuiz() {
-    document.getElementById('score').innerText = currentScore;
-    document.getElementById('quiz-result').classList.remove('hidden');
-    document.getElementById('igModal').classList.remove('hidden');
-    let level = currentScore >= 80 ? 'S級：學霸領袖' : (currentScore >= 60 ? 'A級：進步神速' : 'B級：穩打基礎');
-    document.getElementById('scoreComment').innerText = `測驗結果：${level}！`;
-    document.getElementById('potentialLevelDisplay').innerText = level;
-    document.getElementById('finalScoreDisplay').innerText = currentScore + " 分";
-    document.getElementById('finalSubjectName').innerText = currentSubject;
-}
-
-document.getElementById('igModal').onclick = function(e) {
-    if (e.target === this) this.classList.add('hidden');
-};
 
 document.getElementById('goToResourceBtn').onclick = function() {
     document.getElementById('videoSubjectName').innerText = currentSubject;
-    document.getElementById('youtubePlayer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${VIDEO_LINKS[currentSubject]}" frameborder="0" allowfullscreen></iframe>`;
+    document.getElementById('youtubePlayer').innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${VIDEO_LINKS[currentSubject]}" frameborder="0" allowfullscreen></iframe>`;
     const plans = STUDY_PLANS[currentSubject];
-    for (let i = 1; i <= 4; i++) {
-        document.getElementById(`plan-week-${i}`).innerText = plans[i-1];
-    }
+    for(let i=1; i<=4; i++) document.getElementById(`plan-week-${i}`).innerText = plans[i-1];
     showPage('resourcePage');
 };

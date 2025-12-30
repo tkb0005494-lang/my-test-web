@@ -22,14 +22,14 @@
 
 <div id="page-user" class="page">
     <h1 class="main-title">🧧 2026 新竹大碩寒假學霸養成計畫</h1>
-    <p class="incentive-text">完成 5 題測驗，領取<strong>[專屬讀書計畫]</strong>與現金抽獎資格！</p>
+    <div class="incentive-text">完成 5 題測驗，領取<span class="highlight-gold">[專屬讀書計畫]</span>與現金抽獎資格！</div>
     
     <form id="user-form">
         <label>真實姓名</label>
         <input type="text" id="input-name" placeholder="請輸入中文姓名" required>
         
         <label>就讀大學</label>
-        <div class="radio-group">
+        <div class="radio-group-container">
             <label><input type="radio" name="uni" value="清華大學" required> 清華大學</label>
             <label><input type="radio" name="uni" value="陽明交通大學"> 陽明交通大學</label>
             <label><input type="radio" name="uni" value="其他" id="uni-other-radio"> 其他</label>
@@ -37,9 +37,9 @@
         <input type="text" id="input-uni-other" placeholder="請輸入校名" class="hidden">
 
         <label>系所 / 年級</label>
-        <div class="flex-row">
+        <div style="display: flex; gap: 10px;">
             <input type="text" id="input-dept" placeholder="例: 電機系" required>
-            <select id="input-grade" required>
+            <select id="input-grade" style="width: 100px; margin-bottom: 10px; background:#152435; color:white; border-radius:6px; border:1px solid #4a6886;">
                 <option value="大一">大一</option>
                 <option value="大二">大二</option>
                 <option value="大三">大三</option>
@@ -50,51 +50,47 @@
         <label>聯絡手機</label>
         <input type="tel" id="input-phone" placeholder="09xxxxxxxx" required>
         
-        <button type="submit" class="btn-primary">立即領取 $500 紅包測驗</button>
+        <button type="submit" class="start-btn">立即開始測驗</button>
         <p id="form-error" class="error-msg hidden"></p>
     </form>
 </div>
 
 <div id="page-subject" class="page hidden">
-    <h1 class="accent-title">🎯 請選擇挑戰科目</h1>
+    <h2 class="main-title">🎯 選擇挑戰科目</h2>
     <div id="subject-grid" class="subject-grid"></div>
 </div>
 
 <div id="page-quiz" class="page hidden">
-    <div class="quiz-header">
-        <h2 id="quiz-title">測驗中...</h2>
-        <span class="badge">單選題</span>
-    </div>
+    <h2 id="quiz-title" class="main-title" style="font-size: 1.5em;"></h2>
     <div id="quiz-container"></div>
-    <div id="quiz-result-box" class="hidden">
-        <div class="score-display">您的分數：<span id="final-score">0</span></div>
-        <p id="potential-comment"></p>
-        <div class="ig-promo">
-            <p>🎁 截圖此畫面傳至 IG 限動並標記 <strong>@daso.hsinchu</strong></p>
-            <p class="gold-text">完成即獲第一次抽獎資格！</p>
+    
+    <div id="quiz-result-box" class="quiz-result hidden">
+        <div class="main-title" style="font-size: 2.5em; margin: 20px 0;">
+            <span id="final-score">0</span> 分
         </div>
-        <button id="btn-go-resource" class="btn-primary">領取分析報告 & 加碼抽獎</button>
+        <div id="potential-comment" style="padding: 15px; background: #2c445c; border-radius: 8px; line-height: 1.8;"></div>
+        <button id="btn-go-resource" class="resource-btn">查看完整分析報告</button>
     </div>
 </div>
 
 <div id="page-resource" class="page hidden">
-    <div class="potential-banner">
-        <h2>🔥 潛能等級：<span id="potential-level"></span></h2>
+    <h2 class="main-title">📊 專屬診斷報告</h2>
+    
+    <div class="incentive-text">
+        您的潛能等級：<span id="potential-level-display" class="highlight-gold" style="font-size: 1.2em; font-weight: bold;"></span>
     </div>
 
-    <div class="video-section">
-        <h3>🎥 專屬補強課程試聽</h3>
-        <div id="yt-player" class="video-container"></div>
-    </div>
+    <h3 style="color:var(--color-accent)">🎥 推薦補強課程</h3>
+    <div id="yt-player" style="aspect-ratio: 16/9; background: #000; margin-bottom: 25px; border-radius: 8px; overflow: hidden;"></div>
 
-    <div class="plan-section">
-        <h3>📅 寒假 4 週補強計畫</h3>
-        <p class="weakness-text">針對弱點：<span id="weakness-list"></span></p>
-        <div id="plan-grid" class="plan-grid"></div>
-    </div>
+    <h3 style="color:var(--color-accent)">📅 寒假 4 週補強計畫</h3>
+    <p style="font-size: 0.9em; color: var(--color-text-muted);">針對弱點：<span id="weakness-list" class="highlight-gold"></span></p>
+    
+    <div id="plan-container" class="plan-container">
+        </div>
 
-    <a id="line-link" href="#" target="_blank" class="btn-line">
-        💬 LINE 預約線上諮詢 (抽現金 500)
+    <a id="line-link" href="#" target="_blank" class="resource-btn" style="text-decoration: none; display: block; text-align: center; background: #06C755; box-shadow: 0 4px 10px rgba(6,199,85,0.4);">
+        💬 LINE 預約諮詢 (領取抽獎序號)
     </a>
 </div>
 

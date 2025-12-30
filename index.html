@@ -28,10 +28,6 @@
         <span>🌟 新年快樂！Happy New Year！祝您新的一年金榜題名！</span>
     </div>
 
-    <div style="background: #2c445c; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffd700;">
-        <p style="margin: 0; font-weight: bold; color: #ffd700;">👇 請先建立您的檔案 (所有欄位必填)</p>
-    </div>
-
     <form id="userInfoForm">
         <label for="userName">姓名:</label>
         <input type="text" id="userName" placeholder="請輸入真實姓名" required>
@@ -40,20 +36,20 @@
         <div class="radio-group-container">
             <input type="radio" name="userUniversity" value="清華大學" id="uniNTHU" required> <label for="uniNTHU">清華大學</label>
             <input type="radio" name="userUniversity" value="陽明交通大學" id="uniNYCU"> <label for="uniNYCU">陽明交通大學</label>
-            <input type="radio" name="userUniversity" value="其他" id="uniOther"> <label for="uniOther">其他 (請填寫校名)</label>
+            <input type="radio" name="userUniversity" value="其他" id="uniOther"> <label for="uniOther">其他</label>
         </div>
-        <input type="text" id="uniOtherText" placeholder="請輸入大學名稱" style="width: 98%; margin-top: 5px;" disabled>
+        <input type="text" id="uniOtherText" placeholder="請輸入大學名稱" disabled>
 
         <label for="userDepartment">就讀系所:</label>
         <input type="text" id="userDepartment" placeholder="例: 電機工程學系" required>
 
         <label for="userPhone">聯絡手機:</label>
         <input type="tel" id="userPhone" placeholder="09xxxxxxxx" required>
+        
         <p class="privacy-note">🔒 我們承諾您的資料只用於本次活動通知，絕不外洩。</p>
 
         <button type="submit" class="start-btn">立即免費測驗，領取 $500 紅包</button>
     </form>
-    <p id="formError" style="color: #0d1a26; margin-top: 10px; display: none; text-align: center; background: #ffeb3b; padding: 10px; border-radius: 5px;">請完整填寫所有欄位。</p>
 </div>
 
 <div id="subjectSelectPage" class="page hidden">
@@ -73,7 +69,6 @@
 <div id="quizPage" class="page hidden">
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #5d7c99; padding-bottom: 10px; margin-bottom: 20px;">
         <h2 id="quizTitle" style="margin: 0; color: #ffd700;">測驗中... </h2>
-        <span style="background: #4a6886; color: #f0f8ff; padding: 5px 10px; border-radius: 15px; font-size: 0.9em; font-weight: bold;">單選題</span>
     </div>
     <div id="quiz-content"></div>
     <div id="quiz-result" class="quiz-result hidden">
@@ -102,8 +97,8 @@
                 最終分數：<strong id="finalScoreDisplay" class="highlight-text"></strong>
             </p>
         </div>
-        <div id="videoContainer" style="margin-top: 25px; text-align: center;">
-            <p style="color: #f0f8ff; margin-bottom: 10px;">🎥 正在播放：<span id="videoSubjectName"></span> 考情分析</p>
+        <div id="videoContainer" style="margin-top: 20px; text-align: center;">
+            <p style="color: #f0f8ff; margin-bottom: 10px;">🎥 考情分析：<span id="videoSubjectName"></span></p>
             <div id="youtubePlayer" class="video-frame"></div>
         </div>
     </div>
@@ -112,17 +107,17 @@
         <h3 style="text-align: center; color: #ffeb3b; margin-top: 0;">🚀 潛能等級專屬獎勵</h3>
         <ul class="reward-list">
             <li class="reward-item-special">
-                <strong>🏆 【限時 24hr 加碼】預約線上諮詢</strong>
-                <p>中獎率提升 50%！再抽現金 500 元與 7-11 禮券！</p>
+                <strong>🏆 【限時 24hr】機會 2: 預約線上諮詢</strong>
+                <p>完成諮詢中獎率提升 50%！現金紅包、7-11 禮券現場抽。</p>
             </li>
             <li class="reward-item">
-                <strong class="urgent-text">🔥 報名優惠最後倒數！</strong>
-                <p>限時 72 小時內完成報名，即享 $2,000 折抵金！逾時不補！</p>
+                <strong class="urgent-text">⚠️ 警告：最後報名折扣倒數！</strong>
+                <p>只需在 72 小時內點擊下方按鈕報名，立享 $2,000 折抵，錯過恢復原價！</p>
             </li>
         </ul>
         <a id="lineCtaButton" href="https://lin.ee/Oj42w8M" target="_blank" class="line-btn-anchor">
             <button class="line-btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" width="24" height="24">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg" width="24">
                 LINE 立即預約諮詢
             </button>
         </a>
@@ -145,9 +140,9 @@
         <p>請將分數頁面<strong>截圖</strong>並發布 IG 限動</p>
         <p>標記 <span style="color: #ffeb3b;">@hsinchu.daso</span> 即可抽獎！</p>
         <a href="https://www.instagram.com/hsinchu.daso/" target="_blank">
-            <img src="ig-icon.png" alt="IG Icon" width="80" class="ig-pulse">
+            <img src="ig-icon.png" alt="IG" width="80" class="ig-pulse">
         </a>
-        <p style="font-size: 0.8em; color: #b0c4de; margin-top: 10px;">(點擊超連結前往官方 IG / 點擊背景關閉)</p>
+        <p style="font-size: 0.8em; color: #b0c4de; margin-top: 10px;">(點擊圖標前往官方 IG)</p>
     </div>
 </div>
 

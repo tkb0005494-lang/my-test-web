@@ -7,7 +7,6 @@ const FORM_IDS = {
     FORM_A_PHONE: 'entry.1253545059',
     FORM_A_UNI: 'entry.651877505',
     FORM_A_GRADE: 'entry.247937200',
-    // 已移除表單 B 的 ID
     HTML_UNI_RADIO_NAME: 'userUniversity',
     HTML_GRADE_RADIO_NAME: 'userGrade',
     HTML_NAME_ID: 'userName',
@@ -65,17 +64,17 @@ const ALL_QUIZ_DATA = [
         ]
     },
     // --- 線性代數 (Science) ---
-    { subject: "Science", topic: "對稱矩陣", question: "什麼矩陣滿足 $A^T = A$？", answerOptions: [{ text: "對稱矩陣", isCorrect: true, rationale: "定義即為此。" }, { text: "反對稱矩陣", isCorrect: false }, { text: "正交矩陣", isCorrect: false }, { text: "單位矩陣", isCorrect: false }] },
-    { subject: "Science", topic: "行列式", question: "若矩陣兩行互換，行列式值會？", answerOptions: [{ text: "變號", isCorrect: true, rationale: "行列式性質。" }, { text: "不變", isCorrect: false }, { text: "變為 0", isCorrect: false }, { text: "平方", isCorrect: false }] },
-    { subject: "Science", topic: "向量獨立", question: "兩向量平行，則它們是？", answerOptions: [{ text: "線性相依", isCorrect: true, rationale: "其中一個是另一個的倍數。" }, { text: "線性獨立", isCorrect: false }, { text: "相互正交", isCorrect: false }, { text: "單位向量", isCorrect: false }] },
-    { subject: "Science", topic: "特徵向量", question: "$A\mathbf{v} = \lambda\mathbf{v}$，其中 $\mathbf{v}$ 不能為？", answerOptions: [{ text: "零向量", isCorrect: true, rationale: "特徵向量定義必須是非零向量。" }, { text: "單位向量", isCorrect: false }, { text: "複數向量", isCorrect: false }, { text: "正交向量", isCorrect: false }] },
-    { subject: "Science", topic: "正交矩陣", question: "正交矩陣的行列式值必為？", answerOptions: [{ text: "$\pm 1$", isCorrect: true, rationale: "因為 $\det(A^T A) = \det(I) = 1$。" }, { text: "$0$", isCorrect: false }, { text: "只能是 1", isCorrect: false }, { text: "不一定", isCorrect: false }] },
+    { subject: "Science", topic: "對稱矩陣", question: "什麼矩陣滿足 $A^T = A$？", answerOptions: [{ text: "對稱矩陣", isCorrect: true, rationale: "定義。" }, { text: "反對稱", isCorrect: false }, { text: "正交", isCorrect: false }, { text: "單位", isCorrect: false }] },
+    { subject: "Science", topic: "行列式", question: "若矩陣兩行互換，行列式值會？", answerOptions: [{ text: "變號", isCorrect: true, rationale: "行列式性質。" }, { text: "不變", isCorrect: false }, { text: "變 0", isCorrect: false }, { text: "平方", isCorrect: false }] },
+    { subject: "Science", topic: "向量獨立", question: "兩向量平行，則它們是？", answerOptions: [{ text: "線性相依", isCorrect: true }, { text: "線性獨立", isCorrect: false }, { text: "正交", isCorrect: false }, { text: "單位", isCorrect: false }] },
+    { subject: "Science", topic: "特徵向量", question: "$A\mathbf{v} = \lambda\mathbf{v}$，其中 $\mathbf{v}$ 不能為？", answerOptions: [{ text: "零向量", isCorrect: true }, { text: "單位向量", isCorrect: false }, { text: "複數向量", isCorrect: false }, { text: "正交向量", isCorrect: false }] },
+    { subject: "Science", topic: "正交矩陣", question: "正交矩陣的行列式值必為？", answerOptions: [{ text: "$\pm 1$", isCorrect: true }, { text: "$0$", isCorrect: false }, { text: "1", isCorrect: false }, { text: "不一定", isCorrect: false }] },
     // --- 計算機概論 (History) ---
-    { subject: "History", topic: "RAM", question: "哪種記憶體斷電後資料會消失？", answerOptions: [{text: "RAM", isCorrect: true, rationale: "揮發性記憶體。"}, {text: "ROM", isCorrect: false}, {text: "HDD", isCorrect: false}, {text: "SSD", isCorrect: false}] },
-    { subject: "History", topic: "HTTP", question: "網頁傳輸協定是？", answerOptions: [{text: "HTTP", isCorrect: true, rationale: "HyperText Transfer Protocol。"}, {text: "FTP", isCorrect: false}, {text: "SMTP", isCorrect: false}, {text: "DNS", isCorrect: false}] },
-    { subject: "History", topic: "OS", question: "下列何者不屬於 OS？", answerOptions: [{text: "Chrome", isCorrect: true, rationale: "這是瀏覽器(應用程式)。"}, {text: "Windows", isCorrect: false}, {text: "Linux", isCorrect: false}, {text: "macOS", isCorrect: false}] },
-    { subject: "History", topic: "DataStructure", question: "FIFO 是哪種結構？", answerOptions: [{text: "Queue", isCorrect: true, rationale: "佇列。"}, {text: "Stack", isCorrect: false}, {text: "Tree", isCorrect: false}, {text: "Graph", isCorrect: false}] },
-    { subject: "History", topic: "Binary", question: "二進位 1010 是十進位的？", answerOptions: [{text: "10", isCorrect: true, rationale: "8+2=10。"}, {text: "8", isCorrect: false}, {text: "12", isCorrect: false}, {text: "14", isCorrect: false}] },
+    { subject: "History", topic: "RAM", question: "哪種記憶體斷電後資料會消失？", answerOptions: [{text: "RAM", isCorrect: true}, {text: "ROM", isCorrect: false}, {text: "HDD", isCorrect: false}, {text: "SSD", isCorrect: false}] },
+    { subject: "History", topic: "HTTP", question: "網頁傳輸協定是？", answerOptions: [{text: "HTTP", isCorrect: true}, {text: "FTP", isCorrect: false}, {text: "SMTP", isCorrect: false}, {text: "DNS", isCorrect: false}] },
+    { subject: "History", topic: "OS", question: "下列何者不屬於 OS？", answerOptions: [{text: "Chrome", isCorrect: true}, {text: "Windows", isCorrect: false}, {text: "Linux", isCorrect: false}, {text: "macOS", isCorrect: false}] },
+    { subject: "History", topic: "DataStructure", question: "FIFO 是哪種結構？", answerOptions: [{text: "Queue", isCorrect: true}, {text: "Stack", isCorrect: false}, {text: "Tree", isCorrect: false}, {text: "Graph", isCorrect: false}] },
+    { subject: "History", topic: "Binary", question: "二進位 1010 是十進位的？", answerOptions: [{text: "10", isCorrect: true}, {text: "8", isCorrect: false}, {text: "12", isCorrect: false}, {text: "14", isCorrect: false}] },
     // --- 微積分 (English) ---
     { subject: "English", topic: "微分", question: "$\frac{d}{dx} \ln(x) = $？", answerOptions: [{text: "$1/x$", isCorrect: true}, {text: "$e^x$", isCorrect: false}, {text: "$x$", isCorrect: false}, {text: "$1/x^2$", isCorrect: false}] },
     { subject: "English", topic: "積分", question: "$\int e^x dx = $？", answerOptions: [{text: "$e^x + C$", isCorrect: true}, {text: "$\ln(x)$", isCorrect: false}, {text: "$xe^x$", isCorrect: false}, {text: "$e^{x+1}$", isCorrect: false}] },
@@ -96,7 +95,6 @@ const ALL_QUIZ_DATA = [
     { subject: "Geography", topic: "機會成本", question: "做出選擇時放棄的最高價值？", answerOptions: [{text: "機會成本", isCorrect: true}, {text: "會計成本", isCorrect: false}, {text: "邊際成本", isCorrect: false}, {text: "固定成本", isCorrect: false}] }
 ];
 
-// === C. 常數與變數 ===
 const VIDEO_LINKS = {
     Math: { title: "工程數學 - 周易 老師", youtubeId: "LiW8jvHZ7o4" },
     Science: { title: "線性代數 - 周易 老師", youtubeId: "dW4cUVU089Q" },
@@ -112,7 +110,7 @@ let answeredQuestions = new Set();
 let wrongQuestionsData = [];
 let startTime;
 
-// === D. 頁面控制 ===
+// --- 頁面控制 ---
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
@@ -122,7 +120,7 @@ function showPage(pageId) {
     }
 }
 
-// === E. 提交資料函數 ===
+// --- 提交資料 ---
 async function submitToGoogle(url, data) {
     const body = new URLSearchParams();
     for (const key in data) body.append(key, data[key]);
@@ -132,7 +130,7 @@ async function submitToGoogle(url, data) {
     } catch (e) { return false; }
 }
 
-// === F. 事件監聽 (提交表單 A) ===
+// --- 表單提交 (表單 A) ---
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const name = document.getElementById(FORM_IDS.HTML_NAME_ID).value;
@@ -152,13 +150,12 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
         [FORM_IDS.FORM_A_GRADE]: grade
     };
 
-    // 僅提交表單 A
     await submitToGoogle(GOOGLE_FORM_A_URL, data);
     startTime = Date.now();
     showPage('subjectSelectPage');
 });
 
-// "其他" 大學輸入框邏輯
+// "其他" 大學邏輯
 document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEach(r => {
     r.addEventListener('change', function() {
         const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
@@ -167,7 +164,7 @@ document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEa
     });
 });
 
-// 科目選擇按鈕
+// 科目選擇
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
         currentSubject = this.getAttribute('data-subject');
@@ -175,7 +172,7 @@ document.querySelectorAll('.subject-button').forEach(btn => {
     });
 });
 
-// === G. 測驗引擎 ===
+// --- 測驗引擎 ---
 function startQuiz(subject) {
     currentScore = 0;
     answeredQuestions.clear();
@@ -185,7 +182,7 @@ function startQuiz(subject) {
     const container = document.getElementById('quiz-content');
     container.innerHTML = '';
     
-    document.getElementById('quizTitle').innerText = `正在挑戰：${subject === 'Math' ? '工程數學' : (subject === 'Science' ? '線性代數' : '精選測驗')}`;
+    document.getElementById('quizTitle').innerText = `正在挑戰：${subject === 'Math' ? '工程數學' : '精選測驗'}`;
     document.getElementById('quiz-result').classList.add('hidden');
 
     quizList.forEach((q, index) => {
@@ -244,34 +241,28 @@ function handleAnswer() {
 
 function showFinalResult() {
     document.getElementById('score').innerText = currentScore;
-    let comment = "";
-    let level = "";
-    if (currentScore >= 80) { level = "S 級"; comment = "學霸潛能全開！你非常適合挑戰頂大研究所。"; }
-    else if (currentScore >= 60) { level = "A 級"; comment = "基礎扎實，只要加強進階題型就能脫穎而出。"; }
-    else { level = "B 級"; comment = "還有很大的進步空間，現在開始複習還來得及！"; }
-    
-    document.getElementById('scoreComment').innerText = comment;
+    let level = currentScore >= 80 ? "S 級" : (currentScore >= 60 ? "A 級" : "B 級");
     document.getElementById('potentialLevelDisplay').innerText = level;
     document.getElementById('quiz-result').classList.remove('hidden');
-
-    // 已移除表單 B 的提交邏輯
 }
 
-document.getElementById('goToResourceBtn').addEventListener('click', () => showPage('resourcePage'));
+// 重要修正：確保「領取分析」按鈕有監聽器
+document.getElementById('goToResourceBtn').addEventListener('click', () => {
+    showPage('resourcePage');
+});
 
-// === H. 計畫生成 ===
+// --- 計畫與 YouTube ---
 function generateStudyPlan() {
     const weakness = wrongQuestionsData.map(d => d.topic).join('、') || '基礎觀念';
     document.getElementById('weaknessTag').innerText = weakness;
-
-    document.getElementById('plan-week-1').innerHTML = `<ul><li>複習 ${currentSubject} 核心定義</li><li>整理個人筆記</li></ul>`;
-    document.getElementById('plan-week-2').innerHTML = `<ul><li>攻克 ${weakness} 相關題型</li><li>參加大碩模擬考</li></ul>`;
-    document.getElementById('plan-week-3').innerHTML = `<ul><li>跨章節觀念整合</li><li>建立公式心智圖</li></ul>`;
-    document.getElementById('plan-week-4').innerHTML = `<ul><li>近五年考古題實戰</li><li>調整考試作息</li></ul>`;
+    document.getElementById('plan-week-1').innerHTML = `<ul><li>複習 ${currentSubject} 核心定義</li></ul>`;
+    document.getElementById('plan-week-2').innerHTML = `<ul><li>攻克 ${weakness} 題型</li></ul>`;
+    document.getElementById('plan-week-3').innerHTML = `<ul><li>跨章節整合</li></ul>`;
+    document.getElementById('plan-week-4').innerHTML = `<ul><li>實戰模擬考</li></ul>`;
 }
 
 function initYouTube() {
-    const vid = VIDEO_LINKS[currentSubject].youtubeId;
+    const vid = VIDEO_LINKS[currentSubject]?.youtubeId || "LiW8jvHZ7o4";
     document.getElementById('youtubePlayer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen></iframe>`;
 }
 

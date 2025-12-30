@@ -1,81 +1,75 @@
 :root {
-    --bg: #0d1a26;
-    --card: #1c2e40;
-    --gold: #ffd700;
-    --bright-gold: #ffeb3b;
-    --text: #f0f8ff;
-    --muted: #b0c4de;
-    --line: #06C755;
+    --color-primary: #0d1a26;
+    --color-secondary: #1c2e40;
+    --color-accent: #ffd700;
+    --color-highlight: #ffeb3b;
+    --color-text-light: #f0f8ff;
+    --color-text-muted: #b0c4de;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Microsoft JhengHei', sans-serif;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
+    font-family: '微軟正黑體', sans-serif;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    margin: 0; padding: 20px; line-height: 1.6;
+    display: flex; justify-content: center; min-height: 100vh;
 }
 
 .page {
-    width: 100%;
-    max-width: 600px;
-    background: var(--card);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    margin-top: 50px;
+    width: 100%; max-width: 600px;
+    background-color: var(--color-secondary);
+    padding: 30px 25px; border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin: 20px 0;
 }
 
 .hidden { display: none !important; }
 
-/* 標題樣式 */
-.main-title { color: var(--gold); text-align: center; font-size: 1.8em; }
-.accent-title { color: var(--gold); text-align: center; }
+/* 標題與文字 */
+.main-title { color: var(--color-accent); text-align: center; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+.incentive-text { text-align: center; padding: 15px; background: #2c445c; border-radius: 6px; margin-bottom: 20px; }
+.highlight-gold { color: var(--color-highlight); }
 
 /* 表單 */
-label { display: block; margin: 15px 0 5px; color: var(--gold); font-weight: bold; }
-input, select {
-    width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #4a6886;
-    background: #152435; color: white; box-sizing: border-box;
+label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; color: var(--color-accent); }
+input[type="text"], input[type="tel"], input[type="tel"] {
+    width: 100%; padding: 12px; border: 1px solid #4a6886; border-radius: 6px;
+    background-color: #152435; color: white; box-sizing: border-box; margin-bottom: 10px;
 }
-
-.radio-group { background: #2c445c; padding: 10px; border-radius: 8px; margin-bottom: 10px; }
-.flex-row { display: flex; gap: 10px; }
+.radio-group-container { display: flex; flex-wrap: wrap; gap: 10px; padding: 10px; background: #2c445c; border-radius: 6px; }
 
 /* 按鈕 */
-.btn-primary {
+.start-btn, .resource-btn {
     width: 100%; padding: 15px; margin-top: 20px; border: none; border-radius: 8px;
-    background: var(--bright-gold); color: var(--bg); font-weight: bold; font-size: 1.1em;
-    cursor: pointer; transition: 0.3s;
+    background-color: var(--color-highlight); color: var(--color-primary);
+    font-size: 1.2em; font-weight: bold; cursor: pointer; transition: 0.2s;
 }
-.btn-line {
-    display: block; text-align: center; text-decoration: none; background: var(--line);
-    color: white; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 20px;
+
+/* 測驗 */
+.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.subject-button {
+    background: #2c445c; border: 2px solid #4a6886; border-radius: 8px; color: white;
+    padding: 20px; cursor: pointer; text-align: center; transition: 0.2s;
 }
+.subject-button:hover { border-color: var(--color-accent); transform: translateY(-3px); }
+
+.question-card { background: #152435; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #4a6886; }
+.option-item { background: #2c445c; padding: 12px; margin-bottom: 8px; border-radius: 6px; cursor: pointer; border: 1px solid #2c445c; }
+.option-item.correct { background-color: #008000; box-shadow: 0 0 0 3px #06C755; }
+.option-item.incorrect { background-color: #d32f2f; }
+.rationale { background: #1c2e40; border-left: 4px solid var(--color-highlight); padding: 10px; margin-top: 10px; font-size: 0.9em; }
+
+/* 讀書計畫 (你的排版) */
+.plan-container { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; }
+.plan-week { background-color: #152435; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.week-title { background-color: #2c445c; color: var(--color-accent); padding: 10px 15px; font-weight: bold; border-bottom: 1px solid #4a6886; }
+.week-content { padding: 15px; }
+.week-content ul { list-style: none; padding: 0; margin: 0; }
+.week-content li { margin-bottom: 8px; padding-left: 20px; position: relative; color: var(--color-text-muted); font-size: 0.95em; }
+.week-content li::before { content: "✔️"; position: absolute; left: 0; color: var(--color-highlight); }
 
 /* 懸浮通知 */
-.toast {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    background: rgba(255,255,255,0.9); color: #333; padding: 10px 20px;
-    border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000;
-}
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #fff; color: #333; padding: 10px 20px; border-radius: 50px; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+.toast-timer { position: fixed; bottom: 0; left: 0; width: 100%; background: #800000; color: white; text-align: center; padding: 8px; font-size: 0.9em; z-index: 1000; font-weight: bold; }
 
-.toast-timer {
-    position: fixed; bottom: 0; left: 0; width: 100%; background: #800000;
-    color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 0.9em;
-}
-
-/* 測驗樣式 */
-.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.sub-btn { background: #2c445c; border: 1px solid var(--gold); color: white; padding: 20px; border-radius: 10px; cursor: pointer; }
-
-.question-card { background: #152435; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-.option { background: #2c445c; padding: 12px; margin: 8px 0; border-radius: 6px; cursor: pointer; }
-.option.correct { background: #28a745; }
-.option.incorrect { background: #dc3545; }
-
-/* 計畫樣式 */
-.plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-.plan-item { background: #152435; padding: 15px; border-radius: 8px; border-left: 4px solid var(--gold); }
+@media (min-width: 600px) { .plan-container { grid-template-columns: 1fr 1fr; } }

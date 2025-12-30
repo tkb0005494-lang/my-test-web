@@ -1,373 +1,69 @@
-/* 基礎顏色定義 */
 :root {
-    --color-primary: #0d1a26; /* 深藍色 - 背景色 */
-    --color-secondary: #1c2e40; /* 略淺的深藍 - 內容背景 */
-    --color-accent: #ffd700; /* 金色 - 強調色 */
-    --color-highlight: #ffeb3b; /* 亮金色 - 極度強調 */
-    --color-text-light: #f0f8ff; /* 淺色文本 */
-    --color-text-muted: #b0c4de; /* 柔和淺色文本 */
-    --color-error: #ffeb3b; /* 錯誤提示 (文字) */
-    --color-error-bg: #800000; /* 錯誤提示 (背景) */
-    --color-success: #06C755; /* 成功/LINE 綠色 */
+    --color-primary: #0d1a26;
+    --color-secondary: #1c2e40;
+    --color-accent: #ffd700;
+    --color-highlight: #ffeb3b;
+    --color-text-light: #f0f8ff;
+    --color-text-muted: #b0c4de;
 }
 
-/* 整個頁面樣式 */
 body {
-    font-family: '微軟正黑體', 'Microsoft JhengHei', Arial, sans-serif;
-    background-color: var(--color-primary); /* 深藍色背景 */
-    color: var(--color-text-light); /* 淺色字體 */
-    padding: 20px;
-    margin: 0;
-    line-height: 1.6;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    font-family: '微軟正黑體', Arial, sans-serif;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh;
 }
 
-/* 內容容器 */
 .page {
-    width: 100%;
-    max-width: 600px;
-    background-color: var(--color-secondary); /* 略淺的深藍內容背景 */
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    margin: 20px 0;
-    transition: opacity 0.3s, transform 0.3s;
+    width: 100%; max-width: 600px;
+    background-color: var(--color-secondary);
+    padding: 30px 25px; border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); margin: 20px 0;
 }
 
-.hidden {
-    display: none;
+.hidden { display: none; }
+
+/* 標題與內文 */
+.main-title { color: var(--color-accent); font-size: 1.8em; text-align: center; }
+.incentive-text { text-align: center; background: #2c445c; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.95em; line-height: 1.5; }
+.highlight-gold { color: var(--color-highlight); font-weight: bold; }
+
+/* 表單元件 */
+label { display: block; margin: 15px 0 5px; font-weight: bold; color: var(--color-accent); }
+input[type="text"], input[type="tel"] { width: 95%; padding: 12px; background: #152435; color: white; border: 1px solid #4a6886; border-radius: 6px; }
+.radio-group-container { display: flex; flex-wrap: wrap; gap: 10px; background: #2c445c; padding: 10px; border-radius: 6px; margin: 10px 0; }
+
+.start-btn, .resource-btn { width: 100%; padding: 15px; background: var(--color-highlight); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.1em; }
+
+/* 科目選單 */
+.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.subject-button { padding: 20px; background: #2c445c; border: 1px solid #4a6886; color: white; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+.subject-button:hover { border-color: var(--color-accent); transform: translateY(-3px); }
+
+/* 題目卡片 */
+.question-card { background: #152435; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #4a6886; }
+.option-item { padding: 12px; background: #2c445c; margin-bottom: 8px; border-radius: 6px; cursor: pointer; }
+.option-item.correct { background: #06C755 !important; }
+.option-item.incorrect { background: #d32f2f !important; }
+.rationale { opacity: 0; max-height: 0; transition: 0.5s; overflow: hidden; background: #0d1a26; border-radius: 5px; }
+.rationale.visible { opacity: 1; max-height: 200px; padding: 10px; margin-top: 10px; }
+
+/* 讀書計畫頁面 */
+.plan-week { background: #152435; border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid #4a6886; }
+.week-title { background: #2c445c; color: var(--color-accent); padding: 10px; font-weight: bold; }
+.week-content { padding: 10px; font-size: 0.9em; }
+
+/* 懸浮通知系統 */
+.notification-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.4s ease;
 }
-
-/* 標題與強調文字 */
-.main-title {
-    color: var(--color-accent); /* 金色主標題 */
-    font-size: 2em;
-    margin-bottom: 5px;
-    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+.notification-overlay.visible { opacity: 1; }
+.notification-content {
+    background: var(--color-secondary); padding: 30px; border-radius: 20px;
+    border: 2px solid var(--color-accent); text-align: center; width: 320px;
 }
-
-.incentive-text {
-    text-align: center;
-    font-size: 1.05em;
-    padding: 10px;
-    background-color: #2c445c; /* 深藍色區塊背景 */
-    border-radius: 6px;
-    margin-bottom: 20px;
-    color: var(--color-text-light); /* 淺色文字 */
-}
-
-.highlight-gold {
-    color: var(--color-highlight); /* 亮金色強調 */
-}
-
-.social-proof {
-    text-align: center;
-    font-size: 0.9em;
-    color: var(--color-text-muted);
-    margin-bottom: 20px;
-}
-
-/* --- Form Styles (userInfoPage) --- */
-
-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--color-accent); /* 金色標籤 */
-}
-
-input[type="text"],
-input[type="tel"],
-#uniOtherText,
-#userDepartment {
-    width: 98%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border: 1px solid #4a6886; /* 邊框顏色 */
-    border-radius: 6px;
-    background-color: #152435; /* 輸入框背景 */
-    color: var(--color-text-light); /* 輸入文字顏色 */
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-}
-
-input[type="text"]:focus,
-input[type="tel"]:focus,
-#uniOtherText:focus,
-#userDepartment:focus {
-    border-color: var(--color-highlight);
-    outline: none;
-}
-
-.radio-group-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 15px;
-    padding: 8px;
-    background-color: #2c445c; /* 單選框背景 */
-    border-radius: 6px;
-}
-
-.radio-group-container label {
-    margin: 0;
-    color: var(--color-text-light); /* 單選框標籤文字顏色 */
-    font-weight: normal;
-}
-
-.privacy-note {
-    color: var(--color-text-muted);
-    font-size: 0.9em;
-    margin-top: -10px;
-    text-align: center;
-}
-
-.start-btn {
-    width: 100%;
-    padding: 15px;
-    margin-top: 20px;
-    background-color: var(--color-highlight); /* 亮金色按鈕 */
-    color: var(--color-primary); /* 深藍色文字 */
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 235, 59, 0.4);
-    transition: background-color 0.2s, transform 0.2s;
-}
-
-.start-btn:hover {
-    background-color: #fff176; /* 稍微變淺 */
-    transform: translateY(-2px);
-}
-
-/* --- Subject Select Page --- */
-
-.subject-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.subject-button {
-    background-color: #2c445c; /* 深藍色科目按鈕背景 */
-    color: var(--color-text-light);
-    border: 2px solid #4a6886;
-    border-radius: 8px;
-    padding: 20px 10px;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.subject-button:hover {
-    background-color: #3b5a77;
-    border-color: var(--color-accent); /* 金色邊框懸停效果 */
-    transform: translateY(-3px);
-}
-
-.subject-icon {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-    color: var(--color-accent); /* 金色圖標 */
-}
-
-/* --- Quiz Page --- */
-
-.question-card {
-    background-color: #152435; /* 題目背景 */
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    border: 1px solid #4a6886;
-}
-
-.question-text {
-    font-size: 1.15em;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: var(--color-text-light);
-}
-
-.options-list {
-    list-style: none;
-    padding: 0;
-}
-
-.option-item {
-    background-color: #2c445c; /* 選項背景 */
-    color: var(--color-text-light);
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-    border: 1px solid #2c445c;
-}
-
-.option-item:hover {
-    background-color: #3b5a77;
-}
-
-.option-item.selected {
-    box-shadow: 0 0 0 2px var(--color-accent); /* 選中時的金色邊框 */
-}
-
-.option-item.correct {
-    background-color: #008000; /* 綠色正確答案 */
-    color: white;
-    box-shadow: 0 0 0 3px #06C755;
-    pointer-events: none; /* 答題後鎖定 */
-}
-
-.option-item.incorrect {
-    background-color: #d32f2f; /* 紅色錯誤答案 */
-    color: white;
-    box-shadow: 0 0 0 3px #d32f2f;
-    pointer-events: none;
-}
-
-.rationale {
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #1c2e40; /* 解析背景色 */
-    border-left: 4px solid var(--color-highlight); /* 金色邊條 */
-    font-size: 0.95em;
-    color: var(--color-text-muted);
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: opacity 0.4s, max-height 0.4s;
-}
-
-.rationale.visible {
-    opacity: 1;
-    max-height: 200px; /* 根據內容調整，確保能展開 */
-    color: var(--color-text-light);
-}
-
-/* 測驗結果頁 */
-.quiz-result {
-    text-align: center;
-    padding: 20px 0;
-}
-
-.resource-btn {
-    width: 100%;
-    padding: 15px;
-    margin-top: 25px;
-    background-color: var(--color-accent); /* 金色按鈕 */
-    color: var(--color-primary); /* 深藍色文字 */
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2em;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
-    transition: background-color 0.2s, transform 0.2s;
-}
-
-.resource-btn:hover {
-    background-color: var(--color-highlight);
-    transform: translateY(-2px);
-}
-
-/* --- Resource Page (Study Plan) --- */
-
-.plan-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.plan-week {
-    background-color: #152435; /* 計畫區塊背景 */
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.week-title {
-    background-color: #2c445c; /* 週標題背景 */
-    color: var(--color-accent);
-    padding: 12px 15px;
-    font-weight: bold;
-    border-bottom: 1px solid #4a6886;
-}
-
-.week-content {
-    padding: 15px;
-}
-
-.week-content ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.week-content li {
-    margin-bottom: 10px;
-    padding-left: 20px;
-    position: relative;
-    color: var(--color-text-muted); /* 淺藍色內文 */
-}
-
-.week-content li::before {
-    content: "✔️"; /* 自定義項目符號 */
-    position: absolute;
-    left: 0;
-    color: var(--color-highlight); /* 金色符號 */
-}
-
-.week-content li strong {
-    color: var(--color-text-light); /* 淺色強調文字 */
-}
-
-/* 數學公式的顏色調整 (KaTeX) */
-.katex {
-    color: var(--color-text-light) !important;
-}
-
-.katex-display {
-    padding: 5px 0;
-}
-
-@media (min-width: 768px) {
-    .plan-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-/* IG 按鈕專用修飾 */
-.ig-link-btn {
-    text-decoration: none !important;
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.ig-custom-icon {
-    width: 2em;
-    height: 2em;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 8px;
-    border: 2px solid var(--color-accent);
-}
-
-.ig-link-btn span {
-    color: var(--color-text-light);
-    font-size: 0.9em;
-}
+.ig-popup-icon { width: 80px; height: 80px; margin-top: 15px; transition: 0.3s; cursor: pointer; }
+.ig-popup-icon:hover { transform: scale(1.1); }

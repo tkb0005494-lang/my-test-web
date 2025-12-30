@@ -3,121 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大碩研究所 - 潛能檢測站</title>
-    <link rel="stylesheet" href="style.css">
+    <title>2026 新竹大碩寒假學霸養成計畫</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="userInfoPage" class="page">
-        <h1 class="main-title">🚀 大碩研究所｜潛能檢測站</h1>
-        <div class="incentive-text">
-            填寫基本資料，即可開始 <span class="highlight-gold">5題微測驗</span><br>
-            解鎖您的 <span class="highlight-gold">考研潛能等級</span> 與 <span class="highlight-gold">專屬讀書計畫</span>！
+<div id="userInfoPage" class="page">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h1 class="main-title">🧧 2026 新竹大碩寒假學霸養成計畫 🧧</h1>
+        <h2 style="color: #f0f8ff; font-weight: normal; font-size: 1.1em; margin-top: 5px;">🔥 測出你的「學霸潛能值」，領取寒假專屬紅包！</h2>
+    </div>
+    <p class="incentive-text">完成 <strong>5 題</strong> 精選測驗，即可獲得 <span style="font-weight: bold;">[專屬讀書計畫]!</span><br>兌換 <span class="highlight-gold">限量學習禮包</span>及 <span class="highlight-gold">現金抽獎資格</span>！</p>
+    
+    <div class="social-proof"><span>🚀 寒假進步就靠這 5 題！目前已有 852 位同學參加</span></div>
+
+    <form id="userInfoForm">
+        <label for="userName">姓名:</label>
+        <input type="text" id="userName" name="userName" placeholder="請輸入真實姓名" required>
+
+        <label>就讀大學:</label>
+        <div class="radio-group-container">
+            <label><input type="radio" name="userUniversity" value="清華大學" required> 清華大學</label>
+            <label><input type="radio" name="userUniversity" value="陽明交通大學"> 陽明交通大學</label>
+            <label><input type="radio" name="userUniversity" value="其他"> 其他</label>
+        </div>
+        <input type="text" id="uniOtherText" placeholder="請輸入大學名稱" disabled>
+
+        <label for="userDepartment">系所/年級:</label>
+        <input type="text" id="userDepartment" placeholder="例：電機系 大三" required>
+
+        <label>目前年級:</label>
+        <div class="radio-group-container">
+            <label><input type="radio" name="userGrade" value="大一" required> 大一</label>
+            <label><input type="radio" name="userGrade" value="大二"> 大二</label>
+            <label><input type="radio" name="userGrade" value="大三"> 大三</label>
+            <label><input type="radio" name="userGrade" value="大四+"> 大四+</label>
         </div>
 
-        <form id="userInfoForm">
-            <label for="userName">真實姓名：</label>
-            <input type="text" id="userName" name="userName" placeholder="請輸入中文全名" required>
+        <label for="userPhone">聯絡手機:</label>
+        <input type="tel" id="userPhone" placeholder="09xxxxxxxx" required>
 
-            <label>就讀大學：</label>
-            <div class="radio-group-container">
-                <label><input type="radio" name="userUniversity" value="清華大學" required> 清華大學</label>
-                <label><input type="radio" name="userUniversity" value="陽明交通大學"> 陽明交通大學</label>
-                <label><input type="radio" name="userUniversity" value="其他"> 其他</label>
-            </div>
-            <input type="text" id="uniOtherText" placeholder="請輸入大學名稱" disabled>
+        <p id="formError" style="color: #ffeb3b; background: #800000; padding: 10px; border-radius: 5px; display: none;"></p>
+        
+        <button type="submit" class="start-btn">立即進入測驗</button>
+        <p class="privacy-note">🔒 您的資料僅供本次活動使用</p>
+    </form>
+</div>
 
-            <label for="userDepartment">就讀科系：</label>
-            <input type="text" id="userDepartment" placeholder="例：資工系、電機系" required>
+<div id="subjectSelectPage" class="page hidden">
+    <h1 style="text-align: center; color: var(--color-accent);">🎯 挑選你的強項科目</h1>
+    <div class="subject-grid">
+        <button class="subject-button" data-subject="Math"><span class="subject-icon">📐</span>工程數學</button>
+        <button class="subject-button" data-subject="Science"><span class="subject-icon">🔢</span>線性代數</button>
+        <button class="subject-button" data-subject="History"><span class="subject-icon">💻</span>計算機概論</button>
+        <button class="subject-button" data-subject="Geography"><span class="subject-icon">📊</span>經濟學</button>
+        <button class="subject-button" data-subject="English"><span class="subject-icon">∫</span>微積分</button>
+        <button class="subject-button" data-subject="Coding"><span class="subject-icon">📉</span>統計學</button>
+    </div>
+</div>
 
-            <label>目前年級：</label>
-            <div class="radio-group-container">
-                <label><input type="radio" name="userGrade" value="大一" required> 大一</label>
-                <label><input type="radio" name="userGrade" value="大二"> 大二</label>
-                <label><input type="radio" name="userGrade" value="大三"> 大三</label>
-                <label><input type="radio" name="userGrade" value="大四/應屆"> 大四/應屆</label>
-                <label><input type="radio" name="userGrade" value="在職/畢業"> 在職/畢業</label>
-            </div>
+<div id="quizPage" class="page hidden">
+    <h2 id="quizTitle" style="text-align: center; color: var(--color-accent);"></h2>
+    <div id="quiz-content"></div>
+    
+    <div id="quiz-result" class="quiz-result hidden">
+        <h2 style="color: var(--color-highlight);">🎉 挑戰完成！</h2>
+        <p style="font-size: 1.4em;">您的學霸分數：<span id="score" style="font-weight: bold; color: var(--color-accent);">0</span> / 100</p>
+        <p id="scoreComment" style="margin: 20px 0; line-height: 1.8;"></p>
+        
+        <div style="background: #2c445c; padding: 15px; border-radius: 8px; border: 1px solid #ffd700;">
+            <p>🎁 <strong>領取資格提示：</strong></p>
+            <p>請將此頁面<strong>截圖</strong>，發布至 IG 限動並標註 <strong>@daso.hsinchu</strong>，即可領取 $500 紅包抽獎金！</p>
+            <p id="screenshotHint" style="color: #ffd700; font-weight: bold; display: none; animation: blink 1s infinite;">✅ 已截圖完成！點擊下方領取分析</p>
+        </div>
+        <button id="goToResourceBtn" class="resource-btn">查看潛能分析與讀書計畫</button>
+    </div>
+</div>
 
-            <label for="userPhone">聯絡手機：</label>
-            <input type="tel" id="userPhone" placeholder="09xxxxxxxx" maxlength="10" required>
-            
-            <p class="privacy-note">※ 資料僅供檢測分析與通知領獎使用</p>
-            <div id="formError" style="color: #ffeb3b; display: none; margin-bottom: 10px; font-weight: bold;"></div>
-            
-            <button type="submit" class="start-btn">開始檢測</button>
-        </form>
+<div id="resourcePage" class="page hidden">
+    <h1 style="text-align: center; color: var(--color-accent);">🚀 您的專屬學霸計畫</h1>
+    <div class="incentive-text">
+        <p>潛能等級：<span id="potentialLevelDisplay" class="highlight-gold"></span></p>
+        <p>科目：<span id="finalSubjectName"></span> | 分數：<span id="finalScoreDisplay"></span></p>
     </div>
 
-    <div id="subjectSelectPage" class="page hidden">
-        <h2 class="main-title" style="text-align: center;">選擇挑戰科目</h2>
-        <div class="subject-grid">
-            <button class="subject-button" data-subject="Math"><div class="subject-icon">∑</div>工程數學</button>
-            <button class="subject-button" data-subject="Science"><div class="subject-icon">⚡</div>線性代數</button>
-            <button class="subject-button" data-subject="History"><div class="subject-icon">💻</div>計算機概論</button>
-            <button class="subject-button" data-subject="Geography"><div class="subject-icon">💰</div>經濟學</button>
-            <button class="subject-button" data-subject="English"><div class="subject-icon">∫</div>微積分</button>
-            <button class="subject-button" data-subject="Coding"><div class="subject-icon">📊</div>統計學</button>
-        </div>
+    <div class="video-section">
+        <h3 id="videoSubjectName" style="color: var(--color-accent);"></h3>
+        <p id="scoreMessage"></p>
+        <div class="youtube-container" id="youtubePlayer"></div>
     </div>
 
-    <div id="quizPage" class="page hidden">
-        <h2 id="quizTitle" class="main-title" style="font-size: 1.5em;"></h2>
-        <div id="quiz-content"></div>
-
-        <div id="quiz-result" class="quiz-result hidden">
-            <h2 style="color: #ffd700;">🎉 測驗完成！</h2>
-            <div id="screenshotHint" style="display: none; background: #800000; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 20px; animation: blink 1.5s infinite; border: 1px solid #ffeb3b;">
-                📸 <strong>請立即截圖此頁面</strong><br>並發布 IG 限動標記我們即可參加抽獎！
-            </div>
-            <div style="font-size: 1.5em; margin: 15px 0; color: #f0f8ff;">
-                您的分數：<span id="score" style="color: #ffeb3b; font-weight: bold;">0</span> / 100
-            </div>
-            <p id="scoreComment" style="font-size: 1.1em; padding: 20px; background: #2c445c; border-radius: 8px; border-left: 5px solid #ffd700; color: #f0f8ff;"></p>
-            <button id="goToResourceBtn" class="resource-btn">👉 領取完整讀書計畫與影音</button>
-        </div>
-    </div>
-
-    <div id="resourcePage" class="page hidden">
-        <h2 class="main-title">🎯 您的專屬強化方案</h2>
-        <div style="background: #2c445c; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <p>檢測科目：<span id="finalSubjectName" class="highlight-gold"></span></p>
-            <p>潛能等級：<span id="potentialLevelDisplay" class="highlight-gold"></span></p>
-            <p>建議補強：<span id="weaknessTag" style="color: #ff8a80;"></span></p>
-        </div>
-
-        <div class="incentive-text">
-            <h3 id="videoTitleText" style="margin: 0 0 10px 0;">📺 顧問精選課程</h3>
-            <div id="youtubePlayer" class="youtube-container"></div>
-        </div>
-
-        <h3 class="main-title" style="font-size: 1.5em; margin-top: 30px;">📅 四週衝刺讀書計畫</h3>
-        <div class="plan-container">
-            <div class="plan-week"><div class="week-title">第一週</div><div class="week-content" id="plan-week-1"></div></div>
-            <div class="plan-week"><div class="week-title">第二週</div><div class="week-content" id="plan-week-2"></div></div>
-            <div class="plan-week"><div class="week-title">第三週</div><div class="week-content" id="plan-week-3"></div></div>
-            <div class="plan-week"><div class="week-title">第四週</div><div class="week-content" id="plan-week-4"></div></div>
-        </div>
-
-        <a id="lineCtaButton" href="https://lin.ee/Oj42w8M" target="_blank" class="resource-btn" style="display: block; text-align: center; text-decoration: none; margin-top: 30px;">
-            💬 加入 LINE 諮詢完整課程
+    <div style="margin: 25px 0; text-align: center;">
+        <a id="lineCtaButton" href="#" target="_blank">
+            <button style="background: #06C755; color: white; border: none; padding: 15px 30px; border-radius: 30px; font-weight: bold; font-size: 1.1em; cursor: pointer; width: 100%;">💬 LINE 領取 $500 紅包與實體好禮</button>
         </a>
     </div>
 
-    <div id="igModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <h3 style="color: #ffd700; margin-top: 0;">🎁 獲得抽獎資格</h3>
-            <p>追蹤 IG + 截圖分數 + 發佈限動</p>
-            <a href="https://www.instagram.com/daso.hsinchu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" style="width: 80px; margin: 20px; cursor: pointer;">
-            </a>
-            <p style="font-size: 0.8em; color: #b0c4de;">點擊背景灰色區域關閉視窗並截圖</p>
+    <div id="studyPlanSection">
+        <h2 style="text-align: center; color: var(--color-accent);">📅 四週逆襲讀書計畫</h2>
+        <p style="text-align: center; color: var(--color-text-muted);">針對弱點單元：<span id="weaknessTag" style="color: #ffeb3b;"></span></p>
+        <div class="plan-container">
+            <div class="plan-week"><div class="week-title">Week 1</div><div class="week-content" id="plan-week-1"></div></div>
+            <div class="plan-week"><div class="week-title">Week 2</div><div class="week-content" id="plan-week-2"></div></div>
+            <div class="plan-week"><div class="week-title">Week 3</div><div class="week-content" id="plan-week-3"></div></div>
+            <div class="plan-week"><div class="week-title">Week 4</div><div class="week-content" id="plan-week-4"></div></div>
         </div>
     </div>
+</div>
 
-    <script src="script.js"></script>
+<div id="igModal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <h3 style="color: #ffd700;">📢 抽獎任務第一步</h3>
+        <p>請將目前的測驗結果<strong>「截圖」</strong></p>
+        <p>並點擊圖示標註大碩 IG 私訊我們</p>
+        <a href="https://www.instagram.com/daso.hsinchu/" target="_blank">
+            <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="80" style="margin: 15px 0;">
+        </a>
+        <p style="font-size: 0.8em; color: #b0c4de;">(完成截圖後，點擊背景關閉此視窗)</p>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

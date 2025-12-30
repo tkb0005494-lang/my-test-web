@@ -20,7 +20,7 @@
 
         <form id="userInfoForm">
             <label for="userName">真實姓名：</label>
-            <input type="text" id="userName" placeholder="請輸入中文全名" required>
+            <input type="text" id="userName" name="userName" placeholder="請輸入中文全名" required>
 
             <label>就讀大學：</label>
             <div class="radio-group-container">
@@ -54,8 +54,6 @@
 
     <div id="subjectSelectPage" class="page hidden">
         <h2 class="main-title" style="text-align: center;">選擇挑戰科目</h2>
-        <p style="text-align: center;">請選擇您最有把握或想測試的科目</p>
-        
         <div class="subject-grid">
             <button class="subject-button" data-subject="Math"><div class="subject-icon">∑</div>工程數學</button>
             <button class="subject-button" data-subject="Science"><div class="subject-icon">⚡</div>線性代數</button>
@@ -71,14 +69,14 @@
         <div id="quiz-content"></div>
 
         <div id="quiz-result" class="quiz-result hidden">
-            <h2 style="color: #ffd700;">🎉 寒假挑戰完成！</h2>
+            <h2 style="color: #ffd700;">🎉 測驗完成！</h2>
             <div id="screenshotHint" style="display: none; background: #800000; color: #fff; padding: 12px; border-radius: 8px; margin-bottom: 20px; animation: blink 1.5s infinite; border: 1px solid #ffeb3b;">
                 📸 <strong>請立即截圖此頁面</strong><br>並發布 IG 限動標記我們即可參加抽獎！
             </div>
             <div style="font-size: 1.5em; margin: 15px 0; color: #f0f8ff;">
-                您的最終分數：<span id="score" style="color: #ffeb3b; font-weight: bold; font-size: 1.8em;">0</span> / 100 分
+                您的分數：<span id="score" style="color: #ffeb3b; font-weight: bold;">0</span> / 100
             </div>
-            <p id="scoreComment" style="font-size: 1.1em; padding: 20px; background: #2c445c; border-radius: 8px; border-left: 5px solid #ffd700; color: #f0f8ff; margin-top: 20px;"></p>
+            <p id="scoreComment" style="font-size: 1.1em; padding: 20px; background: #2c445c; border-radius: 8px; border-left: 5px solid #ffd700; color: #f0f8ff;"></p>
             <button id="goToResourceBtn" class="resource-btn">👉 領取完整讀書計畫與影音</button>
         </div>
     </div>
@@ -87,45 +85,36 @@
         <h2 class="main-title">🎯 您的專屬強化方案</h2>
         <div style="background: #2c445c; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
             <p>檢測科目：<span id="finalSubjectName" class="highlight-gold"></span></p>
-            <p>最終分數：<span id="finalScoreDisplay" class="highlight-gold"></span> 分</p>
             <p>潛能等級：<span id="potentialLevelDisplay" class="highlight-gold"></span></p>
-            <p>弱點分析：<span id="weaknessTag" style="color: #ff8a80;"></span></p>
+            <p>建議補強：<span id="weaknessTag" style="color: #ff8a80;"></span></p>
         </div>
 
         <div class="incentive-text">
-            <h3 style="margin: 0 0 10px 0;">📺 顧問精選試聽課程</h3>
-            <p id="videoSubjectName" style="color: #ffd700; font-weight: bold;"></p>
-            <p id="scoreMessage" style="font-size: 0.9em;"></p>
+            <h3 id="videoTitleText" style="margin: 0 0 10px 0;">📺 顧問精選課程</h3>
             <div id="youtubePlayer" class="youtube-container"></div>
         </div>
 
         <h3 class="main-title" style="font-size: 1.5em; margin-top: 30px;">📅 四週衝刺讀書計畫</h3>
         <div class="plan-container">
-            <div class="plan-week"><div class="week-title">第一週：觀念重構</div><div class="week-content" id="plan-week-1"></div></div>
-            <div class="plan-week"><div class="week-title">第二週：題型拆解</div><div class="week-content" id="plan-week-2"></div></div>
-            <div class="plan-week"><div class="week-title">第三週：考古趨勢</div><div class="week-content" id="plan-week-3"></div></div>
-            <div class="plan-week"><div class="week-title">第四週：實戰模擬</div><div class="week-content" id="plan-week-4"></div></div>
+            <div class="plan-week"><div class="week-title">第一週</div><div class="week-content" id="plan-week-1"></div></div>
+            <div class="plan-week"><div class="week-title">第二週</div><div class="week-content" id="plan-week-2"></div></div>
+            <div class="plan-week"><div class="week-title">第三週</div><div class="week-content" id="plan-week-3"></div></div>
+            <div class="plan-week"><div class="week-title">第四週</div><div class="week-content" id="plan-week-4"></div></div>
         </div>
 
-        <a id="lineCtaButton" href="#" target="_blank" class="resource-btn" style="display: block; text-align: center; text-decoration: none; margin-top: 30px;">
+        <a id="lineCtaButton" href="https://lin.ee/Oj42w8M" target="_blank" class="resource-btn" style="display: block; text-align: center; text-decoration: none; margin-top: 30px;">
             💬 加入 LINE 諮詢完整課程
         </a>
     </div>
 
     <div id="igModal" class="modal-overlay hidden">
         <div class="modal-content">
-            <h3 style="color: #ffd700; margin-top: 0; font-size: 1.5em;">🎁 恭喜！獲得抽獎資格</h3>
-            <p style="text-align: center; font-size: 1em; line-height: 1.6; color: #f0f8ff; margin-bottom: 20px;">
-                請完成最後一步驟：<br>
-                <span style="color: #ffeb3b; font-weight: bold;">追蹤 IG + 截圖分數 + 發佈限動</span>
-            </p>
-            <a href="https://www.instagram.com/daso.hsinchu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" id="igLink" style="display: inline-block;">
-                <img src="ig-icon.png" alt="Instagram" style="width: 100px; height: 100px; margin: 0 auto; cursor: pointer;">
+            <h3 style="color: #ffd700; margin-top: 0;">🎁 獲得抽獎資格</h3>
+            <p>追蹤 IG + 截圖分數 + 發佈限動</p>
+            <a href="https://www.instagram.com/daso.hsinchu?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" style="width: 80px; margin: 20px; cursor: pointer;">
             </a>
-            <p style="font-size: 0.9em; color: #b0c4de; margin-top: 15px;">
-                👇 點擊圖示追蹤，完成後<br>
-                <strong>點擊背景灰色區域</strong> 關閉視窗並截圖
-            </p>
+            <p style="font-size: 0.8em; color: #b0c4de;">點擊背景灰色區域關閉視窗並截圖</p>
         </div>
     </div>
 

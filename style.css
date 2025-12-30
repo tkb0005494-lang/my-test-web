@@ -1,69 +1,69 @@
 :root {
-    --color-primary: #0d1a26;
-    --color-secondary: #1c2e40;
-    --color-accent: #ffd700;
-    --color-highlight: #ffeb3b;
-    --color-text-light: #f0f8ff;
-    --color-text-muted: #b0c4de;
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --accent-gold: #fbbf24;
+    --text-white: #f8fafc;
+    --primary-blue: #3b82f6;
 }
 
 body {
-    font-family: '微軟正黑體', Arial, sans-serif;
-    background-color: var(--color-primary);
-    color: var(--color-text-light);
-    margin: 0; padding: 20px; display: flex; justify-content: center; min-height: 100vh;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: 'Inter', system-ui, sans-serif;
+    margin: 0; padding: 10px;
+    display: flex; justify-content: center;
 }
 
-.page {
-    width: 100%; max-width: 600px;
-    background-color: var(--color-secondary);
-    padding: 30px 25px; border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); margin: 20px 0;
+.page { width: 100%; max-width: 500px; margin-top: 20px; }
+.hidden { display: none !important; }
+
+/* 卡片式設計 */
+.card, .page { background: var(--card-bg); border-radius: 16px; padding: 24px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); }
+
+.header-section { text-align: center; margin-bottom: 20px; }
+.main-title { color: var(--accent-gold); line-height: 1.2; font-size: 1.8rem; }
+
+/* 表單優化 */
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--accent-gold); }
+input[type="text"], input[type="tel"], select {
+    width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155;
+    background: #0f172a; color: white; box-sizing: border-box;
 }
 
-.hidden { display: none; }
+.radio-stack { display: flex; flex-direction: column; gap: 10px; }
+.radio-item {
+    background: #334155; padding: 12px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+}
 
-/* 標題與內文 */
-.main-title { color: var(--color-accent); font-size: 1.8em; text-align: center; }
-.incentive-text { text-align: center; background: #2c445c; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 0.95em; line-height: 1.5; }
-.highlight-gold { color: var(--color-highlight); font-weight: bold; }
+/* 按鈕樣式 */
+.primary-btn {
+    width: 100%; padding: 16px; background: var(--accent-gold); border: none;
+    border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; color: #000;
+}
 
-/* 表單元件 */
-label { display: block; margin: 15px 0 5px; font-weight: bold; color: var(--color-accent); }
-input[type="text"], input[type="tel"] { width: 95%; padding: 12px; background: #152435; color: white; border: 1px solid #4a6886; border-radius: 6px; }
-.radio-group-container { display: flex; flex-wrap: wrap; gap: 10px; background: #2c445c; padding: 10px; border-radius: 6px; margin: 10px 0; }
+.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.subject-card {
+    padding: 20px; background: #334155; border: 1px solid #475569;
+    color: white; border-radius: 12px; cursor: pointer; font-weight: 600;
+}
 
-.start-btn, .resource-btn { width: 100%; padding: 15px; background: var(--color-highlight); border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.1em; }
-
-/* 科目選單 */
-.subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.subject-button { padding: 20px; background: #2c445c; border: 1px solid #4a6886; color: white; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-.subject-button:hover { border-color: var(--color-accent); transform: translateY(-3px); }
-
-/* 題目卡片 */
-.question-card { background: #152435; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #4a6886; }
-.option-item { padding: 12px; background: #2c445c; margin-bottom: 8px; border-radius: 6px; cursor: pointer; }
-.option-item.correct { background: #06C755 !important; }
-.option-item.incorrect { background: #d32f2f !important; }
-.rationale { opacity: 0; max-height: 0; transition: 0.5s; overflow: hidden; background: #0d1a26; border-radius: 5px; }
-.rationale.visible { opacity: 1; max-height: 200px; padding: 10px; margin-top: 10px; }
-
-/* 讀書計畫頁面 */
-.plan-week { background: #152435; border-radius: 8px; margin-bottom: 12px; overflow: hidden; border: 1px solid #4a6886; }
-.week-title { background: #2c445c; color: var(--color-accent); padding: 10px; font-weight: bold; }
-.week-content { padding: 10px; font-size: 0.9em; }
-
-/* 懸浮通知系統 */
+/* 懸浮通知 */
 .notification-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(10px);
-    z-index: 9999; display: flex; justify-content: center; align-items: center;
-    opacity: 0; transition: opacity 0.4s ease;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
 }
-.notification-overlay.visible { opacity: 1; }
-.notification-content {
-    background: var(--color-secondary); padding: 30px; border-radius: 20px;
-    border: 2px solid var(--color-accent); text-align: center; width: 320px;
+.notification-box {
+    background: var(--card-bg); width: 80%; max-width: 320px; padding: 30px;
+    border-radius: 20px; border: 2px solid var(--accent-gold); text-align: center;
 }
-.ig-popup-icon { width: 80px; height: 80px; margin-top: 15px; transition: 0.3s; cursor: pointer; }
-.ig-popup-icon:hover { transform: scale(1.1); }
+.ig-icon { width: 70px; margin: 20px 0; cursor: pointer; }
+.close-btn { margin-top: 15px; background: none; border: 1px solid #64748b; color: #94a3b8; cursor: pointer; padding: 5px 10px; border-radius: 5px; }
+
+/* 資源頁 */
+.line-btn {
+    display: block; text-align: center; background: #06C755; color: white;
+    text-decoration: none; padding: 16px; border-radius: 12px; font-weight: bold; margin-top: 20px;
+}

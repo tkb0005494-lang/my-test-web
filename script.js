@@ -609,17 +609,26 @@ function generateStudyPlan() {
     }
 }
 
-// === K. YouTube 嵌入 (修正核心) ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
-    const vidId = VIDEO_LINKS[currentSubject].youtubeId;
-    
+    const vidId = VIDEO_LINKS[currentSubject]?.youtubeId;
+
     if (vidId && vidId.length === 11) {
-        const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1`;
-        // 直接更新內容，確保每次點進去都能載入該科目的影片
-        container.innerHTML = `<iframe width="100%" height="100%" src="${youtubeEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+        // 加入 rel=0 (不顯示相關影片) 和 modestbranding=1 (減少標誌)
+        const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?rel=0&modestbranding=1`;
+        
+        // 關鍵修正：強制設定 iframe 的 CSS 樣式，確保在 padding-bottom 的容器中能撐開
+        container.innerHTML = `
+            <iframe 
+                src="${youtubeEmbedUrl}" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+            ></iframe>`;
     } else {
-        container.innerHTML = `<p style="text-align:center; padding: 20px;">暫無推薦影片</p>`;
+        container.innerHTML = `<div style="color: white; text-align: center; padding-top: 20%;">載入中或找不到影片...</div>`;
     }
 }
 

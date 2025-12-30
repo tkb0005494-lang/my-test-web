@@ -254,7 +254,7 @@ input[type="tel"]:focus,
 
 .rationale.visible {
     opacity: 1;
-    max-height: 200px; /* 根據內容調整，確保能展開 */
+    max-height: 500px; /* 增加最大高度以確保長解析能完整顯示 */
     color: var(--color-text-light);
 }
 
@@ -264,23 +264,28 @@ input[type="tel"]:focus,
     padding: 20px 0;
 }
 
-.resource-btn {
+/* 特別強化領取資源按鈕，解決 GitHub Pages 樣式丟失問題 */
+#goToResourceBtn, .resource-btn {
+    display: block;
     width: 100%;
+    box-sizing: border-box;
     padding: 15px;
     margin-top: 25px;
-    background-color: var(--color-accent); /* 金色按鈕 */
-    color: var(--color-primary); /* 深藍色文字 */
+    background-color: var(--color-accent) !important; /* 金色按鈕 */
+    color: var(--color-primary) !important; /* 深藍色文字 */
     border: none;
     border-radius: 8px;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
     box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
     transition: background-color 0.2s, transform 0.2s;
 }
 
-.resource-btn:hover {
-    background-color: var(--color-highlight);
+#goToResourceBtn:hover, .resource-btn:hover {
+    background-color: var(--color-highlight) !important;
     transform: translateY(-2px);
 }
 

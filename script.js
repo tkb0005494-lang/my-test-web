@@ -7,7 +7,7 @@ const FORM_FIELDS = {
     phone: 'entry.1253545059' 
 };
 
-// 題目資料庫 (補足 30 題)
+// 題目資料庫 (完整 30 題)
 const ALL_QUIZ_DATA = [
     // 工程數學
     { subject: "工程數學", question: "請問 $y' + y = 0$ 的通解為何？", answerOptions: [{ text: "$y = Ce^{-x}$", isCorrect: true, rationale: "一階線性 ODE 基本解。" }, { text: "$y = Ce^x$", isCorrect: false, rationale: "符號錯誤。" }, { text: "$y = C\\sin x$", isCorrect: false, rationale: "這是二階振盪解。" }, { text: "$y = x + C$", isCorrect: false, rationale: "這是積分。" }] },
@@ -19,7 +19,7 @@ const ALL_QUIZ_DATA = [
     // 線性代數
     { subject: "線性代數", question: "哪一組是 $\\mathbb{R}^2$ 的基底？", answerOptions: [{ text: "$(1,0), (0,1)$", isCorrect: true, rationale: "標準基底。" }, { text: "$(1,1), (2,2)$", isCorrect: false, rationale: "線性相依。" }, { text: "$(1,0)$", isCorrect: false, rationale: "數量不足。" }, { text: "$(0,0), (1,1)$", isCorrect: false, rationale: "含零向量必相依。" }] },
     { subject: "線性代數", question: "若矩陣不可逆，其行列式值為？", answerOptions: [{ text: "0", isCorrect: true, rationale: "奇異矩陣定義。" }, { text: "1", isCorrect: false, rationale: "單位矩陣。" }, { text: "-1", isCorrect: false, rationale: "可逆。" }, { text: "無限大", isCorrect: false, rationale: "錯。" }] },
-    { subject: "線性代數", question: "特徵值 (Eigenvalue) 滿足的方程式稱為？", answerOptions: [{ text: "特徵方程式", isCorrect: true, rationale: "$\det(A-\lambda I)=0$。" }, { text: "尤拉方程式", isCorrect: false, rationale: "那是 ODE。" }, { text: "伯努利方程式", isCorrect: false, rationale: "錯。" }, { text: "線性方程式", isCorrect: false, rationale: "不精確。" }] },
+    { subject: "線性代數", question: "特徵值滿足的方程式稱為？", answerOptions: [{ text: "特徵方程式", isCorrect: true, rationale: "$\det(A-\lambda I)=0$。" }, { text: "尤拉方程式", isCorrect: false, rationale: "那是 ODE。" }, { text: "伯努利方程式", isCorrect: false, rationale: "錯。" }, { text: "線性方程式", isCorrect: false, rationale: "不精確。" }] },
     { subject: "線性代數", question: "投影矩陣 $P$ 的性質為何？", answerOptions: [{ text: "$P^2 = P$", isCorrect: true, rationale: "冪等性質。" }, { text: "$P^2 = I$", isCorrect: false, rationale: "那是反射。" }, { text: "$P = 0$", isCorrect: false, rationale: "零投影。" }, { text: "$P = I$", isCorrect: false, rationale: "全空間投影。" }] },
     { subject: "線性代數", question: "若向量空間維度為 3，則 4 個向量必為？", answerOptions: [{ text: "線性相依", isCorrect: true, rationale: "超過維度數量必相依。" }, { text: "線性獨立", isCorrect: false, rationale: "不可能。" }, { text: "基底", isCorrect: false, rationale: "基底須恰好 3 個且獨立。" }, { text: "零向量", isCorrect: false, rationale: "不一定。" }] },
 
@@ -68,11 +68,12 @@ let currentSubject = '', currentScore = 0, answeredCount = 0;
 // 切換頁面
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-    window.scrollTo(0,0);
+    const target = document.getElementById(id);
+    if (target) target.classList.remove('hidden');
+    window.scrollTo(0, 0);
 }
 
-// 10秒全域循環通知
+// 1. 10秒全域循環通知
 const msgs = [
     "🔥 剛剛有一位清大學生完成了測驗！", 
     "⚡ 85% 的同學獲得了 S 級評分！", 
@@ -83,116 +84,120 @@ const msgs = [
 function showGlobalNotification() {
     const box = document.getElementById('floating-notification');
     const txt = document.getElementById('notify-text');
+    if (!box || !txt) return;
     txt.innerText = msgs[Math.floor(Math.random() * msgs.length)];
     box.classList.remove('hidden');
     setTimeout(() => { box.classList.add('hidden'); }, 4000);
 }
 setInterval(showGlobalNotification, 10000);
 
-// 分數頁專用的 IG 懸浮通知
-function showIGPopup() {
-    // 這裡我們直接利用 modal 或是一個獨立的 toast
-    const modal = document.getElementById('igModal');
-    if (modal) {
-        modal.classList.remove('hidden');
-    }
-}
-
-// 資料提交
-document.getElementById('userInfoForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const uniInput = document.querySelector('input[name="userUniversity"]:checked');
-    const uni = uniInput.value === '其他' ? document.getElementById('uniOtherText').value : uniInput.value;
-    const f = new FormData();
-    f.append(FORM_FIELDS.name, document.getElementById('userName').value);
-    f.append(FORM_FIELDS.uni, uni);
-    f.append(FORM_FIELDS.dept, document.getElementById('userDepartment').value);
-    f.append(FORM_FIELDS.phone, document.getElementById('userPhone').value);
-    fetch(GOOGLE_FORM_URL, { method: 'POST', body: f, mode: 'no-cors' });
-    showPage('subjectSelectPage');
-});
-
 // 大學切換
 document.querySelectorAll('input[name="userUniversity"]').forEach(r => {
     r.onchange = () => document.getElementById('uniOtherText').disabled = (r.value !== '其他');
 });
 
-// 選擇科目
-document.querySelectorAll('.subject-button').forEach(b => {
-    b.onclick = function() {
+// 資料頁提交
+document.getElementById('userInfoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const uniInput = document.querySelector('input[name="userUniversity"]:checked');
+    const university = uniInput.value === '其他' ? document.getElementById('uniOtherText').value : uniInput.value;
+    const formData = new FormData();
+    formData.append(FORM_FIELDS.name, document.getElementById('userName').value);
+    formData.append(FORM_FIELDS.uni, university);
+    formData.append(FORM_FIELDS.dept, document.getElementById('userDepartment').value);
+    formData.append(FORM_FIELDS.phone, document.getElementById('userPhone').value);
+    fetch(GOOGLE_FORM_URL, { method: 'POST', body: formData, mode: 'no-cors' });
+    showPage('subjectSelectPage');
+});
+
+// 科目按鈕點擊
+document.querySelectorAll('.subject-button').forEach(btn => {
+    btn.onclick = function() {
         currentSubject = this.getAttribute('data-subject');
         startQuiz();
     };
 });
 
+// 開始測驗
 function startQuiz() {
     currentScore = 0; answeredCount = 0;
-    const data = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
-    const box = document.getElementById('quiz-content');
-    box.innerHTML = '';
-    document.getElementById('quizTitle').innerText = `挑戰科目：${currentSubject}`;
+    const quizData = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
+    const container = document.getElementById('quiz-content');
+    container.innerHTML = '';
+    document.getElementById('quizTitle').innerText = `正在挑戰：${currentSubject}`;
     
-    // 只取 5 題
-    const displayData = data.slice(0, 5);
-    displayData.forEach((q, i) => {
+    // 取該科前 5 題
+    const displayData = quizData.slice(0, 5);
+    displayData.forEach((q, idx) => {
         const div = document.createElement('div');
         div.className = 'question-card';
         div.innerHTML = `
-            <p class="question-text">Q${i+1}. ${q.question}</p>
+            <div class="question-text">Q${idx+1}. ${q.question}</div>
             <div class="opt-box">
-                ${q.answerOptions.map((o, oi) => `
-                    <div class="option-item" onclick="check(this, ${i}, ${oi})">
-                        ${String.fromCharCode(65+oi)}. ${o.text}
+                ${q.answerOptions.map((opt, i) => `
+                    <div class="option-item" onclick="handleSelect(this, ${idx}, ${i})">
+                        ${String.fromCharCode(65+i)}. ${opt.text}
                     </div>
                 `).join('')}
             </div>
-            <div class="rationale" id="r-${i}"></div>
+            <div class="rationale" id="rat-${idx}"></div>
         `;
-        box.appendChild(div);
+        container.appendChild(div);
     });
     showPage('quizPage');
-    if(window.renderMathInElement) renderMathInElement(box, { delimiters: [{left: "$", right: "$", display: false}] });
+    if(window.renderMathInElement) renderMathInElement(container, { delimiters: [{left: "$", right: "$", display: false}] });
 }
 
-function check(el, qi, oi) {
-    const p = el.parentElement; if(p.dataset.done) return; p.dataset.done = true;
-    const data = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
-    const ok = data[qi].answerOptions[oi].isCorrect;
-    el.classList.add(ok ? 'correct' : 'incorrect');
-    if(ok) currentScore += 20;
-    const rat = document.getElementById(`r-${qi}`);
-    rat.innerHTML = `<strong>💡 解析：</strong>${data[qi].answerOptions.find(o=>o.isCorrect).rationale}`;
-    rat.classList.add('visible');
+// 處理選項點擊
+function handleSelect(el, qIdx, oIdx) {
+    const parent = el.parentElement;
+    if (parent.dataset.done === "true") return;
+    parent.dataset.done = "true";
+    
+    const quizDataForSubject = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
+    const isCorrect = quizDataForSubject[qIdx].answerOptions[oIdx].isCorrect;
+    
+    el.classList.add(isCorrect ? 'correct' : 'incorrect');
+    if (isCorrect) currentScore += 20;
+    
+    const rationale = document.getElementById(`rat-${qIdx}`);
+    rationale.innerHTML = `<strong>💡 解析：</strong>${quizDataForSubject[qIdx].answerOptions.find(o=>o.isCorrect).rationale}`;
+    rationale.classList.add('visible');
+    
     answeredCount++;
-    if(answeredCount === 5) {
-        setTimeout(() => {
-            finishQuiz();
-        }, 1200);
+    if (answeredCount === 5) {
+        setTimeout(finishQuiz, 1200);
     }
 }
 
+// 完成測驗：跳轉分數頁並彈出 IG 提示
 function finishQuiz() {
     document.getElementById('score').innerText = currentScore;
-    let lv = currentScore >= 80 ? 'S級：學霸領袖' : (currentScore >= 60 ? 'A級：進步神速' : 'B級：穩打基礎');
-    document.getElementById('scoreComment').innerText = `測驗結果：${lv}！`;
-    document.getElementById('potentialLevelDisplay').innerText = lv;
+    let level = currentScore >= 80 ? 'S級：學霸領袖' : (currentScore >= 60 ? 'A級：進步神速' : 'B級：穩打基礎');
+    document.getElementById('scoreComment').innerText = `測驗結果：${level}！恭喜你完成了這場極具挑戰性的測試。現在就領取你的專屬分析與獎勵吧！`;
+    
+    document.getElementById('potentialLevelDisplay').innerText = level;
     document.getElementById('finalScoreDisplay').innerText = currentScore + " 分";
     document.getElementById('finalSubjectName').innerText = currentSubject;
     
     showPage('scorePage');
-    // 到達分數頁後，顯示專屬 IG 通知
-    showIGPopup();
+    // 自動顯示 IG 彈窗
+    document.getElementById('igModal').classList.remove('hidden');
 }
 
-// IG 彈窗點擊背景關閉
+// IG 彈窗關閉
 document.getElementById('igModal').onclick = function(e) {
     if (e.target === this) this.classList.add('hidden');
 };
 
+// 前往資源頁
 document.getElementById('goToResourceBtn').onclick = function() {
     document.getElementById('videoSubjectName').innerText = currentSubject;
-    document.getElementById('youtubePlayer').innerHTML = `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${VIDEO_LINKS[currentSubject]}" frameborder="0" allowfullscreen></iframe>`;
+    document.getElementById('youtubePlayer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${VIDEO_LINKS[currentSubject]}" frameborder="0" allowfullscreen></iframe>`;
+    
     const plans = STUDY_PLANS[currentSubject];
-    for(let i=1; i<=4; i++) document.getElementById(`plan-week-${i}`).innerText = plans[i-1];
+    for (let i = 1; i <= 4; i++) {
+        document.getElementById(`plan-week-${i}`).innerText = plans[i-1];
+    }
     showPage('resourcePage');
 };

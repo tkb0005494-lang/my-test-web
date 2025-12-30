@@ -1,342 +1,76 @@
-// === A. Google 表單設定與變數 ===
-
-// **表單 A: 使用者資訊**
+// === A. Google 表單 URL 與設定 ===
 const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
-
-// **Google 表單欄位 ID 映射 (僅保留表單 A)**
 const FORM_IDS = {
-    // ------------------------------------------------------------------
-    // 表單 A: 用戶資訊 (Google Entry ID)
     FORM_A_NAME: 'entry.1711447572',
     FORM_A_DEPT_GRADE: 'entry.1169658860',
     FORM_A_PHONE: 'entry.1253545059',
     FORM_A_UNI: 'entry.651877505',
     FORM_A_GRADE: 'entry.247937200',
-    
-    // ------------------------------------------------------------------
-    // HTML 欄位屬性名稱/ID (與 index.html 匹配)
-    HTML_UNI_RADIO_NAME: 'userUniversity',
-    HTML_GRADE_RADIO_NAME: 'userGrade',
-    
-    // 以下是 input 的 ID
-    HTML_NAME_ID: 'userName',
-    HTML_UNI_OTHER_ID: 'uniOtherText',
-    HTML_DEPT_ID: 'userDepartment',
-    HTML_PHONE_ID: 'userPhone',
 };
 
-// === B. 核心資料結構：題目與測驗設定 (完整保留) ===
+// === B. 完整題目資料庫 (共 30 題) ===
 const ALL_QUIZ_DATA = [
-    // --- 工程數學 (Math) ---
-    {
-        subject: "Math", topic: "基本運算", question: "請問 $12 \\times 8$ 等於多少？",
-        answerOptions: [
-            { text: "$96$", isCorrect: true, rationale: " $12 \\times 8 = 96$。" },
-            { text: "$84$", isCorrect: false, rationale: "計算錯誤。" },
-            { text: "$102$", isCorrect: false, rationale: "計算錯誤。" },
-            { text: "$72$", isCorrect: false, rationale: "計算錯誤。" }
-        ]
-    },
-    {
-        subject: "Math", topic: "一階 ODE", question: "解方程式 $2x + 5 = 15$，求 $x$。",
-        answerOptions: [
-            { text: "$5$", isCorrect: true, rationale: " $2x = 15 - 5 = 10$，故 $x=5$。" },
-            { text: "$10$", isCorrect: false, rationale: "計算錯誤。" },
-            { text: "$2$", isCorrect: false, rationale: "計算錯誤。" },
-            { text: "$7$", isCorrect: false, rationale: "計算錯誤。" }
-        ]
-    },
-    {
-        subject: "Math", topic: "拉普拉斯轉換", question: "函數 $f(t) = e^{at}$ 的拉普拉斯轉換 $L\\{f(t)\\}$ 為何？",
-        answerOptions: [
-            { text: "$1/(s-a)$", isCorrect: true, rationale: "基本拉普拉斯轉換公式。" },
-            { text: "$a/s^2$", isCorrect: false, rationale: "這是 $L\\{t^n\\}$ 的形式。" },
-            { text: "$1/(s^2+a^2)$", isCorrect: false, rationale: "這是 $L\\{\\sin(at)\\}$ 的形式。" },
-            { text: "$s/(s^2+a^2)$", isCorrect: false, rationale: "這是 $L\\{\\cos(at)\\}$ 的形式。" }
-        ]
-    },
-    {
-        subject: "Math", topic: "矩陣特徵值", question: "對於 $3\\times 3$ 矩陣，若其秩 (Rank) 為 2，則 $\\lambda=0$ 至少有多少個特徵值？",
-        answerOptions: [
-            { text: "至少 1 個", isCorrect: true, rationale: "秩小於階數，表示矩陣是奇異的 (singular)，其行列式為 0，故 $\\lambda=0$ 必定為特徵值。" },
-            { text: "至少 2 個", isCorrect: false, rationale: "不一定，但至少 1 個。" },
-            { text: "0 個", isCorrect: false, rationale: "錯誤。" },
-            { text: "3 個", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    {
-        subject: "Math", topic: "傅立葉級數", question: "若函數 $f(x)$ 是週期為 $2L$ 的奇函數，其傅立葉級數只包含哪種項？",
-        answerOptions: [
-            { text: "餘弦項 ($a_n$)", isCorrect: false, rationale: "奇函數不包含餘弦項。" },
-            { text: "正弦項 ($b_n$)", isCorrect: true, rationale: "奇函數只包含正弦項和 $a_0 = 0$。" },
-            { text: "常數項 $a_0$ 與餘弦項", isCorrect: false, rationale: "常數項 $a_0$ 為 0。" },
-            { text: "不包含任何項", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
+    // 工程數學 (Math)
+    { subject: "Math", topic: "拉氏轉換", question: "函數 $f(t) = e^{at}$ 的拉普拉斯轉換 $L\{f(t)\}$ 為何？", answerOptions: [{ text: "$1/(s-a)$", isCorrect: true, rationale: "基本公式：$L\{e^{at}\} = 1/(s-a)$。" }, { text: "$a/s^2$", isCorrect: false, rationale: "錯誤。" }, { text: "$1/(s^2+a^2)$", isCorrect: false, rationale: "這是 $\sin$ 的轉換。" }, { text: "$s/(s^2+a^2)$", isCorrect: false, rationale: "這是 $\cos$ 的轉換。" }] },
+    { subject: "Math", topic: "線性 ODE", question: "解一階線性方程式 $y' + y = 0$，其通解為何？", answerOptions: [{ text: "$y = Ce^{-x}$", isCorrect: true, rationale: "分離變數法解得 $y = Ce^{-x}$。" }, { text: "$y = Ce^x$", isCorrect: false, rationale: "符號錯誤。" }, { text: "$y = x + C$", isCorrect: false, rationale: "這不是指數解。" }, { text: "$y = C$", isCorrect: false, rationale: "錯誤。" }] },
+    { subject: "Math", topic: "矩陣特徵值", question: "若 $3\\times 3$ 矩陣 $A$ 的行列式值為 0，則其特徵值必包含？", answerOptions: [{ text: "0", isCorrect: true, rationale: "行列式為特徵值之積，積為 0 則必有特徵值為 0。" }, { text: "1", isCorrect: false, rationale: "不一定。" }, { text: "-1", isCorrect: false, rationale: "不一定。" }, { text: "無解", isCorrect: false, rationale: "錯誤。" }] },
+    { subject: "Math", topic: "傅立葉級數", question: "奇函數的傅立葉級數展開中，只會包含？", answerOptions: [{ text: "正弦項 ($\sin$)", isCorrect: true, rationale: "奇函數的正交特性使得餘弦項為 0。" }, { text: "餘弦項 ($\cos$)", isCorrect: false, rationale: "這是偶函數。" }, { text: "常數項", isCorrect: false, rationale: "錯。" }, { text: "虛部", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Math", topic: "複變函數", question: "請問 $e^{i\\pi}$ 等於多少？", answerOptions: [{ text: "$-1$", isCorrect: true, rationale: "根據尤拉公式：$e^{i\pi} = \cos\pi + i\sin\pi = -1$。" }, { text: "$1$", isCorrect: false, rationale: "錯。" }, { text: "$i$", isCorrect: false, rationale: "錯。" }, { text: "$0$", isCorrect: false, rationale: "錯。" }] },
 
-    // --- 線性代數 (Science) ---
-    {
-        subject: "Science", topic: "行列式", question: "判斷 $A = [[2, -1], [4, 3]]$ 的行列式值。",
-        answerOptions: [
-            { text: "10", isCorrect: true, rationale: " $\\det(A) = 2(3) - (-1)(4) = 6 + 4 = 10$。" },
-            { text: "2", isCorrect: false, rationale: "計算錯誤。" },
-            { text: "-1", isCorrect: false, rationale: "計算錯誤。" },
-            { text: "4", isCorrect: false, rationale: "計算錯誤。" }
-        ]
-    },
-    {
-        subject: "Science", topic: "矩陣類型", question: "線性代數中，什麼矩陣的轉置等於其自身？",
-        answerOptions: [
-            { text: "單位矩陣", isCorrect: false, rationale: "單位矩陣是特殊類型的對稱矩陣。" },
-            { text: "對稱矩陣", isCorrect: true, rationale: "定義為 $A^T = A$。" },
-            { text: "斜對稱矩陣", isCorrect: false, rationale: "定義為 $A^T = -A$。" },
-            { text: "三角矩陣", isCorrect: false, rationale: "轉置後仍為三角矩陣，但不一定等於自身。" }
-        ]
-    },
-    {
-        subject: "Science", topic: "向量空間", question: "在 $R^3$ 向量空間中，下列哪一組向量是線性獨立的？",
-        answerOptions: [
-            { text: "$v_1=(1, 0, 0), v_2=(0, 1, 0), v_3=(1, 1, 0)$", isCorrect: false, rationale: " $v_3 = v_1 + v_2$。" },
-            { text: "$v_1=(1, 0, 0), v_2=(0, 1, 0), v_3=(0, 0, 1)$", isCorrect: true, rationale: "這組向量構成 $R^3$ 的標準基底，是線性獨立的。" },
-            { text: "$v_1=(1, 1, 1), v_2=(2, 2, 2)$", isCorrect: false, rationale: " $v_2 = 2v_1$。" },
-            { text: "任意三個向量", isCorrect: false, rationale: "錯誤，需滿足 $c_1v_1 + c_2v_2 + c_3v_3 = 0$ 只有平凡解 $c_i=0$。" }
-        ]
-    },
-    {
-        subject: "Science", topic: "正交矩陣", question: "若矩陣 $Q$ 滿足 $Q^T Q = I$ ($I$ 為單位矩陣)，則 $Q$ 稱為：",
-        answerOptions: [
-            { text: "埃爾米特矩陣", isCorrect: false, rationale: " $A = A^*$。" },
-            { text: "正交矩陣", isCorrect: true, rationale: "正交矩陣的定義，其行向量和列向量都是正交單位向量。" },
-            { text: "對角化矩陣", isCorrect: false, rationale: "錯誤。" },
-            { text: "可逆矩陣", isCorrect: false, rationale: "正交矩陣必然可逆，但反之不一定。" }
-        ]
-    },
-    {
-        subject: "Science", topic: "特徵向量", question: "矩陣的特徵向量 $\\mathbf{v}$ 與其對應的特徵值 $\\lambda$ 滿足哪個方程？",
-        answerOptions: [
-            { text: "$A \\mathbf{v} = \\lambda \\mathbf{v}$", isCorrect: true, rationale: "特徵值與特徵向量的基本定義。" },
-            { text: "$A \\mathbf{v} = 0$", isCorrect: false, rationale: "這是齊次方程組。" },
-            { text: "$\\det(A - \\lambda I) = 0$", isCorrect: false, rationale: "這是特徵多項式，用於求特徵值。" },
-            { text: "$A^T \\mathbf{v} = \\lambda \\mathbf{v}$", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    
-    // --- 計算機概論 (History) ---
-    {
-        subject: "History", topic: "主題範圍", question: "請問 '計概' 通常不包含哪個主題？",
-        answerOptions: [
-            { text: "網路通訊", isCorrect: false, rationale: "包含。" },
-            { text: "資料結構", isCorrect: false, rationale: "包含。" },
-            { text: "作業系統", isCorrect: false, rationale: "包含。" },
-            { text: "生物化學", isCorrect: true, rationale: "這是獨立的生命科學領域。" }
-        ]
-    },
-    {
-        subject: "History", topic: "記憶體", question: "在計算機中，哪個儲存裝置在斷電後會丟失數據？",
-        answerOptions: [
-            { text: "硬碟 (HDD)", isCorrect: false, rationale: "非揮發性儲存。" },
-            { text: "唯讀記憶體 (ROM)", isCorrect: false, rationale: "非揮發性儲存。" },
-            { text: "隨機存取記憶體 (RAM)", isCorrect: true, rationale: "RAM 是揮發性記憶體，斷電後數據遺失。" },
-            { text: "固態硬碟 (SSD)", isCorrect: false, rationale: "非揮發性儲存。" }
-        ]
-    },
-    {
-        subject: "History", topic: "網路協定", question: "網頁瀏覽器用於從伺服器請求網頁的協定是？",
-        answerOptions: [
-            { text: "FTP", isCorrect: false, rationale: "用於檔案傳輸。" },
-            { text: "SMTP", isCorrect: false, rationale: "用於郵件傳輸。" },
-            { text: "HTTP/HTTPS", isCorrect: true, rationale: "超文本傳輸協定。" },
-            { text: "TCP", isCorrect: false, rationale: "用於連線的傳輸層協定。" }
-        ]
-    },
-    {
-        subject: "History", topic: "資料結構", question: "先進先出 (FIFO) 的資料結構是？",
-        answerOptions: [
-            { text: "堆疊 (Stack)", isCorrect: false, rationale: "後進先出 (LIFO)。" },
-            { text: "佇列 (Queue)", isCorrect: true, rationale: "先進先出 (FIFO)。" },
-            { text: "連結串列 (Linked List)", isCorrect: false, rationale: "這是一種線性結構，但不是存取方式。" },
-            { text: "樹 (Tree)", isCorrect: false, rationale: "非線性結構。" }
-        ]
-    },
-    {
-        subject: "History", topic: "作業系統", question: "作業系統的主要功能不包含下列哪項？",
-        answerOptions: [
-            { text: "處理器管理 (CPU 排程)", isCorrect: false, rationale: "包含。" },
-            { text: "記憶體管理", isCorrect: false, rationale: "包含。" },
-            { text: "輸入/輸出 (I/O) 設備管理", isCorrect: false, rationale: "包含。" },
-            { text: "繪製 3D 圖形", isCorrect: true, rationale: "這是應用程式或圖形卡驅動程式的功能。" }
-        ]
-    },
+    // 線性代數 (Science)
+    { subject: "Science", topic: "秩 (Rank)", question: "若 $A$ 為 $n \\times n$ 可逆矩陣，則其 Rank 為？", answerOptions: [{ text: "$n$", isCorrect: true, rationale: "可逆矩陣必為滿秩。" }, { text: "0", isCorrect: false, rationale: "錯。" }, { text: "1", isCorrect: false, rationale: "錯。" }, { text: "$n-1$", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Science", topic: "投影", question: "向量 $b$ 投影到子空間 $V$，投影矩陣 $P$ 的性質為？", answerOptions: [{ text: "$P^2 = P$", isCorrect: true, rationale: "投影矩陣必須滿足冪等性。" }, { text: "$P^2 = I$", isCorrect: false, rationale: "這是對稱旋轉。" }, { text: "$P = I$", isCorrect: false, rationale: "錯。" }, { text: "$P = 0$", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Science", topic: "行列式", question: "交換矩陣的兩列，其行列式值會？", answerOptions: [{ text: "變號", isCorrect: true, rationale: "行列式基本性質。" }, { text: "不變", isCorrect: false, rationale: "錯。" }, { text: "變為 0", isCorrect: false, rationale: "錯。" }, { text: "變為倒數", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Science", topic: "特徵值", question: "對角矩陣的特徵值即為其？", answerOptions: [{ text: "對角線元素", isCorrect: true, rationale: "對角矩陣特徵值顯而易見。" }, { text: "行列式", isCorrect: false, rationale: "錯。" }, { text: "秩", isCorrect: false, rationale: "錯。" }, { text: "1", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Science", topic: "正交", question: "若兩向量正交，其內積為？", answerOptions: [{ text: "0", isCorrect: true, rationale: "正交定義即內積為 0。" }, { text: "1", isCorrect: false, rationale: "錯。" }, { text: "-1", isCorrect: false, rationale: "錯。" }, { text: "無限大", isCorrect: false, rationale: "錯。" }] },
 
-    // --- 經濟學 (Geography) ---
-    {
-        subject: "Geography", topic: "供需平衡", question: "在經濟學中，如果供給超過需求，市場會產生什麼？",
-        answerOptions: [
-            { text: "短缺 (Shortage)", isCorrect: false, rationale: "需求超過供給會短缺。" },
-            { text: "過剩 (Surplus)", isCorrect: true, rationale: "供給超過需求會造成過剩，導致價格下跌。" },
-            { text: "平衡 (Equilibrium)", isCorrect: false, rationale: "供給等於需求時達到平衡。" },
-            { text: "通膨 (Inflation)", isCorrect: false, rationale: "物價普遍上漲的現象。" }
-        ]
-    },
-    {
-        subject: "Geography", topic: "價格彈性", question: "當某商品的需求價格彈性大於 1 時，稱該需求為？",
-        answerOptions: [
-            { text: "缺乏彈性", isCorrect: false, rationale: "彈性小於 1。" },
-            { text: "單一彈性", isCorrect: false, rationale: "彈性等於 1。" },
-            { text: "富有彈性", isCorrect: true, rationale: "彈性大於 1，價格變動會導致需求量大幅變動。" },
-            { text: "完全彈性", isCorrect: false, rationale: "彈性趨近於無限大。" }
-        ]
-    },
-    {
-        subject: "Geography", topic: "GDP 計算", question: "計算 GDP 時，下列哪項不應計入？",
-        answerOptions: [
-            { text: "新生產的汽車銷售額", isCorrect: false, rationale: "計入。" },
-            { text: "二手房屋交易佣金", isCorrect: false, rationale: "佣金是服務，計入；但房屋本身不計入。" },
-            { text: "政府提供的國防服務價值", isCorrect: false, rationale: "計入。" },
-            { text: "在股市買賣股票的金額", isCorrect: true, rationale: "股票交易只是資產轉移，不屬於當期生產的商品或服務。" }
-        ]
-    },
-    {
-        subject: "Geography", topic: "市場結構", question: "只有單一生產者，且產品沒有近似替代品的市場結構稱為？",
-        answerOptions: [
-            { text: "寡占", isCorrect: false, rationale: "少數生產者。" },
-            { text: "壟斷性競爭", isCorrect: false, rationale: "多數生產者，產品差異化。" },
-            { text: "完全競爭", isCorrect: false, rationale: "許多生產者，同質產品。" },
-            { text: "獨佔 (Monopoly)", isCorrect: true, rationale: "單一生產者，沒有近似替代品。" }
-        ]
-    },
-    {
-        subject: "Geography", topic: "財政政策", question: "政府為了刺激經濟而增加開支，屬於哪種財政政策？",
-        answerOptions: [
-            { text: "緊縮性財政政策", isCorrect: false, rationale: "用於抑制過熱的經濟。" },
-            { text: "擴張性財政政策", isCorrect: true, rationale: "透過增加政府支出或減稅來刺激總需求。" },
-            { text: "貨幣政策", isCorrect: false, rationale: "由中央銀行控制利率或貨幣供給。" },
-            { text: "中性財政政策", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
+    // 計算機概論 (History)
+    { subject: "History", topic: "進位制", question: "二進位 $(1011)_2$ 轉換為十進位是多少？", answerOptions: [{ text: "11", isCorrect: true, rationale: "$8+2+1=11$。" }, { text: "13", isCorrect: false, rationale: "錯。" }, { text: "9", isCorrect: false, rationale: "錯。" }, { text: "15", isCorrect: false, rationale: "錯。" }] },
+    { subject: "History", topic: "OS", question: "下列何者不是作業系統的核心功能？", answerOptions: [{ text: "文書處理", isCorrect: true, rationale: "文書處理是應用軟體。" }, { text: "記憶體管理", isCorrect: false, rationale: "是核心功能。" }, { text: "行程排程", isCorrect: false, rationale: "是核心功能。" }, { text: "檔案系統", isCorrect: false, rationale: "是核心功能。" }] },
+    { subject: "History", topic: "網路", question: "HTTP 預設的連接埠 (Port) 是多少？", answerOptions: [{ text: "80", isCorrect: true, rationale: "標準協定 Port。" }, { text: "443", isCorrect: false, rationale: "那是 HTTPS。" }, { text: "21", isCorrect: false, rationale: "這是 FTP。" }, { text: "22", isCorrect: false, rationale: "這是 SSH。" }] },
+    { subject: "History", topic: "資料結構", question: "後進先出 (LIFO) 是哪種資料結構的特性？", answerOptions: [{ text: "堆疊 (Stack)", isCorrect: true, rationale: "Stack 性質即 LIFO。" }, { text: "佇列 (Queue)", isCorrect: false, rationale: "Queue 是 FIFO。" }, { text: "鏈結串列", isCorrect: false, rationale: "錯。" }, { text: "樹狀結構", isCorrect: false, rationale: "錯。" }] },
+    { subject: "History", topic: "邏輯閘", question: "NOT (A AND B) 等於？", answerOptions: [{ text: "NAND", isCorrect: true, rationale: "邏輯閘基本定義。" }, { text: "NOR", isCorrect: false, rationale: "錯。" }, { text: "XOR", isCorrect: false, rationale: "錯。" }, { text: "OR", isCorrect: false, rationale: "錯。" }] },
 
-    // --- 微積分 (English) ---
-    {
-        subject: "English", topic: "微分基本式", question: "微積分中，函數 $f(x) = x^2$ 的導數是？",
-        answerOptions: [
-            { text: "$x$", isCorrect: false, rationale: "錯誤。" },
-            { text: "$2x$", isCorrect: true, rationale: "利用冪次法則：$\\frac{d}{dx} x^n = nx^{n-1}$。" },
-            { text: "$x^3/3$", isCorrect: false, rationale: "這是 $x^2$ 的不定積分。" },
-            { text: "1", isCorrect: false, rationale: "這是 $x$ 的導數。" }
-        ]
-    },
-    {
-        subject: "English", topic: "定積分", question: "計算定積分 $\\int_0^1 (3x^2 + 1) dx$ 的值。",
-        answerOptions: [
-            { text: "1", isCorrect: false, rationale: "錯誤。" },
-            { text: "2", isCorrect: true, rationale: " $\\int_0^1 (3x^2 + 1) dx = [x^3 + x]_0^1 = (1^3 + 1) - (0) = 2$。" },
-            { text: "3", isCorrect: false, rationale: "錯誤。" },
-            { text: "0", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    {
-        subject: "English", topic: "鏈鎖律", question: "若 $f(x) = \\sin(2x)$，則 $f'(x)$ 是什麼？",
-        answerOptions: [
-            { text: "$\\cos(2x)$", isCorrect: false, rationale: "忘記乘內部函數的導數。" },
-            { text: "$2 \\cos(2x)$", isCorrect: true, rationale: "利用鏈鎖律：$\\frac{d}{dx} f(g(x)) = f'(g(x)) \\cdot g'(x)$。" },
-            { text: "$-2 \\cos(2x)$", isCorrect: false, rationale: "錯誤。" },
-            { text: "$2 \\sin(2x)$", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    {
-        subject: "English", topic: "極限", question: "計算極限 $\\lim_{x \\to 0} \\frac{\\sin x}{x}$。",
-        answerOptions: [
-            { text: "$0$", isCorrect: false, rationale: "錯誤。" },
-            { text: "$1$", isCorrect: true, rationale: "這是微積分中常見的基本極限公式。" },
-            { text: "$\\infty$", isCorrect: false, rationale: "錯誤。" },
-            { text: "不存在", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    {
-        subject: "English", topic: "多變量", question: "函數 $f(x, y) = x^2 y$ 對 $x$ 的偏導數 $\\frac{\\partial f}{\\partial x}$ 是？",
-        answerOptions: [
-            { text: "$2x$", isCorrect: false, rationale: " $y$ 視為常數。" },
-            { text: "$2xy$", isCorrect: true, rationale: " $y$ 視為常數，$\\frac{\\partial}{\\partial x} (x^2 y) = y \\cdot \\frac{d}{dx} (x^2) = 2xy$。" },
-            { text: "$x^2$", isCorrect: false, rationale: "這是對 $y$ 的偏導數。" },
-            { text: "$2x^2 y$", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
+    // 經濟學 (Geography)
+    { subject: "Geography", topic: "供需", question: "當價格上升時，需求量通常會？", answerOptions: [{ text: "減少", isCorrect: true, rationale: "需求法則。" }, { text: "增加", isCorrect: false, rationale: "錯。" }, { text: "不變", isCorrect: false, rationale: "錯。" }, { text: "先增後減", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Geography", topic: "機會成本", question: "為了得到某樣東西所必須放棄的最大價值稱為？", answerOptions: [{ text: "機會成本", isCorrect: true, rationale: "經濟學核心概念。" }, { text: "邊際成本", isCorrect: false, rationale: "錯。" }, { text: "沈沒成本", isCorrect: false, rationale: "錯。" }, { text: "變動成本", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Geography", topic: "GDP", question: "GDP 計算的是在國內生產的？", answerOptions: [{ text: "最終產品與勞務", isCorrect: true, rationale: "不計入中間投入。" }, { text: "總產出", isCorrect: false, rationale: "錯。" }, { text: "出口品", isCorrect: false, rationale: "錯。" }, { text: "二二手貨", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Geography", topic: "市場", question: "下列哪種市場有最多的廠商？", answerOptions: [{ text: "完全競爭", isCorrect: true, rationale: "完全競爭特點是廠商極多。" }, { text: "獨佔", isCorrect: false, rationale: "只有一家。" }, { text: "寡佔", isCorrect: false, rationale: "少數幾家。" }, { text: "獨佔競爭", isCorrect: false, rationale: "較完全競爭少。" }] },
+    { subject: "Geography", topic: "外部性", question: "工廠排放廢氣屬於？", answerOptions: [{ text: "負外部性", isCorrect: true, rationale: "對社會造成額外成本。" }, { text: "正外部性", isCorrect: false, rationale: "錯。" }, { text: "公共財", isCorrect: false, rationale: "錯。" }, { text: "資訊不對稱", isCorrect: false, rationale: "錯。" }] },
 
-    // --- 統計學 (Coding) ---
-    {
-        subject: "Coding", topic: "敘述統計", question: "統計學中，樣本與母體之間的差異，最常使用什麼指標衡量？",
-        answerOptions: [
-            { text: "平均數 (Mean)", isCorrect: false, rationale: "平均數是集中趨勢的測量。" },
-            { text: "標準差 (Standard Deviation)", isCorrect: true, rationale: "標準差衡量數據的分散程度，間接反映樣本對母體的代表性。" },
-            { text: "變異係數 (Coefficient of Variation)", isCorrect: false, rationale: "是相對分散程度的測量。" },
-            { text: "P值 (P-value)", isCorrect: false, rationale: "用於假設檢定。" }
-        ]
-    },
-    {
-        subject: "Coding", topic: "機率分佈", question: "若變數 $X$ 服從常態分佈 (Normal Distribution)，則其分佈圖形呈現何種形狀？",
-        answerOptions: [
-            { text: "L 型", isCorrect: false, rationale: "錯誤。" },
-            { text: "J 型", isCorrect: false, rationale: "錯誤。" },
-            { text: "雙峰型 (Bimodal)", isCorrect: false, rationale: "錯誤。" },
-            { text: "鐘形 (Bell-shaped)", isCorrect: true, rationale: "常態分佈的典型特徵。" }
-        ]
-    },
-    {
-        subject: "Coding", topic: "假設檢定", question: "在假設檢定中，拒絕虛無假設 ($H_0$) 但 $H_0$ 事實上為真時，稱為什麼錯誤？",
-        answerOptions: [
-            { text: "型一錯誤 (Type I Error)", isCorrect: true, rationale: "型一錯誤的定義為：拒絕真實的 $H_0$。" },
-            { text: "型二錯誤 (Type II Error)", isCorrect: false, rationale: "型二錯誤為：接受錯誤的 $H_0$。" },
-            { text: "抽樣錯誤", isCorrect: false, rationale: "錯誤。" },
-            { text: "測量錯誤", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    {
-        subject: "Coding", topic: "迴歸分析", question: "在簡單線性迴歸 $Y = \\beta_0 + \\beta_1 X + \\epsilon$ 中， $\\beta_1$ 代表什麼？",
-        answerOptions: [
-            { text: "截距 (Intercept)", isCorrect: false, rationale: "這是 $\\beta_0$。" },
-            { text: "殘差 (Residual)", isCorrect: false, rationale: "這是 $\\epsilon$。" },
-            { text: "斜率 (Slope)", isCorrect: true, rationale: " $\\beta_1$ 衡量 $X$ 變化對 $Y$ 變化的影響。" },
-            { text: "誤差項的標準差", isCorrect: false, rationale: "錯誤。" }
-        ]
-    },
-    {
-        subject: "Coding", topic: "集中趨勢", question: "若數據集為 $\{2, 3, 5, 5, 10\}$，其中位數 (Median) 是多少？",
-        answerOptions: [
-            { text: "5", isCorrect: true, rationale: "數據排序後為 $2, 3, 5, 5, 10$。中間的數是 $5$。" },
-            { text: "5.5", isCorrect: false, rationale: "這是平均數 $(2+3+5+5+10)/5 = 5$。" },
-            { text: "2", isCorrect: false, rationale: "這是最小值。" },
-            { text: "10", isCorrect: false, rationale: "這是眾數 (Mode) 也是 $5$。" }
-        ]
-    },
+    // 微積分 (English)
+    { subject: "English", topic: "微分", question: "$\frac{d}{dx} (\sin x)$ 等於？", answerOptions: [{ text: "$\cos x$", isCorrect: true, rationale: "基本微分公式。" }, { text: "$-\cos x$", isCorrect: false, rationale: "符號錯。" }, { text: "$\sin x$", isCorrect: false, rationale: "錯。" }, { text: "$\sec^2 x$", isCorrect: false, rationale: "這是 $\tan$ 的微分。" }] },
+    { subject: "English", topic: "積分", question: "$\int \frac{1}{x} dx$ 等於？", answerOptions: [{ text: "$\ln |x| + C$", isCorrect: true, rationale: "基本積分公式。" }, { text: "$e^x$", isCorrect: false, rationale: "錯。" }, { text: "$-1/x^2$", isCorrect: false, rationale: "這是微分。" }, { text: "$x$", isCorrect: false, rationale: "錯。" }] },
+    { subject: "English", topic: "極限", question: "當 $x \to 0$ 時，$\frac{\sin x}{x}$ 的極限是？", answerOptions: [{ text: "1", isCorrect: true, rationale: "重要極限公式。" }, { text: "0", isCorrect: false, rationale: "錯。" }, { text: "$\infty$", isCorrect: false, rationale: "錯。" }, { text: "不存在", isCorrect: false, rationale: "錯。" }] },
+    { subject: "English", topic: "連鎖律", question: "微分 $f(g(x))$ 的結果為？", answerOptions: [{ text: "$f'(g(x))g'(x)$", isCorrect: true, rationale: "連鎖律 (Chain Rule) 定義。" }, { text: "$f'(x)g'(x)$", isCorrect: false, rationale: "錯。" }, { text: "$f(x)g'(x)$", isCorrect: false, rationale: "錯。" }, { text: "$f'(g(x))$", isCorrect: false, rationale: "錯。" }] },
+    { subject: "English", topic: "二階微分", question: "若二階微分大於 0，則該處函數圖形為？", answerOptions: [{ text: "凹向上", isCorrect: true, rationale: "判斷凹凸性。" }, { text: "凹向下", isCorrect: false, rationale: "錯。" }, { text: "遞增", isCorrect: false, rationale: "那是階微分。" }, { text: "反曲點", isCorrect: false, rationale: "那是二階為 0。" }] },
+
+    // 統計學 (Coding)
+    { subject: "Coding", topic: "平均數", question: "一組數據 $(2, 4, 6)$ 的平均數是？", answerOptions: [{ text: "4", isCorrect: true, rationale: "$(2+4+6)/3 = 4$。" }, { text: "5", isCorrect: false, rationale: "錯。" }, { text: "6", isCorrect: false, rationale: "錯。" }, { text: "2", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Coding", topic: "機率", question: "擲一個公正骰子，點數大於 4 的機率是？", answerOptions: [{ text: "1/3", isCorrect: true, rationale: "點數 5, 6，共 2/6 = 1/3。" }, { text: "1/2", isCorrect: false, rationale: "錯。" }, { text: "1/6", isCorrect: false, rationale: "錯。" }, { text: "2/3", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Coding", topic: "常態分佈", question: "標準常態分佈的平均值為？", answerOptions: [{ text: "0", isCorrect: true, rationale: "標準常態分佈定義為 $N(0, 1)$。" }, { text: "1", isCorrect: false, rationale: "那是標準差。" }, { text: "0.5", isCorrect: false, rationale: "錯。" }, { text: "100", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Coding", topic: "假設檢定", question: "P-value 小於顯著水準 $\alpha$ 時，我們應該？", answerOptions: [{ text: "拒絕虛無假設 $H_0$", isCorrect: true, rationale: "P-value 越小越顯著。" }, { text: "接受虛無假設 $H_0$", isCorrect: false, rationale: "錯。" }, { text: "無法判斷", isCorrect: false, rationale: "錯。" }, { text: "重新採樣", isCorrect: false, rationale: "錯。" }] },
+    { subject: "Coding", topic: "中位數", question: "數據 $(1, 3, 10)$ 的中位數是？", answerOptions: [{ text: "3", isCorrect: true, rationale: "排序後的中間值。" }, { text: "1", isCorrect: false, rationale: "錯。" }, { text: "10", isCorrect: false, rationale: "錯。" }, { text: "4.6", isCorrect: false, rationale: "那是平均數。" }] }
 ];
 
-// === C. 影片 ID、師資與 LINE 連結 (保持不變) ===
 const VIDEO_LINKS = {
-    Math: { title: "工程數學 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "LiW8jvHZ7o4" },
-    Science: { title: "線性代數 - 周易 老師 試聽課程", teacher: "周易 老師", youtubeId: "dW4cUVU089Q" },
-    History: { title: "計算機概論 - 張逸 老師 試聽課程", teacher: "張逸 老師", youtubeId: "ZC98Wmrtb7o" },
-    Geography: { title: "經濟學 - 牧翰 老師 試聽課程", teacher: "牧翰 老師", youtubeId: "2ZXmDGBC4c4" },
-    English: { title: "微積分 - 梁修 老師 試聽課程", teacher: "梁修 老師", youtubeId: "QNLL0qfEPmI" },
-    Coding: { title: "統計學 - 張翔 老師 試聽課程", teacher: "張翔 老師", youtubeId: "GhAxVkA1He8" }
+    Math: { title: "工程數學 - 周易 老師", youtubeId: "LiW8jvHZ7o4" },
+    Science: { title: "線性代數 - 周易 老師", youtubeId: "dW4cUVU089Q" },
+    History: { title: "計算機概論 - 張逸 老師", youtubeId: "ZC98Wmrtb7o" },
+    Geography: { title: "經濟學 - 牧翰 老師", youtubeId: "2ZXmDGBC4c4" },
+    English: { title: "微積分 - 梁修 老師", youtubeId: "QNLL0qfEPmI" },
+    Coding: { title: "統計學 - 張翔 老師", youtubeId: "GhAxVkA1He8" }
 };
-const LINE_CTA_LINK = "https://lin.ee/Oj42w8M";
 
+// === C. 核心邏輯變數 ===
 let currentSubject = '';
 let currentScore = 0;
-let answeredQuestions = new Set();
+let answeredCount = 0;
 let wrongQuestionsData = [];
-let startTime;
-let player;
 
-// === 驗證函式 (保持不變) ===
-function isValidName(name) {
-    return /^[\u4e00-\u9fa5]{2,}$/.test(name);
-}
-function isValidTaiwanPhone(phone) {
-    return /^\d{10}$/.test(phone);
-}
+// === D. 功能函式 ===
 
-// === D. 頁面控制 ===
+// 頁面切換
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
@@ -346,109 +80,52 @@ function showPage(pageId) {
     }
 }
 
-// === E. 表單資料提交函數 (保持不變) ===
-async function submitDataToGoogleForm(url, dataToSubmit) {
-    const formError = document.getElementById('formError');
-    if (url === GOOGLE_FORM_A_URL) formError.style.display = 'none';
+// 欄位驗證
+function isValidName(name) { return /^[\u4e00-\u9fa5]{2,}$/.test(name); }
+function isValidPhone(phone) { return /^09\d{8}$/.test(phone); }
 
-    const body = new URLSearchParams();
-    for (const key in dataToSubmit) {
-        body.append(key, dataToSubmit[key]);
-    }
-    
-    try {
-        await fetch(url, {
-            method: 'POST',
-            body: body,
-            mode: 'no-cors'
-        });
-        console.log(`資料已發送到 Google Forms (${url})`);
-        return true;
-    } catch (error) {
-        console.error('Google Forms 提交失敗:', error);
-        if (url === GOOGLE_FORM_A_URL) {
-            formError.textContent = '使用者資訊提交失敗，請檢查網路。';
-            formError.style.display = 'block';
-        }
-        return false;
-    }
-}
-
-// === F. 表單邏輯 (提交使用者資訊到表單 A) ===
+// 表單提交
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const userName = document.getElementById(FORM_IDS.HTML_NAME_ID).value.trim();
-    const userDepartment = document.getElementById(FORM_IDS.HTML_DEPT_ID).value.trim();
-    const userPhone = document.getElementById(FORM_IDS.HTML_PHONE_ID).value.trim();
-    const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
-    const formError = document.getElementById('formError');
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+    const dept = document.getElementById('userDepartment').value.trim();
+    const uniRadio = document.querySelector('input[name="userUniversity"]:checked');
+    const gradeRadio = document.querySelector('input[name="userGrade"]:checked');
+    const err = document.getElementById('formError');
 
-    const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]:checked`);
-    const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO_NAME}"]:checked`);
-
-    formError.style.display = 'none';
-
-    if (!userName || !uniRadio || (uniRadio.value === '其他' && !uniOtherText) || !userDepartment || !gradeRadio || !userPhone) {
-        formError.textContent = "請完整填寫所有必填欄位。";
-        formError.style.display = 'block';
-        return;
+    if (!name || !phone || !dept || !uniRadio || !gradeRadio) {
+        err.innerText = "⚠️ 請完整填寫所有欄位！"; err.style.display = 'block'; return;
     }
+    if (!isValidName(name)) { err.innerText = "⚠️ 請輸入真實姓名（至少兩個中文字）"; err.style.display = 'block'; return; }
+    if (!isValidPhone(phone)) { err.innerText = "⚠️ 手機格式錯誤（例：0912345678）"; err.style.display = 'block'; return; }
 
-    if (!isValidName(userName)) {
-        formError.textContent = "姓名格式錯誤：請填寫至少 2 個中文字。";
-        formError.style.display = 'block';
-        return;
-    }
-
-    if (!isValidTaiwanPhone(userPhone)) {
-        formError.textContent = "聯絡手機格式錯誤：請輸入 10 碼數字 (例如 09xxxxxxxx)。";
-        formError.style.display = 'block';
-        return;
-    }
-
-    const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
-    const userGrade = gradeRadio.value;
+    const uniVal = uniRadio.value === '其他' ? document.getElementById('uniOtherText').value : uniRadio.value;
     
-    const dataToSubmit = {
-        [FORM_IDS.FORM_A_NAME]: userName,
-        [FORM_IDS.FORM_A_UNI]: uniValue,
-        [FORM_IDS.FORM_A_DEPT_GRADE]: `${userDepartment} / ${userGrade}`,
-        [FORM_IDS.FORM_A_PHONE]: userPhone,
-        [FORM_IDS.FORM_A_GRADE]: userGrade,
-    };
+    // 異步發送到 Google 表單
+    const formData = new URLSearchParams();
+    formData.append(FORM_IDS.FORM_A_NAME, name);
+    formData.append(FORM_IDS.FORM_A_UNI, uniVal);
+    formData.append(FORM_IDS.FORM_A_DEPT_GRADE, `${dept} / ${gradeRadio.value}`);
+    formData.append(FORM_IDS.FORM_A_PHONE, phone);
+    formData.append(FORM_IDS.FORM_A_GRADE, gradeRadio.value);
 
-    const isSubmitted = await submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit);
+    fetch(GOOGLE_FORM_A_URL, { method: 'POST', body: formData, mode: 'no-cors' });
 
-    if (isSubmitted) {
-        localStorage.setItem('userData', JSON.stringify({
-            name: userName,
-            uni: uniValue,
-            dept: userDepartment,
-            grade: userGrade,
-            phone: userPhone
-        }));
-        startTime = Date.now();
-        showPage('subjectSelectPage');
-    }
+    localStorage.setItem('userName', name);
+    showPage('subjectSelectPage');
 });
 
-// "其他" 大學邏輯
-document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEach(r => {
-    r.addEventListener('change', function() {
-        const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
-        if (this.value === '其他') {
-            textInput.disabled = false;
-            textInput.required = true;
-            textInput.focus();
-        } else {
-            textInput.disabled = true;
-            textInput.required = false;
-            textInput.value = '';
-        }
+// 大學「其他」輸入框切換
+document.querySelectorAll('input[name="userUniversity"]').forEach(r => {
+    r.addEventListener('change', () => {
+        const textInput = document.getElementById('uniOtherText');
+        textInput.disabled = (r.value !== '其他');
+        if(!textInput.disabled) textInput.focus();
     });
 });
 
-// === G. 測驗邏輯 (保持不變) ===
+// 選擇科目
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
         currentSubject = this.getAttribute('data-subject');
@@ -456,161 +133,113 @@ document.querySelectorAll('.subject-button').forEach(btn => {
     });
 });
 
+// 開始測驗
 function startQuiz(subject) {
-    currentScore = 0;
-    answeredQuestions.clear();
-    wrongQuestionsData = [];
+    currentScore = 0; answeredCount = 0; wrongQuestionsData = [];
     document.getElementById('quiz-result').classList.add('hidden');
-    document.getElementById('quiz-content').classList.remove('hidden');
+    document.getElementById('quiz-content').innerHTML = '';
+    
     const quizList = ALL_QUIZ_DATA.filter(q => q.subject === subject);
     const container = document.getElementById('quiz-content');
-    container.innerHTML = '';
-    const button = document.querySelector(`.subject-button[data-subject="${subject}"]`);
-    const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-    document.getElementById('quizTitle').innerText = `正在測驗：${subjectName}`;
 
-    quizList.forEach((q, index) => {
+    quizList.forEach((q, idx) => {
         const card = document.createElement('div');
         card.className = 'question-card';
-        card.dataset.index = index;
         card.innerHTML = `
-            <div class="question-text">Q${index + 1}. ${q.question}</div>
-            <ul class="options-list">
-                ${q.answerOptions.map((opt, i) => `<li class="option-item" data-idx="${i}"><span style="font-weight:bold; margin-right:8px;">${String.fromCharCode(65+i)}.</span> ${opt.text}</li>`).join('')}
-            </ul>
-            <div class="rationale" id="rat-${index}"></div>
+            <div class="question-text">Q${idx+1}. ${q.question}</div>
+            <div class="option-item" data-q="${idx}" data-o="0">${q.answerOptions[0].text}</div>
+            <div class="option-item" data-q="${idx}" data-o="1">${q.answerOptions[1].text}</div>
+            <div class="option-item" data-q="${idx}" data-o="2">${q.answerOptions[2].text}</div>
+            <div class="option-item" data-q="${idx}" data-o="3">${q.answerOptions[3].text}</div>
+            <div class="rationale" id="rat-${idx}"></div>
         `;
         container.appendChild(card);
     });
 
     document.querySelectorAll('.option-item').forEach(item => {
-        item.addEventListener('click', handleAnswerClick);
+        item.addEventListener('click', handleAnswer);
     });
 
     showPage('quizPage');
-    if (window.renderMathInElement) {
-        renderMathInElement(container, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
-    }
+    if(window.renderMathInElement) renderMathInElement(container, { delimiters: [{left: "$", right: "$", display: false}] });
 }
 
-function handleAnswerClick() {
-    const card = this.closest('.question-card');
-    const qIdx = parseInt(card.dataset.index);
-    if (answeredQuestions.has(qIdx)) return;
-    answeredQuestions.add(qIdx);
+// 處理答題
+function handleAnswer() {
+    const qIdx = parseInt(this.dataset.q);
+    const oIdx = parseInt(this.dataset.o);
+    const parent = this.parentNode;
+
+    if (parent.classList.contains('answered')) return;
+    parent.classList.add('answered');
+    answeredCount++;
 
     const quizList = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject);
-    const currentQ = quizList[qIdx];
-    const selectedIdx = parseInt(this.dataset.idx);
-    const isCorrect = currentQ.answerOptions[selectedIdx].isCorrect;
-    
-    this.classList.add('selected');
+    const isCorrect = quizList[qIdx].answerOptions[oIdx].isCorrect;
+
     if (isCorrect) {
         this.classList.add('correct');
         currentScore += 20;
     } else {
         this.classList.add('incorrect');
-        const correctIdx = currentQ.answerOptions.findIndex(o => o.isCorrect);
-        card.querySelectorAll('.option-item')[correctIdx].classList.add('correct');
-        wrongQuestionsData.push({ topic: currentQ.topic, question: currentQ.question });
+        wrongQuestionsData.push(quizList[qIdx]);
+        const correctBtn = parent.querySelector(`[data-o="${quizList[qIdx].answerOptions.findIndex(o => o.isCorrect)}"]`);
+        correctBtn.classList.add('correct');
     }
 
-    const ratDiv = document.getElementById(`rat-${qIdx}`);
-    ratDiv.innerHTML = `<strong>💡 解析：</strong> ${currentQ.answerOptions.find(o => o.isCorrect).rationale}`;
-    ratDiv.classList.add('visible');
-    if (window.renderMathInElement) {
-        renderMathInElement(ratDiv, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
-    }
+    const rat = document.getElementById(`rat-${qIdx}`);
+    rat.innerHTML = `💡 <b>解析：</b> ${quizList[qIdx].answerOptions.find(o => o.isCorrect).rationale}`;
+    rat.classList.add('visible');
+    if(window.renderMathInElement) renderMathInElement(rat, { delimiters: [{left: "$", right: "$", display: false}] });
 
-    if (answeredQuestions.size === 5) {
-        setTimeout(showQuizResult, 800);
-    }
+    if (answeredCount === 5) setTimeout(showQuizResult, 1000);
 }
 
+// 顯示測驗結果並觸發通知
 function showQuizResult() {
     document.getElementById('quiz-content').classList.add('hidden');
-    const resultDiv = document.getElementById('quiz-result');
-    resultDiv.classList.remove('hidden');
+    document.getElementById('quiz-result').classList.remove('hidden');
     document.getElementById('score').innerText = currentScore;
     
-    let potentialLevel = '';
-    let comment = '';
-    if (currentScore === 100) {
-        potentialLevel = 'S 級頂尖';
-        comment = `🌟  學霸潛能！您的知識結構扎實且應用能力極強，遠超多數清交學生！寒假目標：維持手感，挑戰更進階的題型。`;
-    } else if (currentScore >= 80) {
-        potentialLevel = 'A 級強者';
-        comment = `💎 您的基礎知識掌握度高，但在特定章節仍有提升空間。寒假目標：鎖定弱點，精準補強，就能晉升 S 級！`;
-    } else if (currentScore >= 60) {
-        potentialLevel = 'B 級穩定';
-        comment = `✨ 您已具備一定基礎，但面對高難度挑戰時，計算或觀念整合能力略顯不足。寒假目標：建立完整知識地圖，從頭打好根基。`;
-    } else {
-        potentialLevel = 'C 級覺醒中';
-        comment = `💪  別灰心！這份測驗剛好幫您找出盲點。立即規劃補強，寒假後逆轉勝！`;
-    }
-    document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${potentialLevel}</strong><br>${comment}`;
-    localStorage.setItem('potentialLevel', potentialLevel);
+    let level = currentScore >= 80 ? 'S 級頂尖' : (currentScore >= 60 ? 'A 級強者' : 'B 級穩定');
+    document.getElementById('scoreComment').innerHTML = `您的學霸潛能等級：<strong>${level}</strong><br>現在您可以截圖此畫面並追蹤 IG 領取獎勵！`;
+    localStorage.setItem('potentialLevel', level);
+
+    const overlay = document.getElementById('notificationOverlay');
+    overlay.classList.remove('hidden');
+    setTimeout(() => overlay.classList.add('visible'), 50);
 }
 
-// 前往資源頁
+// 點擊通知外部關閉
+document.getElementById('notificationOverlay').addEventListener('click', function(e) {
+    if (e.target === this) {
+        this.classList.remove('visible');
+        setTimeout(() => this.classList.add('hidden'), 400);
+    }
+});
+
+// 最後一頁資源
 document.getElementById('goToResourceBtn').addEventListener('click', function() {
-    const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
-    const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-    document.getElementById('finalSubjectName').innerText = subjectName;
-    document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
-    const potentialLevel = localStorage.getItem('potentialLevel') || 'C 級覺醒中';
-    document.getElementById('potentialLevelDisplay').innerText = potentialLevel;
+    document.getElementById('finalSubjectName').innerText = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`).innerText;
+    document.getElementById('finalScoreDisplay').innerText = currentScore;
+    document.getElementById('potentialLevelDisplay').innerText = localStorage.getItem('potentialLevel');
     
-    let msg = currentScore === 100 ? "實力驚人！看這部進階影片來挑戰極限吧！" : "針對您的測驗結果，顧問推薦您先由這部影片打底：";
+    let msg = currentScore >= 80 ? "太強了！您已具備頂大研究所競爭力，寒假建議超前部署複習核心考點。" : "表現不錯！寒假是拉開差距的關鍵，建議針對弱點科目進行 4 週強化。";
     document.getElementById('scoreMessage').innerText = msg;
-    document.getElementById('lineCtaButton').href = LINE_CTA_LINK;
+    document.getElementById('lineCtaButton').href = "https://lin.ee/Oj42w8M";
     showPage('resourcePage');
 });
 
-// === H. 讀書計畫生成 (保持不變) ===
-function generateStudyPlan() {
-    const week1 = document.getElementById('plan-week-1'), week2 = document.getElementById('plan-week-2'), week3 = document.getElementById('plan-week-3'), week4 = document.getElementById('plan-week-4');
-    const weaknessTag = document.getElementById('weaknessTag');
-    [week1, week2, week3, week4].forEach(el => el.innerHTML = '');
-
-    let topics = [];
-    if (wrongQuestionsData.length > 0) {
-        topics = wrongQuestionsData.map(d => d.topic);
-        weaknessTag.innerText = topics.join('、');
-        const half = Math.ceil(topics.length / 2);
-        week1.innerHTML = `<ul>${topics.slice(0, half).map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
-        if (topics.slice(half).length > 0) {
-            week2.innerHTML = `<ul>${topics.slice(half).map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
-        } else {
-            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
-        }
-    } else {
-        weaknessTag.innerText = "全數答對！菁英強化版";
-        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
-        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
-    }
-
-    const sName = document.getElementById('finalSubjectName').innerText;
-    week3.innerHTML = `<ul><li>🧩 <strong>${sName} 跨章節整合：</strong>將各單元觀念串聯，繪製心智圖。</li><li>✍️ <strong>五年考古題演練 (Part 1)：</strong>完成近五年台聯大/台大試題。</li></ul>`;
-    week4.innerHTML = `<ul><li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li><li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li></ul>`;
-}
-
-// === I. YouTube 嵌入 (保持不變) ===
 function initYouTube() {
-    const container = document.getElementById('youtubePlayer');
-    if (container.querySelector('iframe')) return;
-    const vidId = VIDEO_LINKS[currentSubject].youtubeId;
-    if (vidId && vidId.length === 11) {
-        container.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1" title="YouTube video player" frameborder="0" allowfullscreen></iframe>`;
-    } else {
-        container.innerHTML = `<p style="color: red; padding: 20px; text-align: center;">影片 ID 錯誤。</p>`;
-    }
+    const vid = VIDEO_LINKS[currentSubject].youtubeId;
+    document.getElementById('youtubePlayer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen></iframe>`;
 }
 
-// 初始化
-document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('userData')) showPage('subjectSelectPage');
-    else showPage('userInfoPage');
-    const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
-    if (uniOtherText) { uniOtherText.disabled = true; uniOtherText.required = false; }
-});
+function generateStudyPlan() {
+    const topics = wrongQuestionsData.length > 0 ? wrongQuestionsData.map(q => q.topic) : ["進階考點回顧"];
+    document.getElementById('plan-week-1').innerText = `觀念重整：針對「${topics[0] || '核心單元'}」進行基礎複習，並搭配大碩雲端影音。`;
+    document.getElementById('plan-week-2').innerText = `題型演練：練習${currentSubject === 'Math' ? '工程數學' : '該科目'}歷屆考題，掌握 60% 基本分。`;
+    document.getElementById('plan-week-3').innerText = `強化訓練：針對錯誤題目進行二刷，並開始整理個人專屬筆記。`;
+    document.getElementById('plan-week-4').innerText = `模擬測驗：進行限時模擬考，維持手感，並預約大碩專業諮詢。`;
+    document.getElementById('weaknessTag').innerText = topics.slice(0, 2).join('、') || "無明顯弱點";
+}

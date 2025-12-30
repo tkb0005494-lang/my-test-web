@@ -349,3 +349,25 @@ input[type="tel"]:focus,
         grid-template-columns: repeat(2, 1fr);
     }
 }
+/* IG 按鈕專用修飾 */
+.ig-link-btn {
+    text-decoration: none !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ig-custom-icon {
+    width: 2em;
+    height: 2em;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    border: 2px solid var(--color-accent);
+}
+
+.ig-link-btn span {
+    color: var(--color-text-light);
+    font-size: 0.9em;
+}

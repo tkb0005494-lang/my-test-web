@@ -396,7 +396,11 @@ input[type="tel"]:focus,
         grid-template-columns: repeat(2, 1fr);
     }
 }
-/* 第二個懸浮通知：測驗結果互動通知 */
+
+/* ================================================ */
+/* 第二個懸浮通知：測驗結果互動通知 - 修正版 */
+/* ================================================ */
+
 .floating-notification2 {
     position: fixed;
     top: 0;
@@ -411,7 +415,7 @@ input[type="tel"]:focus,
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
-    pointer-events: none; /* 讓遮罩層本身不阻擋點擊 */
+    /* 移除 pointer-events: none，讓遮罩層可以接收點擊事件 */
 }
 
 .floating-notification2.active {
@@ -421,11 +425,6 @@ input[type="tel"]:focus,
 
 .floating-notification2.hidden {
     display: none;
-}
-
-/* 當通知活躍時，啟用遮罩層的點擊事件 */
-.floating-notification2.active {
-    pointer-events: auto;
 }
 
 .notification-content2 {

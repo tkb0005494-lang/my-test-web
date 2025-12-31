@@ -403,12 +403,19 @@ input[type="tel"]:focus,
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* 半透明遮罩 */
-    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.floating-notification2.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .floating-notification2.hidden {
@@ -416,81 +423,148 @@ input[type="tel"]:focus,
 }
 
 .notification-content2 {
-    background: linear-gradient(135deg, #1a3a5f 0%, #2a4a7f 100%);
-    color: #ffffff;
-    padding: 40px 35px;
-    border-radius: 16px;
-    border: 4px solid #4CAF50;
-    max-width: 450px;
-    width: 85%;
-    text-align: center;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, #1c3b6c 0%, #2a5298 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    border: 3px solid #ffd700;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     position: relative;
-    pointer-events: none; /* 內容本身不觸發點擊事件 */
 }
 
-.notification-content2::before {
-    content: "";
-    position: absolute;
-    top: -6px;
-    left: -6px;
-    right: -6px;
-    bottom: -6px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #4CAF50, #8BC34A, #CDDC39);
-    z-index: -1;
-    opacity: 0.7;
+.notification-header {
+    text-align: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
 }
 
-.notification-content2 p {
-    margin: 12px 0;
+.notification-icon {
+    font-size: 3em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.notification-header h3 {
+    color: #ffd700;
+    margin: 0;
+    font-size: 1.5em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.notification-body {
+    margin-top: 20px;
+}
+
+.notification-body p {
+    margin: 15px 0;
+    line-height: 1.6;
     font-size: 1.1em;
-    line-height: 1.5;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.notification-content2 p:first-child {
-    color: #FFEB3B;
+.notification-step {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid #ffd700;
+}
+
+.step-number {
+    background-color: #ffd700;
+    color: #1c3b6c;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
-    font-size: 1.4em;
-    margin-bottom: 20px;
+    margin-right: 15px;
+    font-size: 0.9em;
 }
 
-.notification-content2 p:nth-child(2) {
-    color: #E8F5E9;
-    font-size: 1em;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 12px;
-    border-radius: 8px;
-    border-left: 3px solid #4CAF50;
-}
-
-.notification-content2 p:last-child {
-    color: #81C784;
-    font-weight: bold;
+.notification-action {
     margin-top: 25px;
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255, 215, 0, 0.5);
+}
+
+.action-text {
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 20px !important;
+}
+
+.action-btn {
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #1c3b6c;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
     font-size: 1.2em;
-    padding-top: 15px;
-    border-top: 2px dashed #4CAF50;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+}
+
+/* 關閉按鈕樣式 */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* 響應式調整 */
 @media (max-width: 480px) {
     .notification-content2 {
-        padding: 30px 25px;
-        width: 90%;
-        margin: 0 15px;
+        padding: 20px;
+        width: 95%;
     }
     
-    .notification-content2 p {
+    .notification-icon {
+        font-size: 2.5em;
+    }
+    
+    .notification-header h3 {
+        font-size: 1.3em;
+    }
+    
+    .notification-body p {
         font-size: 1em;
     }
     
-    .notification-content2 p:first-child {
-        font-size: 1.2em;
-    }
-    
-    .notification-content2 p:last-child {
+    .action-btn {
+        padding: 12px 20px;
         font-size: 1.1em;
     }
 }

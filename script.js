@@ -740,43 +740,64 @@ function bindResourceButton() {
         // 重新獲取按鈕引用
         const btn = document.getElementById('goToResourceBtn');
         
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('按鈕被點擊！');
-            console.log('當前分數:', currentScore);
-            console.log('當前科目:', currentSubject);
-            console.log('是否第一次點擊:', !hasClickedFirstTime);
-            
-            // 如果是第一次點擊
-            if (!hasClickedFirstTime) {
-                hasClickedFirstTime = true; // 標記為已點擊
-                console.log('第一次點擊，顯示通知');
-                
-                // 顯示第二個懸浮通知
-                const notification2 = document.getElementById('floatingNotification2');
-                if (notification2) {
-                    notification2.classList.remove('hidden');
-                    notification2.classList.add('active');
-                    isNotificationActive = true;
-                    console.log('通知已顯示');
-                } else {
-                    console.log('錯誤：找不到第二個通知元素');
-                }
-                
-                // 第一次點擊不跳轉，停留在當前頁面
-                return;
-            }
-            
-            // 如果是第二次點擊（通知已關閉）
-            console.log('第二次點擊，前往資源頁面');
-            goToResourcePage();
-        });
+        // 先移除之前的事件監聽器，避免重複綁定
+        btn.removeEventListener('click', handleFirstClick);
+        btn.removeEventListener('click', handleSecondClick);
+        
+        // 重置點擊狀態
+        hasClickedFirstTime = false;
+        isNotificationActive = false;
+        
+        // 綁定第一次點擊事件
+        btn.addEventListener('click', handleFirstClick);
         
         console.log('按鈕事件綁定完成');
     } else {
         console.log('警告：找不到按鈕元素 goToResourceBtn');
     }
+}
+
+// 第一次點擊處理函數
+function handleFirstClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('第一次點擊按鈕');
+    
+    // 標記為已點擊
+    hasClickedFirstTime = true;
+    
+    // 顯示第二個懸浮通知
+    const notification2 = document.getElementById('floatingNotification2');
+    if (notification2) {
+        notification2.classList.remove('hidden');
+        notification2.classList.add('active');
+        isNotificationActive = true;
+        console.log('第二個通知已顯示');
+        
+        // 移除第一次點擊事件，綁定第二次點擊事件
+        const btn = document.getElementById('goToResourceBtn');
+        btn.removeEventListener('click', handleFirstClick);
+        btn.addEventListener('click', handleSecondClick);
+    } else {
+        console.log('錯誤：找不到第二個通知元素');
+        // 如果找不到通知，直接跳轉到資源頁面
+        goToResourcePage();
+    }
+}
+
+// 第二次點擊處理函數
+function handleSecondClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('第二次點擊按鈕，前往資源頁面');
+    
+    // 確保通知已關閉
+    closeSecondNotification();
+    
+    // 短暫延遲後跳轉，確保動畫完成
+    setTimeout(() => {
+        goToResourcePage();
+    }, 300);
 }
 
 // 跳轉到資源頁面的函數

@@ -396,3 +396,101 @@ input[type="tel"]:focus,
         grid-template-columns: repeat(2, 1fr);
     }
 }
+/* 第二個懸浮通知：測驗結果互動通知 */
+.floating-notification2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* 半透明遮罩 */
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.floating-notification2.hidden {
+    display: none;
+}
+
+.notification-content2 {
+    background: linear-gradient(135deg, #1a3a5f 0%, #2a4a7f 100%);
+    color: #ffffff;
+    padding: 40px 35px;
+    border-radius: 16px;
+    border: 4px solid #4CAF50;
+    max-width: 450px;
+    width: 85%;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    pointer-events: none; /* 內容本身不觸發點擊事件 */
+}
+
+.notification-content2::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #4CAF50, #8BC34A, #CDDC39);
+    z-index: -1;
+    opacity: 0.7;
+}
+
+.notification-content2 p {
+    margin: 12px 0;
+    font-size: 1.1em;
+    line-height: 1.5;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.notification-content2 p:first-child {
+    color: #FFEB3B;
+    font-weight: bold;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+}
+
+.notification-content2 p:nth-child(2) {
+    color: #E8F5E9;
+    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 3px solid #4CAF50;
+}
+
+.notification-content2 p:last-child {
+    color: #81C784;
+    font-weight: bold;
+    margin-top: 25px;
+    font-size: 1.2em;
+    padding-top: 15px;
+    border-top: 2px dashed #4CAF50;
+}
+
+/* 響應式調整 */
+@media (max-width: 480px) {
+    .notification-content2 {
+        padding: 30px 25px;
+        width: 90%;
+        margin: 0 15px;
+    }
+    
+    .notification-content2 p {
+        font-size: 1em;
+    }
+    
+    .notification-content2 p:first-child {
+        font-size: 1.2em;
+    }
+    
+    .notification-content2 p:last-child {
+        font-size: 1.1em;
+    }
+}

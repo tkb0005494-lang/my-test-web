@@ -366,6 +366,7 @@ function isValidTaiwanPhone(phone) {
 // === F. 頁面控制 ===
 
 function showPage(pageId) {
+    console.log(`切換到頁面: ${pageId}`); // 調試用
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
     
@@ -636,6 +637,7 @@ function handleAnswerClick() {
 }
 
 function showQuizResult() {
+    console.log('顯示測驗結果，分數:', currentScore); // 調試用
     document.getElementById('quiz-content').classList.add('hidden');
     const resultDiv = document.getElementById('quiz-result');
     resultDiv.classList.remove('hidden');
@@ -663,27 +665,59 @@ function showQuizResult() {
     localStorage.setItem('potentialLevel', potentialLevel);
 }
 
-// 點擊前往資源頁
-document.getElementById('goToResourceBtn').addEventListener('click', function() {
-    document.getElementById('finalScoreDisplay').innerText = currentScore;
-    const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
-    const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-    document.getElementById('finalSubjectName').innerText = subjectName;
-    document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
+// === K. 按鈕事件監聽器 ===
+
+function setupEventListeners() {
+    console.log('設定事件監聽器...'); // 調試用
     
-    const potentialLevel = localStorage.getItem('potentialLevel') || 'C 級覺醒中';
-    document.getElementById('potentialLevelDisplay').innerText = potentialLevel;
+    // 確保按鈕存在後再綁定事件
+    const goToResourceBtn = document.getElementById('goToResourceBtn');
+    if (goToResourceBtn) {
+        console.log('找到按鈕元素:', goToResourceBtn); // 調試用
+        
+        // 移除現有事件監聽器（避免重複綁定）
+        const newGoToResourceBtn = goToResourceBtn.cloneNode(true);
+        goToResourceBtn.parentNode.replaceChild(newGoToResourceBtn, goToResourceBtn);
+        
+        // 綁定新的事件監聽器
+        document.getElementById('goToResourceBtn').addEventListener('click', function() {
+            console.log('按鈕被點擊！'); // 調試用
+            console.log('當前分數:', currentScore); // 調試用
+            console.log('當前科目:', currentSubject); // 調試用
+            
+            // 設置資源頁面的數據
+            document.getElementById('finalScoreDisplay').innerText = currentScore;
+            const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
+            if (button) {
+                const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
+                document.getElementById('finalSubjectName').innerText = subjectName;
+            }
+            
+            if (VIDEO_LINKS[currentSubject]) {
+                document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
+            }
+            
+            const potentialLevel = localStorage.getItem('potentialLevel') || 'C 級覺醒中';
+            document.getElementById('potentialLevelDisplay').innerText = potentialLevel;
 
-    let msg = "";
-    if (currentScore === 100) msg = "實力驚人！看這部進階影片來挑戰極限吧！";
-    else msg = "針對您的測驗結果，顧問推薦您先由這部影片打底：";
-    document.getElementById('scoreMessage').innerText = msg;
-    document.getElementById('lineCtaButton').href = LINE_CTA_LINK;
+            let msg = "";
+            if (currentScore === 100) msg = "實力驚人！看這部進階影片來挑戰極限吧！";
+            else msg = "針對您的測驗結果，顧問推薦您先由這部影片打底：";
+            document.getElementById('scoreMessage').innerText = msg;
+            
+            const lineCtaButton = document.getElementById('lineCtaButton');
+            if (lineCtaButton) {
+                lineCtaButton.href = LINE_CTA_LINK;
+            }
 
-    showPage('resourcePage');
-});
+            showPage('resourcePage');
+        });
+    } else {
+        console.log('警告：找不到按鈕元素 goToResourceBtn'); // 調試用
+    }
+}
 
-// === K. 讀書計畫生成引擎 ===
+// === L. 讀書計畫生成引擎 ===
 
 function generateStudyPlan() {
     const week1 = document.getElementById('plan-week-1');
@@ -692,54 +726,70 @@ function generateStudyPlan() {
     const week4 = document.getElementById('plan-week-4');
     const weaknessTag = document.getElementById('weaknessTag');
 
-    [week1, week2, week3, week4].forEach(el => el.innerHTML = '');
+    [week1, week2, week3, week4].forEach(el => {
+        if (el) el.innerHTML = '';
+    });
 
     let topics = [];
     if (wrongQuestionsData.length > 0) {
         topics = wrongQuestionsData.map(d => d.topic);
-        weaknessTag.innerText = topics.join('、');
+        if (weaknessTag) weaknessTag.innerText = topics.join('、');
         
         const half = Math.ceil(topics.length / 2);
         const w1Topics = topics.slice(0, half);
         const w2Topics = topics.slice(half);
 
-        week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
+        if (week1) {
+            week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
+        }
         
-        if (w2Topics.length > 0) {
-            week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
-        } else {
-            week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
+        if (week2) {
+            if (w2Topics.length > 0) {
+                week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
+            } else {
+                week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
+            }
         }
 
     } else {
-        weaknessTag.innerText = "全數答對！菁英強化版";
-        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
-        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
+        if (weaknessTag) weaknessTag.innerText = "全數答對！菁英強化版";
+        if (week1) {
+            week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
+        }
+        if (week2) {
+            week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
+        }
     }
 
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
     const sName = button ? button.innerText.replace(/[^\u4e00-\u9fa5]/g, '') : "該科目";
 
-    week3.innerHTML = `
-        <ul>
-            <li>🧩 <strong>${sName} 跨章節整合：</strong>將各單元觀念串聯，繪製心智圖。</li>
-            <li>✍️ <strong>五年考古題演練 (Part 1)：</strong>完成近五年台聯大/台大試題。</li>
-        </ul>`;
+    if (week3) {
+        week3.innerHTML = `
+            <ul>
+                <li>🧩 <strong>${sName} 跨章節整合：</strong>將各單元觀念串聯，繪製心智圖。</li>
+                <li>✍️ <strong>五年考古題演練 (Part 1)：</strong>完成近五年台聯大/台大試題。</li>
+            </ul>`;
+    }
     
-    week4.innerHTML = `
-        <ul>
-            <li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
-            <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
-        </ul>`;
+    if (week4) {
+        week4.innerHTML = `
+            <ul>
+                <li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
+                <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
+            </ul>`;
+    }
 }
 
-// === L. YouTube 嵌入邏輯 ===
+// === M. YouTube 嵌入邏輯 ===
 
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
+    if (!container) return;
+    
     if (container.querySelector('iframe')) return;
     
-    const vidId = VIDEO_LINKS[currentSubject].youtubeId;
+    const vidId = VIDEO_LINKS[currentSubject]?.youtubeId;
     if (vidId && vidId.length === 11) {
         const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1`;
         container.innerHTML = `<iframe width="100%" height="100%" src="${youtubeEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
@@ -748,17 +798,26 @@ function initYouTube() {
     }
 }
 
-// 初始化
+// === N. 初始化 ===
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM 載入完成，開始初始化...'); // 調試用
+    
+    // 設定事件監聽器
+    setupEventListeners();
+    
+    // 檢查是否有已儲存的用戶資料
     if (localStorage.getItem('userData')) {
         showPage('subjectSelectPage');
     } else {
         showPage('userInfoPage');
     }
     
+    // 初始化大學其他選項
     const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
     if (uniOtherText) {
         uniOtherText.disabled = true;
         uniOtherText.required = false;
     }
+    
+    console.log('初始化完成'); // 調試用
 });

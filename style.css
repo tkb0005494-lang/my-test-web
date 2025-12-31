@@ -23,6 +23,7 @@ body {
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
+    position: relative;
 }
 
 /* 內容容器 */
@@ -39,6 +40,47 @@ body {
 
 .hidden {
     display: none;
+}
+
+/* 懸浮通知樣式 */
+.floating-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 90%;
+    max-width: 500px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffec8b 100%);
+    color: #8b6914;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.95em;
+    opacity: 1;
+    transition: opacity 0.5s ease-out, transform 0.3s ease-out;
+    border: 2px solid #ffc107;
+    pointer-events: none;
+}
+
+.floating-notification.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+    pointer-events: none;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.notification-content::before {
+    content: "🔔";
+    font-size: 1.2em;
 }
 
 /* 標題與強調文字 */
@@ -254,7 +296,7 @@ input[type="tel"]:focus,
 
 .rationale.visible {
     opacity: 1;
-    max-height: 200px; /* 根據內容調整，確保能展開 */
+    max-height: 500px; /* 增加最大高度以確保長解析能完整顯示 */
     color: var(--color-text-light);
 }
 
@@ -264,23 +306,28 @@ input[type="tel"]:focus,
     padding: 20px 0;
 }
 
-.resource-btn {
+/* 特別強化獲取資源按鈕，解決 GitHub Pages 樣式丟失問題 */
+#goToResourceBtn, .resource-btn {
+    display: block;
     width: 100%;
+    box-sizing: border-box;
     padding: 15px;
     margin-top: 25px;
-    background-color: var(--color-accent); /* 金色按鈕 */
-    color: var(--color-primary); /* 深藍色文字 */
+    background-color: var(--color-accent) !important; /* 金色按鈕 */
+    color: var(--color-primary) !important; /* 深藍色文字 */
     border: none;
     border-radius: 8px;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
     box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
     transition: background-color 0.2s, transform 0.2s;
 }
 
-.resource-btn:hover {
-    background-color: var(--color-highlight);
+#goToResourceBtn:hover, .resource-btn:hover {
+    background-color: var(--color-highlight) !important;
     transform: translateY(-2px);
 }
 
@@ -348,32 +395,4 @@ input[type="tel"]:focus,
     .plan-container {
         grid-template-columns: repeat(2, 1fr);
     }
-}
-
-/* === 懸浮通知樣式與動畫：直接加在 CSS 檔案末尾 === */
-.alert-toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, #8b0000 0%, #b22222 100%);
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 50px;
-    border: 2px solid #ffd700;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    z-index: 9999;
-    font-weight: bold;
-    font-size: 1.1em;
-    text-align: center;
-    pointer-events: none;
-    animation: urgencyFade 2s ease-in-out forwards;
-    min-width: 280px;
-}
-
-@keyframes urgencyFade {
-    0% { opacity: 0; transform: translate(-50%, -20px); }
-    15% { opacity: 1; transform: translate(-50%, 0); }
-    85% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
 }

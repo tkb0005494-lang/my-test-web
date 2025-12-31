@@ -690,8 +690,8 @@ function showQuizResult() {
     document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${potentialLevel}</strong><br>${comment}`;
     localStorage.setItem('potentialLevel', potentialLevel);
     
-    // 立即綁定按鈕事件，確保按鈕能正常工作
-    bindGoToResourceButton();
+    // === 重要修正：在這裡直接綁定按鈕事件 ===
+    bindResourceButton();
 }
 
 // === K. 按鈕事件監聽器 ===
@@ -727,19 +727,22 @@ function closeSecondNotification() {
     }
 }
 
-// 綁定測驗結果頁面的按鈕事件
-function bindGoToResourceButton() {
+// === 修正：直接綁定資源按鈕事件 ===
+function bindResourceButton() {
     const goToResourceBtn = document.getElementById('goToResourceBtn');
     if (goToResourceBtn) {
-        console.log('找到按鈕元素 goToResourceBtn');
+        console.log('找到按鈕元素 goToResourceBtn，準備綁定事件');
         
-        // 移除現有事件監聽器（避免重複綁定）
-        const newGoToResourceBtn = goToResourceBtn.cloneNode(true);
-        goToResourceBtn.parentNode.replaceChild(newGoToResourceBtn, goToResourceBtn);
+        // 移除所有現有的事件監聽器（通過克隆和替換）
+        const newBtn = goToResourceBtn.cloneNode(true);
+        goToResourceBtn.parentNode.replaceChild(newBtn, goToResourceBtn);
         
-        // 綁定新的事件監聽器
-        document.getElementById('goToResourceBtn').addEventListener('click', function(e) {
+        // 重新獲取按鈕引用
+        const btn = document.getElementById('goToResourceBtn');
+        
+        btn.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             console.log('按鈕被點擊！');
             console.log('當前分數:', currentScore);
             console.log('當前科目:', currentSubject);
@@ -752,9 +755,14 @@ function bindGoToResourceButton() {
                 
                 // 顯示第二個懸浮通知
                 const notification2 = document.getElementById('floatingNotification2');
-                notification2.classList.remove('hidden');
-                notification2.classList.add('active');
-                isNotificationActive = true;
+                if (notification2) {
+                    notification2.classList.remove('hidden');
+                    notification2.classList.add('active');
+                    isNotificationActive = true;
+                    console.log('通知已顯示');
+                } else {
+                    console.log('錯誤：找不到第二個通知元素');
+                }
                 
                 // 第一次點擊不跳轉，停留在當前頁面
                 return;
@@ -764,6 +772,8 @@ function bindGoToResourceButton() {
             console.log('第二次點擊，前往資源頁面');
             goToResourcePage();
         });
+        
+        console.log('按鈕事件綁定完成');
     } else {
         console.log('警告：找不到按鈕元素 goToResourceBtn');
     }

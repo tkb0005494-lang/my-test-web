@@ -702,26 +702,32 @@ function showQuizResult() {
 function setupEventListeners() {
     console.log('設定事件監聽器...');
     
-    // 綁定第二個通知的遮罩層點擊事件
-    const notification2 = document.getElementById('floatingNotification2');
-    if (notification2) {
-        // 點擊遮罩層（通知以外的區域）關閉通知
-        notification2.addEventListener('click', function(event) {
-            // 只有點擊遮罩層本身（而不是內容區域）才關閉
-            if (event.target === notification2 && isNotificationActive) {
+    // 簡化方法：直接在document上監聽點擊事件
+    document.addEventListener('click', function(event) {
+        const notification2 = document.getElementById('floatingNotification2');
+        
+        // 如果通知是活躍狀態，且點擊的不是通知內容區域
+        if (notification2 && notification2.classList.contains('active')) {
+            const content = notification2.querySelector('.notification-content2');
+            
+            // 檢查點擊是否在內容區域之外
+            if (content && !content.contains(event.target)) {
                 console.log('點擊通知以外區域，關閉通知');
                 closeSecondNotification();
             }
-        });
-    }
+        }
+    });
 }
 
 // 關閉第二個通知的函數
 function closeSecondNotification() {
     const notification2 = document.getElementById('floatingNotification2');
-    notification2.classList.remove('active');
-    notification2.classList.add('hidden');
-    isNotificationActive = false;
+    if (notification2) {
+        notification2.classList.remove('active');
+        notification2.classList.add('hidden');
+        isNotificationActive = false;
+        console.log('通知已關閉');
+    }
 }
 
 // 綁定測驗結果頁面的按鈕事件

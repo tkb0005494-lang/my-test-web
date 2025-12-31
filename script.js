@@ -1,17 +1,10 @@
 // === A. Google 表單設定與變數 ===
 const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 const FORM_IDS = {
-    FORM_A_NAME: 'entry.1711447572',
-    FORM_A_DEPT_GRADE: 'entry.1169658860',
-    FORM_A_PHONE: 'entry.1253545059',
-    FORM_A_UNI: 'entry.651877505',
-    FORM_A_GRADE: 'entry.247937200',
-    HTML_UNI_RADIO_NAME: 'userUniversity',
-    HTML_GRADE_RADIO_NAME: 'userGrade',
-    HTML_NAME_ID: 'userName',
-    HTML_UNI_OTHER_ID: 'uniOtherText',
-    HTML_DEPT_ID: 'userDepartment',
-    HTML_PHONE_ID: 'userPhone',
+    FORM_A_NAME: 'entry.1711447572', FORM_A_DEPT_GRADE: 'entry.1169658860', FORM_A_PHONE: 'entry.1253545059',
+    FORM_A_UNI: 'entry.651877505', FORM_A_GRADE: 'entry.247937200', HTML_UNI_RADIO_NAME: 'userUniversity',
+    HTML_GRADE_RADIO_NAME: 'userGrade', HTML_NAME_ID: 'userName', HTML_UNI_OTHER_ID: 'uniOtherText',
+    HTML_DEPT_ID: 'userDepartment', HTML_PHONE_ID: 'userPhone',
 };
 
 // === B. 核心資料結構 ===
@@ -36,128 +29,120 @@ const ALL_QUIZ_DATA = [
     { subject: "Geography", topic: "GDP 計算", question: "計算 GDP 時，下列哪項不應計入？", answerOptions: [ { text: "新生產的汽車銷售額", isCorrect: false, rationale: "計入。" }, { text: "二手房屋交易佣金", isCorrect: false, rationale: "佣金是服務，計入；但房屋本身不計入。" }, { text: "政府提供的國防服務價值", isCorrect: false, rationale: "計入。" }, { text: "在股市買賣股票的金額", isCorrect: true, rationale: "股票交易只是資產轉移，不屬於當期生產的商品或服務。" } ] },
     { subject: "Geography", topic: "市場結構", question: "只有單一生產者，且產品沒有近似替代品的市場結構稱為？", answerOptions: [ { text: "寡占", isCorrect: false, rationale: "少數生產者。" }, { text: "壟斷性競爭", isCorrect: false, rationale: "多數生產者，產品差異化。" }, { text: "完全競爭", isCorrect: false, rationale: "許多生產者，同質產品。" }, { text: "獨佔 (Monopoly)", isCorrect: true, rationale: "單一生產者，沒有近似替代品。" } ] },
     { subject: "Geography", topic: "財政政策", question: "政府為了刺激經濟而增加開支，屬於哪種財政政策？", answerOptions: [ { text: "緊縮性財政政策", isCorrect: false, rationale: "用於抑制過熱的經濟。" }, { text: "擴張性財政政策", isCorrect: true, rationale: "透過增加政府支出或減稅來刺激總需求。" }, { text: "貨幣政策", isCorrect: false, rationale: "由中央銀行控制利率或貨幣供給。" }, { text: "中性財政政策", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "English", topic: "微分基本式", question: "微積分中，函數 $f(x) = x^2$ 的導數是？", answerOptions: [ { text: "$x$", isCorrect: false, rationale: "錯誤。" }, { text: "$2x$", isCorrect: true, rationale: "利用冪次法則：$\\frac{d}{dx} x^n = nx^{n-1}$。" }, { text: "$x^3/3$", isCorrect: false, rationale: "這是 $x^2$ 的不定積分。" }, { text: "1", isCorrect: false, rationale: "這是 $x$ 的導數。" } ] },
-    { subject: "English", topic: "定積分", question: "計算定積分 $\\int_0^1 (3x^2 + 1) dx$ 的值。", answerOptions: [ { text: "1", isCorrect: false, rationale: "錯誤。" }, { text: "2", isCorrect: true, rationale: " $\\int_0^1 (3x^2 + 1) dx = [x^3 + x]_0^1 = (1^3 + 1) - (0) = 2$。" }, { text: "3", isCorrect: false, rationale: "錯誤。" }, { text: "0", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "English", topic: "鏈鎖律", question: "若 $f(x) = \\sin(2x)$，則 $f'(x)$ 是什麼？", answerOptions: [ { text: "$\\cos(2x)$", isCorrect: false, rationale: "忘記乘內部函數的導數。" }, { text: "$2 \\cos(2x)$", isCorrect: true, rationale: "利用鏈鎖律：$\\frac{d}{dx} f(g(x)) = f'(g(x)) \\cdot g'(x)$。" }, { text: "$-2 \\cos(2x)$", isCorrect: false, rationale: "錯誤。" }, { text: "$2 \\sin(2x)$", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "English", topic: "極限", question: "計算極限 $\\lim_{x \\to 0} \\frac{\\sin x}{x}$。", answerOptions: [ { text: "$0$", isCorrect: false, rationale: "錯誤。" }, { text: "$1$", isCorrect: true, rationale: "這是微積分中常見的基本極限公式。" }, { text: "$\\infty$", isCorrect: false, rationale: "錯誤。" }, { text: "不存在", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "English", topic: "多變量", question: "函數 $f(x, y) = x^2 y$ 對 $x$ 的偏導數 $\\frac{\\partial f}{\\partial x}$ 是？", answerOptions: [ { text: "$2x$", isCorrect: false, rationale: " $y$ 視為常數。" }, { text: "$2xy$", isCorrect: true, rationale: " $y$ 視為常數，$\\frac{\\partial}{\\partial x} (x^2 y) = y \\cdot \\frac{d}{dx} (x^2) = 2xy$。" }, { text: "$x^2$", isCorrect: false, rationale: "這是對 $y$ 的偏導數。" }, { text: "$2x^2 y$", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "Coding", topic: "敘述統計", question: "統計學中，樣本與母體之間的差異，最常使用什麼指標衡量？", answerOptions: [ { text: "平均數 (Mean)", isCorrect: false, rationale: "平均數是集中趨勢的測量。" }, { text: "標準差 (Standard Deviation)", isCorrect: true, rationale: "標準差衡量數據的分散程度，間接反映樣本對母體的代表性。" }, { text: "變異係數 (Coefficient of Variation)", isCorrect: false, rationale: "是相對分散程度的測量。" }, { text: "P值 (P-value)", isCorrect: false, rationale: "用於假設檢定。" } ] },
-    { subject: "Coding", topic: "機率分佈", question: "若變數 $X$ 服從常態分佈 (Normal Distribution)，則其分佈圖形呈現何種形狀？", answerOptions: [ { text: "L 型", isCorrect: false, rationale: "錯誤。" }, { text: "J 型", isCorrect: false, rationale: "錯誤。" }, { text: "雙峰型 (Bimodal)", isCorrect: false, rationale: "錯誤。" }, { text: "鐘形 (Bell-shaped)", isCorrect: true, rationale: "常態分佈的典型特徵。" } ] },
-    { subject: "Coding", topic: "假設檢定", question: "在假設檢定中，拒絕虛無假設 ($H_0$) 但 $H_0$ 事實上為真時，稱為什麼錯誤？", answerOptions: [ { text: "型一錯誤 (Type I Error)", isCorrect: true, rationale: "型一錯誤的定義為：拒絕真實的 $H_0$。" }, { text: "型二錯誤 (Type II Error)", isCorrect: false, rationale: "型二錯誤為：接受錯誤的 $H_0$。" }, { text: "抽樣錯誤", isCorrect: false, rationale: "錯誤。" }, { text: "測量錯誤", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "Coding", topic: "迴歸分析", question: "在簡單線性迴歸 $Y = \\beta_0 + \\beta_1 X + \\epsilon$ 中， $\\beta_1$ 代表什麼？", answerOptions: [ { text: "截距 (Intercept)", isCorrect: false, rationale: "這是 $\\beta_0$。" }, { text: "殘差 (Residual)", isCorrect: false, rationale: "這是 $\\epsilon$。" }, { text: "斜率 (Slope)", isCorrect: true, rationale: " $\\beta_1$ 衡量 $X$ 變化對 $Y$ 變化的影響。" }, { text: "誤差項的標準差", isCorrect: false, rationale: "錯誤。" } ] },
-    { subject: "Coding", topic: "集中趨勢", question: "若數據集為 $\{2, 3, 5, 5, 10\}$，其中位數 (Median) 是多少？", answerOptions: [ { text: "5", isCorrect: true, rationale: "數據排序後為 $2, 3, 5, 5, 10$。中間的數是 $5$。" }, { text: "5.5", isCorrect: false, rationale: "這是平均數 $(2+3+5+5+10)/5 = 5$。" }, { text: "2", isCorrect: false, rationale: "這是最小值。" }, { text: "10", isCorrect: false, rationale: "這是眾數 (Mode) 也是 $5$。" } ] },
+    { subject: "English", topic: "微分基本式", question: "微積分中，函數 $f(x) = x^2$ 的導數是？", answerOptions: [ { text: "$x$", isCorrect: false, rationale: "錯誤。" }, { text: "$2x$", isCorrect: true, rationale: "利用進階法則：$\\frac{d}{dx} x^n = nx^{n-1}$。" }, { text: "$x^3/3$", isCorrect: false, rationale: "這是 $x^2$ 的不定積分。" }, { text: "1", isCorrect: false, rationale: "這是 $x$ 的導數。" } ] },
+    { subject: "English", topic: "定積分", question: "計算定積分 $\\int_0^1 (3x^2 + 1) dx$ 的值。", answerOptions: [ { text: "1", isCorrect: false, rationale: "錯誤。" }, { text: "2", isCorrect: true, rationale: " $\\int_0^1 (3x^2 + 1) dx = [x^3 + x]_0^1 = 2$。" }, { text: "3", isCorrect: false, rationale: "錯誤。" }, { text: "0", isCorrect: false, rationale: "錯誤。" } ] },
+    { subject: "English", topic: "鏈鎖律", question: "若 $f(x) = \\sin(2x)$，則 $f'(x)$ 是什麼？", answerOptions: [ { text: "$\\cos(2x)$", isCorrect: false, rationale: "錯誤。" }, { text: "$2 \\cos(2x)$", isCorrect: true, rationale: "利用鏈鎖律。" }, { text: "$-2 \\cos(2x)$", isCorrect: false, rationale: "錯誤。" }, { text: "$2 \\sin(2x)$", isCorrect: false, rationale: "錯誤。" } ] },
+    { subject: "English", topic: "極限", question: "計算極限 $\\lim_{x \\to 0} \\frac{\\sin x}{x}$。", answerOptions: [ { text: "$0$", isCorrect: false, rationale: "錯誤。" }, { text: "$1$", isCorrect: true, rationale: "基本極限公式。" }, { text: "$\\infty$", isCorrect: false, rationale: "錯誤。" }, { text: "不存在", isCorrect: false, rationale: "錯誤。" } ] },
+    { subject: "English", topic: "多變量", question: "函數 $f(x, y) = x^2 y$ 對 $x$ 的偏導數 $\\frac{\\partial f}{\\partial x}$ 是？", answerOptions: [ { text: "$2x$", isCorrect: false, rationale: "錯誤。" }, { text: "$2xy$", isCorrect: true, rationale: "偏微分運算。" }, { text: "$x^2$", isCorrect: false, rationale: "這是對 $y$ 的偏導。" }, { text: "$2x^2 y$", isCorrect: false, rationale: "錯誤。" } ] },
+    { subject: "Coding", topic: "敘述統計", question: "統計學中，樣本與母體之間的差異，最常使用什麼指標衡量？", answerOptions: [ { text: "平均數", isCorrect: false, rationale: "集中趨勢測量。" }, { text: "標準差", isCorrect: true, rationale: "衡量數據分散程度。" }, { text: "變異係數", isCorrect: false, rationale: "相對分散測量。" }, { text: "P值", isCorrect: false, rationale: "假設檢定用。" } ] },
+    { subject: "Coding", topic: "機率分佈", question: "若變數 $X$ 服從常態分佈，則其分佈圖形呈現何種形狀？", answerOptions: [ { text: "L 型", isCorrect: false, rationale: "錯誤。" }, { text: "J 型", isCorrect: false, rationale: "錯誤。" }, { text: "雙峰型", isCorrect: false, rationale: "錯誤。" }, { text: "鐘形", isCorrect: true, rationale: "常態分佈特徵。" } ] },
+    { subject: "Coding", topic: "假設檢定", question: "在假設檢定中，拒絕虛無假設 ($H_0$) 但 $H_0$ 事實上為真時，稱為什麼錯誤？", answerOptions: [ { text: "型一錯誤", isCorrect: true, rationale: "型一錯誤定義。" }, { text: "型二錯誤", isCorrect: false, rationale: "接受錯誤 $H_0$。" }, { text: "抽樣錯誤", isCorrect: false, rationale: "錯誤。" }, { text: "測量錯誤", isCorrect: false, rationale: "錯誤。" } ] },
+    { subject: "Coding", topic: "迴歸分析", question: "在簡單線性迴歸 $Y = \\beta_0 + \\beta_1 X + \\epsilon$ 中， $\\beta_1$ 代表什麼？", answerOptions: [ { text: "截距", isCorrect: false, rationale: "這是 $\\beta_0$。" }, { text: "殘差", isCorrect: false, rationale: "這是 $\\epsilon$。" }, { text: "斜率", isCorrect: true, rationale: "衡量 $X$ 對 $Y$ 的影響。" }, { text: "誤差項標準差", isCorrect: false, rationale: "錯誤。" } ] },
+    { subject: "Coding", topic: "集中趨勢", question: "若數據集為 $\{2, 3, 5, 5, 10\}$，其中位數是多少？", answerOptions: [ { text: "5", isCorrect: true, rationale: "中間數值為 5。" }, { text: "5.5", isCorrect: false, rationale: "這是平均數。" }, { text: "2", isCorrect: false, rationale: "最小值。" }, { text: "10", isCorrect: false, rationale: "最大值。" } ] },
 ];
 
-// === C. 影片 ID、師資與 LINE 連結 ===
+// === C. 其他設定 ===
 const VIDEO_LINKS = {
-    Math: { title: "工程數學 - 周易 老師 試聽課程", youtubeId: "LiW8jvHZ7o4" },
-    Science: { title: "線性代數 - 周易 老師 試聽課程", youtubeId: "dW4cUVU089Q" },
-    History: { title: "計算機概論 - 張逸 老師 試聽課程", youtubeId: "ZC98Wmrtb7o" },
-    Geography: { title: "經濟學 - 牧翰 老師 試聽課程", youtubeId: "2ZXmDGBC4c4" },
-    English: { title: "微積分 - 梁修 老師 試聽課程", youtubeId: "QNLL0qfEPmI" },
-    Coding: { title: "統計學 - 張翔 老師 試聽課程", youtubeId: "GhAxVkA1He8" }
+    Math: { title: "工程數學 - 周易 老師", youtubeId: "LiW8jvHZ7o4" },
+    Science: { title: "線性代數 - 周易 老師", youtubeId: "dW4cUVU089Q" },
+    History: { title: "計算機概論 - 張逸 老師", youtubeId: "ZC98Wmrtb7o" },
+    Geography: { title: "經濟學 - 牧翰 老師", youtubeId: "2ZXmDGBC4c4" },
+    English: { title: "微積分 - 梁修 老師", youtubeId: "QNLL0qfEPmI" },
+    Coding: { title: "統計學 - 張翔 老師", youtubeId: "GhAxVkA1He8" }
 };
 const LINE_CTA_LINK = "https://lin.ee/Oj42w8M";
 
 let currentSubject = '', currentScore = 0, answeredQuestions = new Set(), wrongQuestionsData = [], startTime;
 
-// --- [新增] 懸浮通知邏輯 ---
+// === D. 懸浮通知邏輯 (5秒跳一次，僅第一頁) ===
 let urgencyAlertTimer = null;
-const URGENCY_MESSAGES = ["⚡ 警告：考場氣氛凝重，請加快作答速度！", "⏰ 倒數計時中，猶豫是進步的敵人！", "👀 目前有 152 位清交同學正在同步挑戰...", "🔥 你的對手已經完成測驗，你還在等什麼？", "📈 根據統計，前三題答題快的人潛能更高！", "🛑 專注！別讓外物打斷你的邏輯思維！", "⏳ 寒假計畫名額有限，請盡速完成測驗！", "💡 直覺往往是最準確的，相信自己！", "🏃 錄取與落榜的差距，往往就在這一瞬間！", "⚠️ 測驗時間正在流逝，請勿隨意離開頁面！", "🧨 學霸正在覺醒，請保持高效作答！", "📢 已經有人獲得 $500 紅包，下一位是你嗎？", "🧠 保持思考！這題是決定等級的關鍵！", "❄️ 寒假是拉開差距的最佳時機，加油！", "🚀 正在分析你的作答節奏，請保持穩定...", "💢 猶豫會磨滅你的競爭力，果斷一點！", "🌟 S 級學霸平均 30 秒完成一題，你能行嗎？", "📊 目前全台平均分數：72 分，請努力超越！", "🚩 目標就在前方，別在基礎題卡太久！", "🎯 專注目標，你的專屬計畫正在生成中..."];
+const URGENCY_MESSAGES = ["⚡ 警告：考場氣氛凝重，請加快速度！", "⏰ 倒數計時中，猶豫是進步的敵人！", "👀 目前有 152 位清交同學正在挑戰...", "🔥 你的對手已完成測驗，你在等什麼？", "📈 前三題答題快的人，潛能分數更高！", "🛑 專注！別讓外物打斷你的思維！", "⏳ 寒假計畫名額有限，請盡速完成！", "💡 直覺往往最準，相信第一直覺！", "🏃 錄取與落榜的差距就在這一瞬間！", "⚠️ 測驗進行中，請勿隨意離開頁面！", "📢 已經有人獲得 $500 紅包，下一位是你嗎？", "🌟 S 級學霸平均 30 秒一題，你能行嗎？", "📊 目前全台平均：72 分，請努力超越！", "🎯 專注目標，你的專屬計畫正在生成..."];
 
 function startUrgencyAlerts() {
     if (urgencyAlertTimer) clearInterval(urgencyAlertTimer);
+    // 設定 5000ms (5秒) 跳出一次
     urgencyAlertTimer = setInterval(() => {
         const msg = URGENCY_MESSAGES[Math.floor(Math.random() * URGENCY_MESSAGES.length)];
         const alertEl = document.createElement('div');
         alertEl.className = 'alert-toast';
         alertEl.innerText = msg;
         document.body.appendChild(alertEl);
-        setTimeout(() => { alertEl.remove(); }, 2000);
-    }, 10000);
+        setTimeout(() => { alertEl.remove(); }, 2000); // 顯示 2 秒後消失
+    }, 5000); 
 }
 function stopUrgencyAlerts() { if (urgencyAlertTimer) { clearInterval(urgencyAlertTimer); urgencyAlertTimer = null; } }
 
-// === D. 格式驗證函式 ===
+// === E. 核心功能 ===
 function isValidName(name) { return /^[\u4e00-\u9fa5]{2,}$/.test(name); }
 function isValidTaiwanPhone(phone) { return /^\d{10}$/.test(phone); }
 
-// === E. 頁面控制 ===
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
-    // [觸發通知邏輯]
-    if (pageId === 'quizPage') startUrgencyAlerts(); else stopUrgencyAlerts();
+    window.scrollTo(0, 0);
+    // 只有第一頁跳通知
+    if (pageId === 'userInfoPage') startUrgencyAlerts(); else stopUrgencyAlerts();
     if (pageId === 'resourcePage') { initYouTube(); generateStudyPlan(); }
 }
 
-// === F. 表單資料提交函數 ===
 async function submitDataToGoogleForm(url, dataToSubmit) {
     const formError = document.getElementById('formError');
     if (url === GOOGLE_FORM_A_URL) formError.style.display = 'none';
     const body = new URLSearchParams();
     for (const key in dataToSubmit) { body.append(key, dataToSubmit[key]); }
-    try {
-        await fetch(url, { method: 'POST', body: body, mode: 'no-cors' });
-        return true;
-    } catch (error) {
-        if (url === GOOGLE_FORM_A_URL) { formError.textContent = '提交失敗，請檢查網路。'; formError.style.display = 'block'; }
-        return false;
-    }
+    try { await fetch(url, { method: 'POST', body: body, mode: 'no-cors' }); return true; } 
+    catch (e) { if (url === GOOGLE_FORM_A_URL) { formError.textContent = '提交失敗。'; formError.style.display = 'block'; } return false; }
 }
 
-// === G. 表單邏輯 ===
+// === F. 事件監聽 ===
 document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const userName = document.getElementById(FORM_IDS.HTML_NAME_ID).value.trim();
-    const userDept = document.getElementById(FORM_IDS.HTML_DEPT_ID).value.trim();
-    const userPhone = document.getElementById(FORM_IDS.HTML_PHONE_ID).value.trim();
-    const uniOther = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
-    const formError = document.getElementById('formError');
+    const name = document.getElementById(FORM_IDS.HTML_NAME_ID).value.trim();
+    const dept = document.getElementById(FORM_IDS.HTML_DEPT_ID).value.trim();
+    const phone = document.getElementById(FORM_IDS.HTML_PHONE_ID).value.trim();
     const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]:checked`);
     const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO_NAME}"]:checked`);
+    const otherUni = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
+    const formError = document.getElementById('formError');
     formError.style.display = 'none';
-    if (!userName || !uniRadio || (uniRadio.value === '其他' && !uniOther) || !userDept || !gradeRadio || !userPhone) {
-        formError.textContent = "請完整填寫所有欄位。"; formError.style.display = 'block'; return;
-    }
-    if (!isValidName(userName)) { formError.textContent = "姓名格式錯誤。"; formError.style.display = 'block'; return; }
-    if (!isValidTaiwanPhone(userPhone)) { formError.textContent = "手機格式錯誤。"; formError.style.display = 'block'; return; }
-    const uniValue = uniRadio.value === '其他' ? uniOther : uniRadio.value;
-    const dataToSubmit = { [FORM_IDS.FORM_A_NAME]: userName, [FORM_IDS.FORM_A_UNI]: uniValue, [FORM_IDS.FORM_A_DEPT_GRADE]: `${userDept} / ${gradeRadio.value}`, [FORM_IDS.FORM_A_PHONE]: userPhone, [FORM_IDS.FORM_A_GRADE]: gradeRadio.value };
-    if (await submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit)) {
-        localStorage.setItem('userData', JSON.stringify({ name: userName, uni: uniValue, dept: userDept, grade: gradeRadio.value, phone: userPhone }));
+    if (!name || !uniRadio || (uniRadio.value === '其他' && !otherUni) || !dept || !gradeRadio || !phone) { formError.textContent = "請填寫完整。"; formError.style.display = 'block'; return; }
+    if (!isValidName(name)) { formError.textContent = "姓名格式錯誤。"; formError.style.display = 'block'; return; }
+    if (!isValidTaiwanPhone(phone)) { formError.textContent = "手機格式錯誤。"; formError.style.display = 'block'; return; }
+    const uni = uniRadio.value === '其他' ? otherUni : uniRadio.value;
+    const data = { [FORM_IDS.FORM_A_NAME]: name, [FORM_IDS.FORM_A_UNI]: uni, [FORM_IDS.FORM_A_DEPT_GRADE]: `${dept} / ${gradeRadio.value}`, [FORM_IDS.FORM_A_PHONE]: phone, [FORM_IDS.FORM_A_GRADE]: gradeRadio.value };
+    if (await submitDataToGoogleForm(GOOGLE_FORM_A_URL, data)) {
+        localStorage.setItem('userData', JSON.stringify({ name, uni, dept, grade: gradeRadio.value, phone }));
         startTime = Date.now(); showPage('subjectSelectPage');
     }
 });
 
 document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEach(r => {
     r.addEventListener('change', function() {
-        const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
-        textInput.disabled = this.value !== '其他';
-        if (!textInput.disabled) { textInput.required = true; textInput.focus(); } else { textInput.required = false; textInput.value = ''; }
+        const input = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
+        input.disabled = this.value !== '其他';
+        if (!input.disabled) { input.required = true; input.focus(); } else { input.required = false; input.value = ''; }
     });
 });
 
-// === H. 測驗邏輯 ===
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() { currentSubject = this.getAttribute('data-subject'); startQuiz(currentSubject); });
 });
 
+// === G. 測驗與結果 ===
 function startQuiz(subject) {
     currentScore = 0; answeredQuestions.clear(); wrongQuestionsData = [];
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-content').classList.remove('hidden');
-    const quizList = ALL_QUIZ_DATA.filter(q => q.subject === subject);
-    const container = document.getElementById('quiz-content');
-    container.innerHTML = '';
-    const button = document.querySelector(`.subject-button[data-subject="${subject}"]`);
-    document.getElementById('quizTitle').innerText = `正在測驗：${button.innerText.replace(/[^\u4e00-\u9fa5]/g, '')}`;
-    quizList.forEach((q, index) => {
-        const card = document.createElement('div'); card.className = 'question-card'; card.dataset.index = index;
-        card.innerHTML = `<div class="question-text">Q${index+1}. ${q.question}</div><ul class="options-list">${q.answerOptions.map((opt, i) => `<li class="option-item" data-idx="${i}"><span style="font-weight:bold; margin-right:8px;">${String.fromCharCode(65+i)}.</span> ${opt.text}</li>`).join('')}</ul><div class="rationale" id="rat-${index}"></div>`;
+    const list = ALL_QUIZ_DATA.filter(q => q.subject === subject);
+    const container = document.getElementById('quiz-content'); container.innerHTML = '';
+    const btn = document.querySelector(`.subject-button[data-subject="${subject}"]`);
+    document.getElementById('quizTitle').innerText = `正在測驗：${btn.innerText.replace(/[^\u4e00-\u9fa5]/g, '')}`;
+    list.forEach((q, i) => {
+        const card = document.createElement('div'); card.className = 'question-card'; card.dataset.index = i;
+        card.innerHTML = `<div class="question-text">Q${i+1}. ${q.question}</div><ul class="options-list">${q.answerOptions.map((opt, idx) => `<li class="option-item" data-idx="${idx}"><span style="font-weight:bold;margin-right:8px;">${String.fromCharCode(65+idx)}.</span> ${opt.text}</li>`).join('')}</ul><div class="rationale" id="rat-${i}"></div>`;
         container.appendChild(card);
     });
-    document.querySelectorAll('.option-item').forEach(item => { item.addEventListener('click', handleAnswerClick); });
+    document.querySelectorAll('.option-item').forEach(item => item.addEventListener('click', handleAnswerClick));
     showPage('quizPage');
     if (window.renderMathInElement) renderMathInElement(container, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
 }
@@ -166,70 +151,61 @@ function handleAnswerClick() {
     const card = this.closest('.question-card'), qIdx = parseInt(card.dataset.index);
     if (answeredQuestions.has(qIdx)) return;
     answeredQuestions.add(qIdx);
-    const quizList = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject), currentQ = quizList[qIdx], isCorrect = currentQ.answerOptions[parseInt(this.dataset.idx)].isCorrect;
+    const list = ALL_QUIZ_DATA.filter(q => q.subject === currentSubject), currentQ = list[qIdx], isCorrect = currentQ.answerOptions[parseInt(this.dataset.idx)].isCorrect;
     this.classList.add('selected');
-    if (isCorrect) { this.classList.add('correct'); currentScore += 20; } else {
-        this.classList.add('incorrect'); card.querySelectorAll('.option-item')[currentQ.answerOptions.findIndex(o => o.isCorrect)].classList.add('correct');
-        wrongQuestionsData.push({ topic: currentQ.topic });
-    }
-    const ratDiv = document.getElementById(`rat-${qIdx}`);
-    ratDiv.innerHTML = `<strong>💡 解析：</strong> ${currentQ.answerOptions.find(o => o.isCorrect).rationale}`;
-    ratDiv.classList.add('visible');
-    if (window.renderMathInElement) renderMathInElement(ratDiv, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
+    if (isCorrect) { this.classList.add('correct'); currentScore += 20; } 
+    else { this.classList.add('incorrect'); card.querySelectorAll('.option-item')[currentQ.answerOptions.findIndex(o => o.isCorrect)].classList.add('correct'); wrongQuestionsData.push({ topic: currentQ.topic }); }
+    const rat = document.getElementById(`rat-${qIdx}`);
+    rat.innerHTML = `<strong>💡 解析：</strong> ${currentQ.answerOptions.find(o => o.isCorrect).rationale}`;
+    rat.classList.add('visible');
+    if (window.renderMathInElement) renderMathInElement(rat, { delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}] });
     if (answeredQuestions.size === 5) setTimeout(showQuizResult, 800);
 }
 
 function showQuizResult() {
-    stopUrgencyAlerts();
     document.getElementById('quiz-content').classList.add('hidden');
     document.getElementById('quiz-result').classList.remove('hidden');
     document.getElementById('score').innerText = currentScore;
     let lv = currentScore === 100 ? 'S 級頂尖' : (currentScore >= 80 ? 'A 級強者' : (currentScore >= 60 ? 'B 級穩定' : 'C 級覺醒中'));
-    let comment = currentScore === 100 ? `🌟 學霸潛能！您的知識結構扎實，遠超多數清交學生！` : (currentScore >= 80 ? `💎 您的基礎掌握度高，但在特定章節仍有提升空間。` : `💪 繼續加油！這份測驗剛好幫您找出盲點。`);
-    document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${lv}</strong><br>${comment}`;
+    document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${lv}</strong>`;
     localStorage.setItem('potentialLevel', lv);
 }
 
 document.getElementById('goToResourceBtn').addEventListener('click', function() {
     document.getElementById('finalScoreDisplay').innerText = currentScore;
-    const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
-    document.getElementById('finalSubjectName').innerText = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
+    const btn = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
+    document.getElementById('finalSubjectName').innerText = btn.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
     document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
     document.getElementById('potentialLevelDisplay').innerText = localStorage.getItem('potentialLevel') || 'C 級覺醒中';
-    document.getElementById('scoreMessage').innerText = currentScore === 100 ? "實力驚人！看這部進階影片來挑戰極限吧！" : "針對您的測驗結果，顧問推薦您先由這部影片打底：";
     document.getElementById('lineCtaButton').href = LINE_CTA_LINK;
     showPage('resourcePage');
 });
 
-// === I. 讀書計畫生成引擎 ===
+// === H. 讀書計畫與影片 ===
 function generateStudyPlan() {
-    const week1 = document.getElementById('plan-week-1'), week2 = document.getElementById('plan-week-2'), week3 = document.getElementById('plan-week-3'), week4 = document.getElementById('plan-week-4'), tag = document.getElementById('weaknessTag');
-    [week1, week2, week3, week4].forEach(el => el.innerHTML = '');
-    let topics = wrongQuestionsData.map(d => d.topic);
-    if (topics.length > 0) {
-        tag.innerText = topics.join('、');
-        week1.innerHTML = `<ul><li>🎯 <strong>重點補強：</strong>重讀 ${topics[0]} 章節</li><li>📖 <strong>基礎複習：</strong>整理筆記</li></ul>`;
-        week2.innerHTML = `<ul><li>📝 <strong>題目挑戰：</strong>完成練習題 20 題</li></ul>`;
-    } else {
-        tag.innerText = "全數答對！菁英強化版";
-        week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>挑戰考古題</li></ul>`;
-        week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：</strong>計時演練</li></ul>`;
-    }
-    const sName = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`).innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-    week3.innerHTML = `<ul><li>🧩 <strong>${sName} 整合：</strong>繪製心智圖</li><li>✍️ <strong>五年試題演練</strong></li></ul>`;
-    week4.innerHTML = `<ul><li>🏁 <strong>考前實戰模擬</strong></li><li>❤️ <strong>調整狀態</strong></li></ul>`;
+    const w1 = document.getElementById('plan-week-1'), tag = document.getElementById('weaknessTag');
+    const topics = wrongQuestionsData.map(d => d.topic);
+    tag.innerText = topics.length > 0 ? topics.join('、') : "全數答對！菁英強化";
+    w1.innerHTML = topics.length > 0 ? `<ul><li>🎯 <strong>補強：</strong>重讀 ${topics[0]}</li></ul>` : `<ul><li>🚀 <strong>超越：</strong>挑戰考古題</li></ul>`;
+    document.getElementById('plan-week-3').innerHTML = `<ul><li>🧩 <strong>整合：</strong>繪製心智圖</li></ul>`;
+    document.getElementById('plan-week-4').innerHTML = `<ul><li>🏁 <strong>模擬：</strong>正式模考</li></ul>`;
 }
 
-// === J. YouTube 嵌入邏輯 ===
 function initYouTube() {
     const container = document.getElementById('youtubePlayer'), vidId = VIDEO_LINKS[currentSubject].youtubeId;
     if (container.querySelector('iframe')) return;
-    container.innerHTML = vidId && vidId.length === 11 ? `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1" title="YouTube" frameborder="0" allowfullscreen></iframe>` : `<p style="color: red;">影片 ID 錯誤。</p>`;
+    container.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe>`;
 }
 
-// 初始化
+// === I. 初始化啟動 ===
 document.addEventListener('DOMContentLoaded', () => {
-    showPage(localStorage.getItem('userData') ? 'subjectSelectPage' : 'userInfoPage');
-    const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
-    if (uniOtherText) { uniOtherText.disabled = true; }
+    if (localStorage.getItem('userData')) {
+        showPage('subjectSelectPage');
+    } else {
+        showPage('userInfoPage');
+        // 進入後立即啟動計時，5秒後跳出第一則
+        startUrgencyAlerts(); 
+    }
+    const other = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
+    if (other) other.disabled = true;
 });

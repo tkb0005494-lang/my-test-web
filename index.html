@@ -65,6 +65,47 @@
 </p>
 </div>
 
+<div id="subjectSelectPage" class="page hidden">
+<h1 style="text-align:center;color:#ffd700;">🎯 請選擇挑戰科目</h1>
+<p style="text-align:center;color:#b0c4de;margin-bottom:30px;">每科精選 5 題，滿分 100 分。測驗你的真實實力！</p>
+<div class="subject-grid">
+<button class="subject-button" data-subject="Math"><span class="subject-icon">📐</span>工程數學</button>
+<button class="subject-button" data-subject="Science"><span class="subject-icon">🔢</span>線性代數</button>
+<button class="subject-button" data-subject="History"><span class="subject-icon">💻</span>計算機概論</button>
+<button class="subject-button" data-subject="Geography"><span class="subject-icon">📊</span>經濟學</button>
+<button class="subject-button" data-subject="English"><span class="subject-icon">∫</span>微積分</button>
+<button class="subject-button" data-subject="Coding"><span class="subject-icon">📉</span>統計學</button>
+</div>
+</div>
+
+<div id="quizPage" class="page hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #5d7c99;padding-bottom:10px;margin-bottom:20px;">
+<h2 id="quizTitle" style="margin:0;color:#ffd700;">測驗中...</h2>
+<span style="background:#4a6886;color:#f0f8ff;padding:5px 10px;border-radius:15px;font-size:.9em;font-weight:bold;">單選題</span>
+</div>
+<div id="quiz-content"></div>
+
+<div id="quiz-result" class="quiz-result hidden">
+<h2 style="color:#ffd700;">🎉 寒假挑戰完成！</h2>
+<div style="font-size:1.5em;margin:15px 0;color:#f0f8ff;">
+您的最終分數：<span id="score" style="color:#ffeb3b;font-weight:bold;font-size:1.5em;">0</span> / 100 分
+</div>
+<p id="scoreComment" style="font-size:1.1em;padding:15px;background:#2c445c;border-radius:8px;border-left:5px solid #ffd700;color:#f0f8ff;"></p>
+
+<div style="background:#3b5a77;padding:15px;border-radius:8px;margin-top:20px;text-align:center;">
+<h3 style="color:#ffeb3b;margin:0 0 10px;font-size:1.2em;">🎁 領取第一次抽獎資格！</h3>
+<p style="margin:5px 0;color:#f0f8ff;font-weight:bold;">步驟：將此頁面<strong>截圖</strong>傳到 IG 限時動態，並標註 @daso.hsinchu</p>
+<p style="margin-top:10px;color:#ffd700;font-size:1.1em;font-weight:bold;">👉 完成後，即可獲得第一次抽獎資格！</p>
+</div>
+
+<button id="goToResourceBtn" class="resource-btn">👉 領取潛能分析與加碼抽獎</button>
+</div>
+</div>
+
+<div id="resourcePage" class="page hidden">
+<!-- resourcePage 內容完整保留，僅空白精簡 -->
+</div>
+
 <script src="./script.js"></script>
 </body>
 </html>

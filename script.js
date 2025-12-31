@@ -355,6 +355,7 @@ let notificationIndex = 0;
 
 // === 新增變數 ===
 let hasClickedFirstTime = false; // 記錄是否第一次點擊按鈕
+let isNotificationActive = false; // 記錄通知是否正在顯示
 
 // === E. 格式驗證函式 ===
 
@@ -382,18 +383,21 @@ function showPage(pageId) {
         // 隱藏第二個通知
         notification2.classList.remove('active');
         notification2.classList.add('hidden');
+        isNotificationActive = false;
     } else if (pageId === 'quizPage') {
         stopNotificationCycle();
         notification.classList.add('hidden');
         // 隱藏第二個通知
         notification2.classList.remove('active');
         notification2.classList.add('hidden');
+        isNotificationActive = false;
     } else if (pageId === 'subjectSelectPage' || pageId === 'resourcePage') {
         stopNotificationCycle();
         notification.classList.add('hidden');
         // 隱藏第二個通知
         notification2.classList.remove('active');
         notification2.classList.add('hidden');
+        isNotificationActive = false;
     }
     // 測驗結果頁面不需要特別處理，因為按鈕點擊時會控制顯示
     
@@ -561,6 +565,7 @@ document.querySelectorAll('.subject-button').forEach(btn => {
 function startQuiz(subject) {
     // 重置第一次點擊標記
     hasClickedFirstTime = false;
+    isNotificationActive = false;
     
     currentScore = 0;
     answeredQuestions.clear();
@@ -697,50 +702,26 @@ function showQuizResult() {
 function setupEventListeners() {
     console.log('設定事件監聽器...');
     
-    // 綁定第二個通知的關閉按鈕事件
-    const closeNotificationBtn = document.getElementById('closeNotificationBtn');
-    if (closeNotificationBtn) {
-        console.log('找到通知關閉按鈕');
-        closeNotificationBtn.addEventListener('click', function() {
-            console.log('通知關閉按鈕被點擊');
-            // 關閉第二個通知
-            const notification2 = document.getElementById('floatingNotification2');
-            notification2.classList.remove('active');
-            notification2.classList.add('hidden');
-            
-            // 第二次點擊：執行原本的跳轉邏輯
-            console.log('第二次點擊，前往資源頁面');
-            
-            // 設置資源頁面的數據
-            document.getElementById('finalScoreDisplay').innerText = currentScore;
-            const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
-            if (button) {
-                const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-                document.getElementById('finalSubjectName').innerText = subjectName;
+    // 綁定第二個通知的遮罩層點擊事件
+    const notification2 = document.getElementById('floatingNotification2');
+    if (notification2) {
+        // 點擊遮罩層（通知以外的區域）關閉通知
+        notification2.addEventListener('click', function(event) {
+            // 只有點擊遮罩層本身（而不是內容區域）才關閉
+            if (event.target === notification2 && isNotificationActive) {
+                console.log('點擊通知以外區域，關閉通知');
+                closeSecondNotification();
             }
-            
-            if (VIDEO_LINKS[currentSubject]) {
-                document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
-            }
-            
-            const potentialLevel = localStorage.getItem('potentialLevel') || 'C 級覺醒中';
-            document.getElementById('potentialLevelDisplay').innerText = potentialLevel;
-
-            let msg = "";
-            if (currentScore === 100) msg = "實力驚人！看這部進階影片來挑戰極限吧！";
-            else msg = "針對您的測驗結果，顧問推薦您先由這部影片打底：";
-            document.getElementById('scoreMessage').innerText = msg;
-            
-            const lineCtaButton = document.getElementById('lineCtaButton');
-            if (lineCtaButton) {
-                lineCtaButton.href = LINE_CTA_LINK;
-            }
-
-            showPage('resourcePage');
         });
-    } else {
-        console.log('警告：找不到通知關閉按鈕元素 closeNotificationBtn');
     }
+}
+
+// 關閉第二個通知的函數
+function closeSecondNotification() {
+    const notification2 = document.getElementById('floatingNotification2');
+    notification2.classList.remove('active');
+    notification2.classList.add('hidden');
+    isNotificationActive = false;
 }
 
 // 綁定測驗結果頁面的按鈕事件
@@ -770,14 +751,14 @@ function bindGoToResourceButton() {
                 const notification2 = document.getElementById('floatingNotification2');
                 notification2.classList.remove('hidden');
                 notification2.classList.add('active');
+                isNotificationActive = true;
                 
                 // 第一次點擊不跳轉，停留在當前頁面
                 return;
             }
             
-            // 如果是第二次點擊（理論上不會執行到這裡，因為第一次點擊時已經標記為已點擊）
-            // 但如果直接點第二次，仍然執行跳轉
-            console.log('直接第二次點擊，前往資源頁面');
+            // 如果是第二次點擊（通知已關閉）
+            console.log('第二次點擊，前往資源頁面');
             goToResourcePage();
         });
     } else {

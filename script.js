@@ -353,6 +353,9 @@ let startTime;
 let notificationTimer = null;
 let notificationIndex = 0;
 
+// === 新增變數 ===
+let hasClickedFirstTime = false; // 記錄是否第一次點擊按鈕
+
 // === E. 格式驗證函式 ===
 
 function isValidName(name) {
@@ -372,12 +375,24 @@ function showPage(pageId) {
     
     // 控制懸浮通知顯示
     const notification = document.getElementById('floatingNotification');
+    const notification2 = document.getElementById('floatingNotification2');
+    
     if (pageId === 'userInfoPage') {
         startNotificationCycle();
-    } else {
+        // 隱藏第二個通知
+        notification2.classList.add('hidden');
+    } else if (pageId === 'quizPage') {
         stopNotificationCycle();
         notification.classList.add('hidden');
+        // 隱藏第二個通知
+        notification2.classList.add('hidden');
+    } else if (pageId === 'subjectSelectPage' || pageId === 'resourcePage') {
+        stopNotificationCycle();
+        notification.classList.add('hidden');
+        // 隱藏第二個通知
+        notification2.classList.add('hidden');
     }
+    // 測驗結果頁面不需要特別處理，因為按鈕點擊時會控制顯示
     
     if (pageId === 'resourcePage') {
         initYouTube();
@@ -541,6 +556,9 @@ document.querySelectorAll('.subject-button').forEach(btn => {
 });
 
 function startQuiz(subject) {
+    // 重置第一次點擊標記
+    hasClickedFirstTime = false;
+    
     currentScore = 0;
     answeredQuestions.clear();
     wrongQuestionsData = [];
@@ -684,6 +702,32 @@ function setupEventListeners() {
             console.log('按鈕被點擊！'); // 調試用
             console.log('當前分數:', currentScore); // 調試用
             console.log('當前科目:', currentSubject); // 調試用
+            console.log('是否第一次點擊:', !hasClickedFirstTime); // 調試用
+            
+            // 如果是第一次點擊
+            if (!hasClickedFirstTime) {
+                hasClickedFirstTime = true; // 標記為已點擊
+                console.log('第一次點擊，顯示通知');
+                
+                // 顯示第二個懸浮通知
+                const notification2 = document.getElementById('floatingNotification2');
+                notification2.classList.remove('hidden');
+                
+                // 添加遮罩層點擊事件（點擊通知以外的區域關閉）
+                notification2.addEventListener('click', function(event) {
+                    // 只有點擊遮罩層本身（而不是內容區域）才關閉
+                    if (event.target === notification2) {
+                        console.log('點擊遮罩層，關閉通知');
+                        notification2.classList.add('hidden');
+                    }
+                });
+                
+                // 第一次點擊不跳轉，停留在當前頁面
+                return;
+            }
+            
+            // 第二次點擊：執行原本的跳轉邏輯
+            console.log('第二次點擊，前往資源頁面');
             
             // 設置資源頁面的數據
             document.getElementById('finalScoreDisplay').innerText = currentScore;

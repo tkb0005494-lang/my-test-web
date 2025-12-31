@@ -28,24 +28,24 @@ const FORM_IDS = {
 // === B. 核心資料結構：題目與測驗設定 ===
 const ALL_QUIZ_DATA = [
     // --- 工程數學 (Math) ---
-{
-    subject: "Math", topic: "一階常微分方程", question: "求解可分離變數微分方程：$\\frac{dy}{dx} = 3x^2 y$，且 $y(0)=1$，求 $y$ 的通解。",
-    answerOptions: [
-        { text: "$y = e^{x^3} + C$", isCorrect: false, rationale: "這是積分常數放錯位置的常見錯誤，正確應將常數合併到指數中。" },
-        { text: "$y = e^{x^3}$", isCorrect: true, rationale: "分離變數得 $\\frac{dy}{y} = 3x^2 dx$，積分得 $\\ln|y| = x^3 + C$，代入初始條件 $y(0)=1$ 得 $C=0$，故 $y = e^{x^3}$。" },
-        { text: "$y = x^3 + C$", isCorrect: false, rationale: "這是忘記指數運算的錯誤。" },
-        { text: "$y = \\ln|x^3| + 1$", isCorrect: false, rationale: "這是混淆對數與指數函數的錯誤。" }
-    ]
-},
-{
-    subject: "Math", topic: "矩陣運算", question: "若 $A = \\begin{bmatrix} 2 & 1 \\\\ -1 & 3 \\end{bmatrix}$，$B = \\begin{bmatrix} 1 & 0 \\\\ 2 & -1 \\end{bmatrix}$，求 $A + B$。",
-    answerOptions: [
-        { text: "$\\begin{bmatrix} 3 & 1 \\\\ 1 & 2 \\end{bmatrix}$", isCorrect: true, rationale: "矩陣加法為對應元素相加：$\\begin{bmatrix} 2+1 & 1+0 \\\\ -1+2 & 3+(-1) \\end{bmatrix} = \\begin{bmatrix} 3 & 1 \\\\ 1 & 2 \\end{bmatrix}$。" },
-        { text: "$\\begin{bmatrix} 2 & 1 \\\\ 3 & 2 \\end{bmatrix}$", isCorrect: false, rationale: "錯誤的對應元素計算，第一列第一行應為 2+1=3，而非 2。" },
-        { text: "$\\begin{bmatrix} 3 & 0 \\\\ 1 & 4 \\end{bmatrix}$", isCorrect: false, rationale: "錯誤的對應元素計算，第二列第一行應為 -1+2=1，但第二列第二行錯誤。" },
-        { text: "$\\begin{bmatrix} 3 & 1 \\\\ -3 & 2 \\end{bmatrix}$", isCorrect: false, rationale: "第二列第一行計算錯誤：應為 -1+2=1，而非 -3。" }
-    ]
-},
+ {
+        subject: "Math", topic: "一階常微分方程", question: "求解可分離變數微分方程：$\\frac{dy}{dx} = 3x^2 y$，且 $y(0)=1$，求 $y$ 的通解。",
+        answerOptions: [
+            { text: "$y = e^{x^3} + C$", isCorrect: false, rationale: "這是積分常數放錯位置的常見錯誤，正確應將常數合併到指數中。" },
+            { text: "$y = e^{x^3}$", isCorrect: true, rationale: "分離變數得 $\\frac{dy}{y} = 3x^2 dx$，積分得 $\\ln|y| = x^3 + C$，代入初始條件 $y(0)=1$ 得 $C=0$，故 $y = e^{x^3}$。" },
+            { text: "$y = x^3 + C$", isCorrect: false, rationale: "這是忘記指數運算的錯誤。" },
+            { text: "$y = \\ln|x^3| + 1$", isCorrect: false, rationale: "這是混淆對數與指數函數的錯誤。" }
+        ]
+    },
+    {
+        subject: "Math", topic: "矩陣運算", question: "若 $A = \\begin{bmatrix} 2 & 1 \\\\ -1 & 3 \\end{bmatrix}$，$B = \\begin{bmatrix} 1 & 0 \\\\ 2 & -1 \\end{bmatrix}$，求 $A + B$。",
+        answerOptions: [
+            { text: "$\\begin{bmatrix} 3 & 1 \\\\ 1 & 2 \\end{bmatrix}$", isCorrect: true, rationale: "矩陣加法為對應元素相加：$\\begin{bmatrix} 2+1 & 1+0 \\\\ -1+2 & 3+(-1) \\end{bmatrix} = \\begin{bmatrix} 3 & 1 \\\\ 1 & 2 \\end{bmatrix}$。" },
+            { text: "$\\begin{bmatrix} 2 & 1 \\\\ 3 & 2 \\end{bmatrix}$", isCorrect: false, rationale: "錯誤的對應元素計算，第一列第一行應為 2+1=3，而非 2。" },
+            { text: "$\\begin{bmatrix} 3 & 0 \\\\ 1 & 4 \\end{bmatrix}$", isCorrect: false, rationale: "錯誤的對應元素計算，第二列第一行應為 -1+2=1，但第二列第二行錯誤。" },
+            { text: "$\\begin{bmatrix} 3 & 1 \\\\ -3 & 2 \\end{bmatrix}$", isCorrect: false, rationale: "第二列第一行計算錯誤：應為 -1+2=1，而非 -3。" }
+        ]
+    },
     {
         subject: "Math", topic: "拉普拉斯轉換", question: "函數 $f(t) = e^{at}$ 的拉普拉斯轉換 $L\\{f(t)\\}$ 為何？",
         answerOptions: [

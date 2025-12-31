@@ -17,12 +17,33 @@
         <span id="notificationText"></span>
     </div>
 </div>
+
 <!-- 第二個懸浮通知：測驗結果互動通知 -->
 <div id="floatingNotification2" class="floating-notification2 hidden">
     <div class="notification-content2">
-        <p>🎁 獲取第一次抽獎資格！</p>
-        <p>步驟：將此頁面截圖傳到 IG 限時動態，並標註 @daso.hsinchu</p>
-        <p>👉 完成後，點擊通知以外的地方來獲取分析！</p>
+        <div class="notification-header">
+            <span class="notification-icon">🎁</span>
+            <h3>獲取第一次抽獎資格！</h3>
+        </div>
+        <div class="notification-body">
+            <p><strong>步驟：</strong>將此頁面截圖傳到 IG 限時動態，並標註 @daso.hsinchu</p>
+            <div class="notification-step">
+                <span class="step-number">1</span>
+                <span>完成測驗後截圖此頁面</span>
+            </div>
+            <div class="notification-step">
+                <span class="step-number">2</span>
+                <span>分享到 IG 限時動態</span>
+            </div>
+            <div class="notification-step">
+                <span class="step-number">3</span>
+                <span>標註 @daso.hsinchu</span>
+            </div>
+            <div class="notification-action">
+                <p class="action-text">完成後，點擊下方按鈕獲取分析報告！</p>
+                <button id="closeNotificationBtn" class="action-btn">查看我的專屬分析</button>
+            </div>
+        </div>
     </div>
 </div>
 <div id="userInfoPage" class="page">

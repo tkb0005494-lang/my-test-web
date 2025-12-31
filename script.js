@@ -616,9 +616,6 @@ function startQuiz(subject) {
             ]
         });
     }
-    
-    // 重新綁定測驗結果按鈕事件
-    bindGoToResourceButton();
 }
 
 function handleAnswerClick() {
@@ -693,7 +690,7 @@ function showQuizResult() {
     document.getElementById('scoreComment').innerHTML = `您的潛能等級：<strong>${potentialLevel}</strong><br>${comment}`;
     localStorage.setItem('potentialLevel', potentialLevel);
     
-    // 重新綁定按鈕事件，確保按鈕能正常工作
+    // 立即綁定按鈕事件，確保按鈕能正常工作
     bindGoToResourceButton();
 }
 

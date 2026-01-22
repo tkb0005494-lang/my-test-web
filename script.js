@@ -1,24 +1,15 @@
 // === A. Google 表單設定與變數 ===
 
-// **表單 A: 使用者資訊**
 const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 
-// **Google 表單欄位 ID 映射 (僅保留表單 A)**
 const FORM_IDS = {
-    // ------------------------------------------------------------------
-    // 表單 A: 用戶資訊 (Google Entry ID)
     FORM_A_NAME: 'entry.1711447572',
     FORM_A_DEPT_GRADE: 'entry.1169658860',
     FORM_A_PHONE: 'entry.1253545059',
     FORM_A_UNI: 'entry.651877505',
     FORM_A_GRADE: 'entry.247937200',
-    
-    // ------------------------------------------------------------------
-    // HTML 欄位屬性名稱/ID (與 index.html 匹配)
     HTML_UNI_RADIO_NAME: 'userUniversity',
     HTML_GRADE_RADIO_NAME: 'userGrade',
-    
-    // 以下是 input 的 ID
     HTML_NAME_ID: 'userName',
     HTML_UNI_OTHER_ID: 'uniOtherText',
     HTML_DEPT_ID: 'userDepartment',
@@ -28,7 +19,7 @@ const FORM_IDS = {
 // === B. 核心資料結構：題目與測驗設定 ===
 const ALL_QUIZ_DATA = [
     // --- 工程數學 (Math) ---
- {
+    {
         subject: "Math", topic: "一階常微分方程", question: "求解可分離變數微分方程：$\\frac{dy}{dx} = 3x^2 y$，且 $y(0)=1$，求 $y$ 的通解。",
         answerOptions: [
             { text: "$y = e^{x^3} + C$", isCorrect: false, rationale: "這是積分常數放錯位置的常見錯誤，正確應將常數合併到指數中。" },
@@ -73,7 +64,6 @@ const ALL_QUIZ_DATA = [
             { text: "不包含任何項", isCorrect: false, rationale: "錯誤。" }
         ]
     },
-
     // --- 線性代數 (Science) ---
     {
         subject: "Science", topic: "行列式", question: "判斷 $A = [[2, -1], [4, 3]]$ 的行列式值。",
@@ -120,8 +110,7 @@ const ALL_QUIZ_DATA = [
             { text: "$A^T \\mathbf{v} = \\lambda \\mathbf{v}$", isCorrect: false, rationale: "錯誤。" }
         ]
     },
-    
- // --- 計算機概論 (History) ---
+    // --- 計算機概論 (History) ---
     {
         subject: "History", 
         topic: "資料表示法",
@@ -177,7 +166,7 @@ const ALL_QUIZ_DATA = [
             { text: "循環等待 (Circular Wait)", isCorrect: false, rationale: "這是死結必要條件之一。" }
         ]
     }, 
-  // --- 經濟學 (Geography) ---
+    // --- 經濟學 (Geography) ---
     {
         subject: "Geography", 
         topic: "需求彈性", 
@@ -279,8 +268,7 @@ const ALL_QUIZ_DATA = [
             { text: "$2x^2 y$", isCorrect: false, rationale: "錯誤。" }
         ]
     },
-
-  // --- 統計學 (Coding) ---
+    // --- 統計學 (Coding) ---
     {
         subject: "Coding", 
         topic: "抽樣分佈", 
@@ -380,54 +368,42 @@ let wrongQuestionsData = [];
 let startTime;
 let notificationTimer = null;
 let notificationIndex = 0;
-
-// === 新增變數 ===
-let hasClickedFirstTime = false; // 記錄是否第一次點擊按鈕
-let isNotificationActive = false; // 記錄通知是否正在顯示
+let hasClickedFirstTime = false; 
+let isNotificationActive = false; 
 
 // === E. 格式驗證函式 ===
-
 function isValidName(name) {
     return /^[\u4e00-\u9fa5]{2,}$/.test(name);
 }
-
 function isValidTaiwanPhone(phone) {
     return /^\d{10}$/.test(phone);
 }
 
 // === F. 頁面控制 ===
-
 function showPage(pageId) {
     console.log(`切換到頁面: ${pageId}`);
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
     
-    // 控制懸浮通知顯示
     const notification = document.getElementById('floatingNotification');
     const notification2 = document.getElementById('floatingNotification2');
     
     if (pageId === 'userInfoPage') {
         startNotificationCycle();
-        // 隱藏第二個通知
-        notification2.classList.remove('active');
-        notification2.classList.add('hidden');
+        if(notification2) {
+            notification2.classList.remove('active');
+            notification2.classList.add('hidden');
+        }
         isNotificationActive = false;
-    } else if (pageId === 'quizPage') {
+    } else {
         stopNotificationCycle();
-        notification.classList.add('hidden');
-        // 隱藏第二個通知
-        notification2.classList.remove('active');
-        notification2.classList.add('hidden');
-        isNotificationActive = false;
-    } else if (pageId === 'subjectSelectPage' || pageId === 'resourcePage') {
-        stopNotificationCycle();
-        notification.classList.add('hidden');
-        // 隱藏第二個通知
-        notification2.classList.remove('active');
-        notification2.classList.add('hidden');
+        if(notification) notification.classList.add('hidden');
+        if(notification2) {
+            notification2.classList.remove('active');
+            notification2.classList.add('hidden');
+        }
         isNotificationActive = false;
     }
-    // 測驗結果頁面不需要特別處理，因為按鈕點擊時會控制顯示
     
     if (pageId === 'resourcePage') {
         initYouTube();
@@ -436,16 +412,10 @@ function showPage(pageId) {
 }
 
 // === G. 懸浮通知功能 ===
-
 function startNotificationCycle() {
-    // 清除現有的計時器
     stopNotificationCycle();
-    
-    // 初始化通知索引
     notificationIndex = Math.floor(Math.random() * NOTIFICATION_TEXTS.length);
-    
-    // 開始循環
-    notificationTimer = setTimeout(showNotification, 3000); // 3秒後第一次顯示
+    notificationTimer = setTimeout(showNotification, 3000);
 }
 
 function stopNotificationCycle() {
@@ -458,56 +428,38 @@ function stopNotificationCycle() {
 function showNotification() {
     const notification = document.getElementById('floatingNotification');
     const notificationText = document.getElementById('notificationText');
-    
-    // 隨機選擇一條通知文案
+    if(!notification || !notificationText) return;
+
     notificationText.textContent = NOTIFICATION_TEXTS[notificationIndex];
-    
-    // 顯示通知
     notification.classList.remove('hidden');
-    
-    // 更新索引
     notificationIndex = (notificationIndex + 1) % NOTIFICATION_TEXTS.length;
     
-    // 2秒後隱藏通知
     setTimeout(() => {
         notification.classList.add('hidden');
-        
-        // 3秒後再次顯示通知
         notificationTimer = setTimeout(showNotification, 3000);
     }, 2000);
 }
 
-// === H. 表單資料提交函數 (僅用於表單 A) ===
-
-async function submitDataToGoogleForm(url, dataToSubmit) {
-    const formError = document.getElementById('formError');
-    if (url === GOOGLE_FORM_A_URL) formError.style.display = 'none';
-
+// === H. 表單資料提交函數 (優化 LINE 環境相容性) ===
+function submitDataToGoogleForm(url, dataToSubmit) {
     const body = new URLSearchParams();
     for (const key in dataToSubmit) {
         body.append(key, dataToSubmit[key]);
     }
     
-    try {
-        await fetch(url, {
-            method: 'POST',
-            body: body,
-            mode: 'no-cors'
-        });
-        return true;
-    } catch (error) {
-        console.error('Google Forms 提交失敗:', error);
-        if (url === GOOGLE_FORM_A_URL) {
-            formError.textContent = '使用者資訊提交失敗，請檢查網路。';
-            formError.style.display = 'block';
-        }
-        return false;
-    }
+    // 背景靜默發送，不使用 await 以防阻塞跳轉
+    fetch(url, {
+        method: 'POST',
+        body: body,
+        mode: 'no-cors',
+        cache: 'no-cache'
+    }).catch(err => console.error("表單發送失敗:", err));
+    
+    return true; 
 }
 
-// === I. 表單邏輯 ===
-
-document.getElementById('userInfoForm').addEventListener('submit', async function(e) {
+// === I. 表單邏輯 (加入 LINE 專用跳轉緩衝) ===
+document.getElementById('userInfoForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const userName = document.getElementById(FORM_IDS.HTML_NAME_ID).value.trim();
@@ -534,7 +486,7 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
     }
 
     if (!isValidTaiwanPhone(userPhone)) {
-        formError.textContent = "聯絡手機格式錯誤：請輸入 10 碼數字 (例如 09xxxxxxxx)。";
+        formError.textContent = "聯絡手機格式錯誤：請輸入 10 碼數字。";
         formError.style.display = 'block';
         return;
     }
@@ -550,19 +502,19 @@ document.getElementById('userInfoForm').addEventListener('submit', async functio
         [FORM_IDS.FORM_A_GRADE]: userGrade,
     };
 
-    const isSubmitted = await submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit);
+    // 1. 先執行發送
+    submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit);
 
-    if (isSubmitted) {
-        localStorage.setItem('userData', JSON.stringify({
-            name: userName,
-            uni: uniValue,
-            dept: userDepartment,
-            grade: userGrade,
-            phone: userPhone
-        }));
+    // 2. 存入本機
+    localStorage.setItem('userData', JSON.stringify({
+        name: userName, uni: uniValue, dept: userDepartment, grade: userGrade, phone: userPhone
+    }));
+
+    // 3. 🚀 關鍵：在 LINE 中延遲 150ms 確保封包已發出再換頁
+    setTimeout(() => {
         startTime = Date.now();
         showPage('subjectSelectPage');
-    }
+    }, 150);
 });
 
 // 大學選項切換邏輯
@@ -582,7 +534,6 @@ document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEa
 });
 
 // === J. 測驗邏輯 ===
-
 document.querySelectorAll('.subject-button').forEach(btn => {
     btn.addEventListener('click', function() {
         currentSubject = this.getAttribute('data-subject');
@@ -591,10 +542,8 @@ document.querySelectorAll('.subject-button').forEach(btn => {
 });
 
 function startQuiz(subject) {
-    // 重置第一次點擊標記
     hasClickedFirstTime = false;
     isNotificationActive = false;
-    
     currentScore = 0;
     answeredQuestions.clear();
     wrongQuestionsData = [];
@@ -611,13 +560,11 @@ function startQuiz(subject) {
     document.getElementById('quizTitle').innerText = `正在測驗：${subjectName}`;
 
     quizList.forEach((q, index) => {
-        const qNum = index + 1;
         const card = document.createElement('div');
         card.className = 'question-card';
         card.dataset.index = index;
-        
         card.innerHTML = `
-            <div class="question-text">Q${qNum}. ${q.question}</div>
+            <div class="question-text">Q${index + 1}. ${q.question}</div>
             <ul class="options-list">
                 ${q.answerOptions.map((opt, i) => `
                     <li class="option-item" data-idx="${i}">
@@ -635,13 +582,9 @@ function startQuiz(subject) {
     });
 
     showPage('quizPage');
-    
     if (window.renderMathInElement) {
         renderMathInElement(container, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
+            delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}]
         });
     }
 }
@@ -649,7 +592,6 @@ function startQuiz(subject) {
 function handleAnswerClick() {
     const card = this.closest('.question-card');
     const qIdx = parseInt(card.dataset.index);
-    
     if (answeredQuestions.has(qIdx)) return;
     answeredQuestions.add(qIdx);
 
@@ -666,10 +608,7 @@ function handleAnswerClick() {
         this.classList.add('incorrect');
         const correctIdx = currentQ.answerOptions.findIndex(o => o.isCorrect);
         card.querySelectorAll('.option-item')[correctIdx].classList.add('correct');
-        wrongQuestionsData.push({
-            topic: currentQ.topic,
-            question: currentQ.question
-        });
+        wrongQuestionsData.push({ topic: currentQ.topic, question: currentQ.question });
     }
 
     const ratDiv = document.getElementById(`rat-${qIdx}`);
@@ -678,10 +617,7 @@ function handleAnswerClick() {
     
     if (window.renderMathInElement) {
         renderMathInElement(ratDiv, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ]
+            delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}]
         });
     }
 
@@ -691,287 +627,146 @@ function handleAnswerClick() {
 }
 
 function showQuizResult() {
-    console.log('顯示測驗結果，分數:', currentScore);
     document.getElementById('quiz-content').classList.add('hidden');
-    const resultDiv = document.getElementById('quiz-result');
-    resultDiv.classList.remove('hidden');
-    
+    document.getElementById('quiz-result').classList.remove('hidden');
     document.getElementById('score').innerText = currentScore;
     
     let potentialLevel = '';
     let comment = '';
-    
-    if (currentScore === 100) {
-        potentialLevel = '夯';
-        comment =`✌️ 您的知識結構扎實且應用能力極強，遠超多數清交學生！寒假目標：維持手感，挑戰更進階的題型。`;
-    } else if (currentScore >= 80) {
-        potentialLevel = '頂級';
-        comment = `💎 您的基礎知識掌握度高，但在特定章節仍有提升空間。寒假目標：鎖定弱點，精準補強，就能晉升 S 級！`;
-    } else if (currentScore >= 60) {
-        potentialLevel = '人上人';
-        comment = `✨ 您已具備一定基礎，但面對高難度挑戰時，計算或觀念整合能力略顯不足。寒假目標：建立完整知識地圖，從頭打好根基。`;
-    } else {
-        potentialLevel = '拉完了';
-        comment = `💩 以為拉完了就沒事?立即規劃補強，寒假後逆轉勝！`;
-    }
+    if (currentScore === 100) { potentialLevel = '夯'; comment =`✌️ 您的知識結構扎實且應用能力極強，遠超多數清交學生！`; }
+    else if (currentScore >= 80) { potentialLevel = '頂級'; comment = `💎 您的基礎掌握度高，但在特定章節仍有提升空間。`; }
+    else if (currentScore >= 60) { potentialLevel = '人上人'; comment = `✨ 您已具備基礎，但計算或觀念整合能力略顯不足。`; }
+    else { potentialLevel = '拉完了'; comment = `💩 以為拉完了就沒事?立即規劃補強，寒假後逆轉勝！`; }
     
     document.getElementById('scoreComment').innerHTML = `銳評：<strong>${potentialLevel}</strong><br>${comment}`;
     localStorage.setItem('potentialLevel', potentialLevel);
     
-    // === 重要修正：在這裡直接綁定按鈕事件 ===
+    // 重新綁定資源按鈕事件
     bindResourceButton();
 }
 
-// === K. 按鈕事件監聽器 ===
-
+// === K. 按鈕與通知邏輯 ===
 function setupEventListeners() {
-    console.log('設定事件監聽器...');
-    
-    // 簡化方法：直接在document上監聽點擊事件
     document.addEventListener('click', function(event) {
         const notification2 = document.getElementById('floatingNotification2');
-        
-        // 如果通知是活躍狀態，且點擊的不是通知內容區域
         if (notification2 && notification2.classList.contains('active')) {
             const content = notification2.querySelector('.notification-content2');
-            
-            // 檢查點擊是否在內容區域之外
             if (content && !content.contains(event.target)) {
-                console.log('點擊通知以外區域，關閉通知');
                 closeSecondNotification();
             }
         }
     });
 }
 
-// 關閉第二個通知的函數
 function closeSecondNotification() {
     const notification2 = document.getElementById('floatingNotification2');
     if (notification2) {
         notification2.classList.remove('active');
         notification2.classList.add('hidden');
         isNotificationActive = false;
-        console.log('通知已關閉');
     }
 }
 
-// === 修正：直接綁定資源按鈕事件 ===
 function bindResourceButton() {
     const goToResourceBtn = document.getElementById('goToResourceBtn');
     if (goToResourceBtn) {
-        console.log('找到按鈕元素 goToResourceBtn，準備綁定事件');
-        
-        // 移除所有現有的事件監聽器（通過克隆和替換）
         const newBtn = goToResourceBtn.cloneNode(true);
         goToResourceBtn.parentNode.replaceChild(newBtn, goToResourceBtn);
-        
-        // 重新獲取按鈕引用
         const btn = document.getElementById('goToResourceBtn');
-        
-        // 先移除之前的事件監聽器，避免重複綁定
-        btn.removeEventListener('click', handleFirstClick);
-        btn.removeEventListener('click', handleSecondClick);
-        
-        // 重置點擊狀態
         hasClickedFirstTime = false;
-        isNotificationActive = false;
-        
-        // 綁定第一次點擊事件
         btn.addEventListener('click', handleFirstClick);
-        
-        console.log('按鈕事件綁定完成');
-    } else {
-        console.log('警告：找不到按鈕元素 goToResourceBtn');
     }
 }
 
-// 第一次點擊處理函數
 function handleFirstClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('第一次點擊按鈕');
-    
-    // 標記為已點擊
     hasClickedFirstTime = true;
-    
-    // 顯示第二個懸浮通知
     const notification2 = document.getElementById('floatingNotification2');
     if (notification2) {
         notification2.classList.remove('hidden');
         notification2.classList.add('active');
         isNotificationActive = true;
-        console.log('第二個通知已顯示');
-        
-        // 移除第一次點擊事件，綁定第二次點擊事件
         const btn = document.getElementById('goToResourceBtn');
         btn.removeEventListener('click', handleFirstClick);
         btn.addEventListener('click', handleSecondClick);
     } else {
-        console.log('錯誤：找不到第二個通知元素');
-        // 如果找不到通知，直接跳轉到資源頁面
         goToResourcePage();
     }
 }
 
-// 第二次點擊處理函數
 function handleSecondClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('第二次點擊按鈕，前往資源頁面');
-    
-    // 確保通知已關閉
     closeSecondNotification();
-    
-    // 短暫延遲後跳轉，確保動畫完成
-    setTimeout(() => {
-        goToResourcePage();
-    }, 300);
+    setTimeout(goToResourcePage, 300);
 }
 
-// 跳轉到資源頁面的函數
 function goToResourcePage() {
-    console.log('前往資源頁面');
-    
-    // 設置資源頁面的數據
     document.getElementById('finalScoreDisplay').innerText = currentScore;
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
     if (button) {
-        const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-        document.getElementById('finalSubjectName').innerText = subjectName;
+        document.getElementById('finalSubjectName').innerText = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
     }
-    
     if (VIDEO_LINKS[currentSubject]) {
         document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
     }
+    document.getElementById('potentialLevelDisplay').innerText = localStorage.getItem('potentialLevel') || '尚未評等';
+    document.getElementById('scoreMessage').innerText = currentScore === 100 ? "實力驚人！挑戰極限！" : "推薦您由這部影片打底：";
     
-    const potentialLevel = localStorage.getItem('potentialLevel') || 'C 級覺醒中';
-    document.getElementById('potentialLevelDisplay').innerText = potentialLevel;
-
-    let msg = "";
-    if (currentScore === 100) msg = "實力驚人！看這部進階影片來挑戰極限吧！";
-    else msg = "針對您的測驗結果，顧問推薦您先由這部影片打底：";
-    document.getElementById('scoreMessage').innerText = msg;
-    
-    const lineCtaButton = document.getElementById('lineCtaButton');
-    if (lineCtaButton) {
-        lineCtaButton.href = LINE_CTA_LINK;
-    }
-
+    const lineCta = document.getElementById('lineCtaButton');
+    if (lineCta) lineCta.href = LINE_CTA_LINK;
     showPage('resourcePage');
 }
 
 // === L. 讀書計畫生成引擎 ===
-
 function generateStudyPlan() {
-    const week1 = document.getElementById('plan-week-1');
-    const week2 = document.getElementById('plan-week-2');
-    const week3 = document.getElementById('plan-week-3');
-    const week4 = document.getElementById('plan-week-4');
+    const weeks = [1, 2, 3, 4].map(i => document.getElementById(`plan-week-${i}`));
     const weaknessTag = document.getElementById('weaknessTag');
+    weeks.forEach(el => { if (el) el.innerHTML = ''; });
 
-    [week1, week2, week3, week4].forEach(el => {
-        if (el) el.innerHTML = '';
-    });
-
-    let topics = [];
-    if (wrongQuestionsData.length > 0) {
-        topics = wrongQuestionsData.map(d => d.topic);
+    let topics = wrongQuestionsData.map(d => d.topic);
+    if (topics.length > 0) {
         if (weaknessTag) weaknessTag.innerText = topics.join('、');
-        
         const half = Math.ceil(topics.length / 2);
-        const w1Topics = topics.slice(0, half);
-        const w2Topics = topics.slice(half);
-
-        if (week1) {
-            week1.innerHTML = `<ul>${w1Topics.map(t => `<li>🎯 <strong>重點補強：</strong>重讀 ${t} 章節觀念</li>`).join('')}<li>📖 <strong>基礎複習：</strong>整理該章節筆記與公式推導</li></ul>`;
-        }
-        
-        if (week2) {
-            if (w2Topics.length > 0) {
-                week2.innerHTML = `<ul>${w2Topics.map(t => `<li>🎯 <strong>重點補強：</strong>針對 ${t} 進行題型演練</li>`).join('')}<li>📝 <strong>自我檢測：</strong>完成相關單元練習題 20 題</li></ul>`;
-            } else {
-                week2.innerHTML = `<ul><li>💪 <strong>延伸練習：</strong>針對第一週弱點進行進階題型挑戰</li><li>🔄 <strong>混合題型：</strong>開始練習跨章節綜合題</li></ul>`;
-            }
-        }
-
+        if (weeks[0]) weeks[0].innerHTML = `<ul>${topics.slice(0, half).map(t => `<li>🎯 <strong>補強：</strong>重讀 ${t}</li>`).join('')}</ul>`;
+        if (weeks[1]) weeks[1].innerHTML = `<ul>${topics.slice(half).map(t => `<li>🎯 <strong>補強：</strong>練習 ${t}</li>`).join('')}</ul>`;
     } else {
-        if (weaknessTag) weaknessTag.innerText = "全數答對！菁英強化版";
-        if (week1) {
-            week1.innerHTML = `<ul><li>🚀 <strong>超前部署：</strong>直接挑戰研究所考古題 (108-110年)</li><li>📚 <strong>廣度閱讀：</strong>閱讀相關原文書章節補充觀念</li></ul>`;
-        }
-        if (week2) {
-            week2.innerHTML = `<ul><li>⚡ <strong>速度訓練：</strong>計時完成一份完整模擬試卷</li><li>🔍 <strong>難題鑽研：</strong>尋找該科目最困難的特殊題型解析</li></ul>`;
-        }
+        if (weaknessTag) weaknessTag.innerText = "全數答對！";
+        if (weeks[0]) weeks[0].innerHTML = "<ul><li>🚀 <strong>超前部署：</strong>挑戰考古題</li></ul>";
+        if (weeks[1]) weeks[1].innerHTML = "<ul><li>⚡ <strong>速度訓練：</strong>模擬試卷</li></ul>";
     }
 
-    const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
-    const sName = button ? button.innerText.replace(/[^\u4e00-\u9fa5]/g, '') : "該科目";
-
-    if (week3) {
-        week3.innerHTML = `
-            <ul>
-                <li>🧩 <strong>${sName} 跨章節整合：</strong>將各單元觀念串聯，繪製心智圖。</li>
-                <li>✍️ <strong>五年考古題演練 (Part 1)：</strong>完成近五年台聯大/台大試題。</li>
-            </ul>`;
-    }
-    
-    if (week4) {
-        week4.innerHTML = `
-            <ul>
-                <li>🏁 <strong>考前實戰模擬：</strong>完全比照考試時間 (80-100分鐘) 作答。</li>
-                <li>❤️ <strong>調整身心狀態：</strong>複習錯誤筆記，不再鑽牛角尖，保持手感。</li>
-            </ul>`;
-    }
+    const sName = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`)?.innerText.replace(/[^\u4e00-\u9fa5]/g, '') || "學科";
+    if (weeks[2]) weeks[2].innerHTML = `<ul><li>🧩 <strong>${sName} 整合：</strong>繪製心智圖</li><li>✍️ <strong>五年考古：</strong>完成台聯大試題</li></ul>`;
+    if (weeks[3]) weeks[3].innerHTML = `<ul><li>🏁 <strong>考前模擬：</strong>比照考試時間</li><li>❤️ <strong>調整狀態：</strong>複習筆記</li></ul>`;
 }
 
 // === M. YouTube 嵌入邏輯 ===
-
 function initYouTube() {
     const container = document.getElementById('youtubePlayer');
-    if (!container) return;
-    
-    if (container.querySelector('iframe')) return;
-    
+    if (!container || container.querySelector('iframe')) return;
     const vidId = VIDEO_LINKS[currentSubject]?.youtubeId;
-    if (vidId && vidId.length === 11) {
-        const youtubeEmbedUrl = `https://www.youtube.com/embed/${vidId}?autoplay=0&controls=1`;
-        container.innerHTML = `<iframe width="100%" height="100%" src="${youtubeEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-    } else {
-        container.innerHTML = `<p style="color: red; padding: 20px; text-align: center;">影片 ID 錯誤或缺失。</p>`;
+    if (vidId) {
+        container.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe>`;
     }
 }
 
 // === N. 初始化 ===
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM 載入完成，開始初始化...');
-    
-    // 設定事件監聽器
     setupEventListeners();
-    
-    // 檢查是否有已儲存的用戶資料
     if (localStorage.getItem('userData')) {
         showPage('subjectSelectPage');
     } else {
         showPage('userInfoPage');
     }
+    const uniOther = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
+    if (uniOther) { uniOther.disabled = true; uniOther.required = false; }
     
-    // 初始化大學其他選項
-    const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
-    if (uniOtherText) {
-        uniOtherText.disabled = true;
-        uniOtherText.required = false;
-    }
-    
-    // 初始化 KaTeX 渲染
     if (window.renderMathInElement) {
         renderMathInElement(document.body, {
-            delimiters: [
-                {left: "$$", right: "$$", display: true},
-                {left: "$", right: "$", display: false}
-            ],
+            delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}],
             throwOnError: false
         });
     }
-    
-    console.log('初始化完成');
 });

@@ -1,17 +1,18 @@
-// === 0. LINE 環境偵測與強制外部瀏覽器跳轉 ===
+// === 0. 核心強制跳轉邏輯：必須放在腳本最上方 ===
 (function() {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
-    const isLine = (ua.indexOf("Line") > -1);
-    const hasExternalParam = window.location.search.includes("openExternalBrowser=1");
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+    var isLine = (ua.indexOf("Line") > -1); // 偵測是否在 LINE App 內
+    var hasExternalParam = window.location.search.includes("openExternalBrowser=1");
 
-    // 如果偵測到在 LINE 內，且尚未帶有外部開啟參數，則強制跳轉
     if (isLine && !hasExternalParam) {
-        const separator = window.location.href.includes("?") ? "&" : "?";
-        const newUrl = window.location.href + separator + "openExternalBrowser=1";
-        window.location.href = newUrl;
+        // 取得目前的網址並判斷該用 ? 還是 & 連接參數
+        var separator = window.location.href.includes("?") ? "&" : "?";
+        var targetUrl = window.location.href + separator + "openExternalBrowser=1";
+        
+        // 強制取代當前頁面，觸發 LINE 的外部瀏覽器協議
+        window.location.replace(targetUrl);
     }
 })();
-
 // === A. Google 表單設定與變數 ===
 const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 

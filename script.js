@@ -280,50 +280,60 @@ const ALL_QUIZ_DATA = [
         ]
     },
 
-    // --- 統計學 (Coding) ---
+  // --- 統計學 (Coding) ---
     {
-        subject: "Coding", topic: "敘述統計", question: "統計學中，樣本與母體之間的差異，最常使用什麼指標衡量？",
+        subject: "Coding", 
+        topic: "抽樣分佈", 
+        question: "在抽樣調查中，『標準誤 (Standard Error)』與『標準差 (Standard Deviation)』的主要區別為何？",
         answerOptions: [
-            { text: "平均數 (Mean)", isCorrect: false, rationale: "平均數是集中趨勢的測量。" },
-            { text: "標準差 (Standard Deviation)", isCorrect: true, rationale: "標準差衡量數據的分散程度，間接反映樣本對母體的代表性。" },
-            { text: "變異係數 (Coefficient of Variation)", isCorrect: false, rationale: "是相對分散程度的測量。" },
-            { text: "P值 (P-value)", isCorrect: false, rationale: "用於假設檢定。" }
+            { text: "兩者意義完全相同，只是名稱不同", isCorrect: false, rationale: "標準差描述樣本原始數據的離散度；標準誤描述統計量 (如平均數) 抽樣分佈的離散度。" },
+            { text: "標準誤是描述『統計量抽樣分佈』的離散程度", isCorrect: true, rationale: "根據中央極限定理，樣本平均數的標準誤為 $\\sigma/\\sqrt{n}$，衡量樣本平均數與母體參數的距離。" },
+            { text: "標準誤永遠大於標準差", isCorrect: false, rationale: "當 $n>1$ 時，標準誤通常小於標準差。" },
+            { text: "標準誤僅能用於描述類別變數", isCorrect: false, rationale: "標準誤可用於任何數值統計量的抽樣分佈。" }
         ]
     },
     {
-        subject: "Coding", topic: "機率分佈", question: "若變數 $X$ 服從常態分佈 (Normal Distribution)，則其分佈圖形呈現何種形狀？",
+        subject: "Coding", 
+        topic: "常態分佈特性", 
+        question: "若隨機變數 $X \\sim N(\\mu, \\sigma^2)$，則根據實證規則 (Empirical Rule)，約有多少比例的資料會落在 $\\mu \\pm 2\\sigma$ 之內？",
         answerOptions: [
-            { text: "L 型", isCorrect: false, rationale: "錯誤。" },
-            { text: "J 型", isCorrect: false, rationale: "錯誤。" },
-            { text: "雙峰型 (Bimodal)", isCorrect: false, rationale: "錯誤。" },
-            { text: "鐘形 (Bell-shaped)", isCorrect: true, rationale: "常態分佈的典型特徵。" }
+            { text: "68%", isCorrect: false, rationale: "這是 $\\pm 1\\sigma$ 的比例。" },
+            { text: "95%", isCorrect: true, rationale: "常態分佈中，約有 95.4% (一般簡稱 95%) 的資料落於平均數正負兩個標準差之內。" },
+            { text: "99.7%", isCorrect: false, rationale: "這是 $\\pm 3\\sigma$ 的比例。" },
+            { text: "50%", isCorrect: false, rationale: "常態分佈是對稱的，50% 是指大於或小於平均數的比例。" }
         ]
     },
     {
-        subject: "Coding", topic: "假設檢定", question: "在假設檢定中，拒絕虛無假設 ($H_0$) 但 $H_0$ 事實上為真時，稱為什麼錯誤？",
+        subject: "Coding", 
+        topic: "假設檢定決策", 
+        question: "在樣本數 ($n$) 固定且其他條件不變的情況下，關於型一錯誤率 ($\\alpha$) 與型二錯誤率 ($\\beta$) 的敘述何者正確？",
         answerOptions: [
-            { text: "型一錯誤 (Type I Error)", isCorrect: true, rationale: "型一錯誤的定義為：拒絕真實的 $H_0$。" },
-            { text: "型二錯誤 (Type II Error)", isCorrect: false, rationale: "型二錯誤為：接受錯誤的 $H_0$。" },
-            { text: "抽樣錯誤", isCorrect: false, rationale: "錯誤。" },
-            { text: "測量錯誤", isCorrect: false, rationale: "錯誤。" }
+            { text: "調低 $\\alpha$ 的同時，$\\beta$ 也會隨之降低", isCorrect: false, rationale: "在固定樣本數下，$\\alpha$ 與 $\\beta$ 存在權衡關係，調低其中一個通常會增加另一個。" },
+            { text: "調低 $\\alpha$ 會導致 $\\beta$ 增加", isCorrect: true, rationale: "這是統計檢定中的 Trade-off。當你對拒絕虛無假設變得更嚴謹時，就越容易漏掉真實的效果。" },
+            { text: "$\\alpha + \\beta$ 的機率總和必然等於 1", isCorrect: false, rationale: "$\\alpha$ 與 $\\beta$ 並非互補事件，總和不一定為 1。" },
+            { text: "兩者之間完全沒有統計上的關係", isCorrect: false, rationale: "兩者透過檢定邊界的設定而互相連動。" }
         ]
     },
     {
-        subject: "Coding", topic: "迴歸分析", question: "在簡單線性迴歸 $Y = \\beta_0 + \\beta_1 X + \\epsilon$ 中， $\\beta_1$ 代表什麼？",
+        subject: "Coding", 
+        topic: "迴歸分析", 
+        question: "在簡單線性迴歸中，判定係數 (Coefficient of Determination, $R^2$) 的經濟意義為何？",
         answerOptions: [
-            { text: "截距 (Intercept)", isCorrect: false, rationale: "這是 $\\beta_0$。" },
-            { text: "殘差 (Residual)", isCorrect: false, rationale: "這是 $\\epsilon$。" },
-            { text: "斜率 (Slope)", isCorrect: true, rationale: " $\\beta_1$ 衡量 $X$ 變化對 $Y$ 變化的影響。" },
-            { text: "誤差項的標準差", isCorrect: false, rationale: "錯誤。" }
+            { text: "自變數 $X$ 與應變數 $Y$ 之間的相關係數", isCorrect: false, rationale: "這是 $r$，而 $R^2 = r^2$。" },
+            { text: "總變異中可由迴歸模型解釋的比例", isCorrect: true, rationale: " $R^2 = SSR / SST$，代表應變數總變異中能被自變數解釋的部分。" },
+            { text: "模型殘差的平均數", isCorrect: false, rationale: "殘差平均數在 OLS 下應為 0。" },
+            { text: "預測值與真實值之間的絕對誤差", isCorrect: false, rationale: "錯誤。" }
         ]
     },
     {
-        subject: "Coding", topic: "集中趨勢", question: "若數據集為 $\{2, 3, 5, 5, 10\}$，其中位數 (Median) 是多少？",
+        subject: "Coding", 
+        topic: "估計式性質", 
+        question: "若一個估計式 $\\hat{\\theta}$ 的期望值等於母體參數 $\\theta$ (即 $E[\\hat{\\theta}] = \\theta$)，則稱此估計式具有？",
         answerOptions: [
-            { text: "5", isCorrect: true, rationale: "數據排序後為 $2, 3, 5, 5, 10$。中間的數是 $5$。" },
-            { text: "5.5", isCorrect: false, rationale: "這是平均數 $(2+3+5+5+10)/5 = 5$。" },
-            { text: "2", isCorrect: false, rationale: "這是最小值。" },
-            { text: "10", isCorrect: false, rationale: "這是眾數 (Mode) 也是 $5$。" }
+            { text: "一致性 (Consistency)", isCorrect: false, rationale: "一致性是指樣本數趨於無限大時，估計式收斂至參數。" },
+            { text: "有效性 (Efficiency)", isCorrect: false, rationale: "有效性是指估計式的變異數較小。" },
+            { text: "不偏性 (Unbiasedness)", isCorrect: true, rationale: "不偏性的定義即為估計式的期望值等於被估計的參數。" },
+            { text: "充分性 (Sufficiency)", isCorrect: false, rationale: "充分性是指估計式包含了樣本中關於參數的所有資訊。" }
         ]
     },
 ];

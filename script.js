@@ -123,51 +123,60 @@ const ALL_QUIZ_DATA = [
     
     // --- 計算機概論 (History) ---
     {
-        subject: "History", topic: "主題範圍", question: "請問 '計概' 通常不包含哪個主題？",
+        subject: "History", // 保持您的標籤名稱以相容程式碼
+        topic: "資料表示法",
+        question: "在 IEEE 754 單倍精確度 (Single Precision) 浮點數表示法中，偏置值 (Bias) 的設定主要是為了？",
         answerOptions: [
-            { text: "網路通訊", isCorrect: false, rationale: "包含。" },
-            { text: "資料結構", isCorrect: false, rationale: "包含。" },
-            { text: "作業系統", isCorrect: false, rationale: "包含。" },
-            { text: "生物化學", isCorrect: true, rationale: "這是獨立的生命科學領域。" }
+            { text: "增加有效數字的精度", isCorrect: false, rationale: "精度由分數 (Fraction) 位元決定。" },
+            { text: "使指數部分能以無號整數比較大小", isCorrect: true, rationale: "透過 Bias 將指數平移，使原本的正負指數皆變為正數，方便處理器硬體進行快速比較。" },
+            { text: "處理溢位 (Overflow) 問題", isCorrect: false, rationale: "溢位是由指數位元上限決定，而非 Bias 本身。" },
+            { text: "實現正規化 (Normalization)", isCorrect: false, rationale: "正規化是為了確保唯一表示法，與 Bias 無直接關係。" }
         ]
     },
     {
-        subject: "History", topic: "記憶體", question: "在計算機中，哪個儲存裝置在斷電後會丟失數據？",
+        subject: "History",
+        topic: "計算機結構",
+        question: "關於快取記憶體 (Cache) 的空間局部性 (Spatial Locality)，下列敘述何者正確？",
         answerOptions: [
-            { text: "硬碟 (HDD)", isCorrect: false, rationale: "非揮發性儲存。" },
-            { text: "唯讀記憶體 (ROM)", isCorrect: false, rationale: "非揮發性儲存。" },
-            { text: "隨機存取記憶體 (RAM)", isCorrect: true, rationale: "RAM 是揮發性記憶體，斷電後數據遺失。" },
-            { text: "固態硬碟 (SSD)", isCorrect: false, rationale: "非揮發性儲存。" }
+            { text: "指的是 CPU 最近存取過的指令，短時間內極可能再次存取", isCorrect: false, rationale: "這是時間局部性 (Temporal Locality)。" },
+            { text: "增加快取區塊 (Block Size) 的大小通常能提升空間局部性的效益", isCorrect: true, rationale: "空間局部性指存取某資料時，其相鄰資料也常被存取，加大 Block 可一次載入更多相鄰資料。" },
+            { text: "它是為了補償硬碟與主記憶體之間的速差", isCorrect: false, rationale: "快取主要是補償 CPU 與主記憶體 (DRAM) 的速差。" },
+            { text: "全關聯映射 (Fully Associative) 是利用此特性來運作", isCorrect: false, rationale: "映射方式是決定資料存放位置，與局部性特性無關。" }
         ]
     },
     {
-        subject: "History", topic: "網路協定", question: "網頁瀏覽器用於從伺服器請求網頁的協定是？",
+        subject: "History",
+        topic: "網路通訊",
+        question: "在 TCP 協定的三向握手 (Three-way Handshake) 過程中，若客戶端發送 SYN 包後收到伺服器的 SYN/ACK，客戶端最後發送的確認包為？",
         answerOptions: [
-            { text: "FTP", isCorrect: false, rationale: "用於檔案傳輸。" },
-            { text: "SMTP", isCorrect: false, rationale: "用於郵件傳輸。" },
-            { text: "HTTP/HTTPS", isCorrect: true, rationale: "超文本傳輸協定。" },
-            { text: "TCP", isCorrect: false, rationale: "用於連線的傳輸層協定。" }
+            { text: "FIN", isCorrect: false, rationale: "FIN 用於拆除連線。" },
+            { text: "RST", isCorrect: false, rationale: "RST 用於強制重置連線異常。" },
+            { text: "ACK", isCorrect: true, rationale: "客戶端必須回傳 ACK (Acknowledgment) 以完成連線建立。" },
+            { text: "PSH", isCorrect: false, rationale: "PSH 用於請求立即傳送數據給應用層。" }
         ]
     },
     {
-        subject: "History", topic: "資料結構", question: "先進先出 (FIFO) 的資料結構是？",
+        subject: "History",
+        topic: "資料結構",
+        question: "若已知一棵二元樹的「中序走訪 (Inorder)」與「後序走訪 (Postorder)」，下列敘述何者正確？",
         answerOptions: [
-            { text: "堆疊 (Stack)", isCorrect: false, rationale: "後進先出 (LIFO)。" },
-            { text: "佇列 (Queue)", isCorrect: true, rationale: "先進先出 (FIFO)。" },
-            { text: "連結串列 (Linked List)", isCorrect: false, rationale: "這是一種線性結構，但不是存取方式。" },
-            { text: "樹 (Tree)", isCorrect: false, rationale: "非線性結構。" }
+            { text: "無法唯一確定該二元樹的型態", isCorrect: false, rationale: "只要有中序搭配前序或後序其中之一，即可唯一確定二元樹。" },
+            { text: "可以唯一確定該二元樹，且後序的第一個節點為根節點", isCorrect: false, rationale: "後序的「最後一個」節點才是根節點。" },
+            { text: "可以唯一確定該二元樹，且後序的最後一個節點為根節點", isCorrect: true, rationale: "後序走訪 (左-右-根) 的最後一個元素必為當前子樹的根。" },
+            { text: "僅能確定該樹是否為平衡樹 (AVL Tree)", isCorrect: false, rationale: "走訪序列主要用於重建樹結構，無法直接判斷平衡性質。" }
         ]
     },
     {
-        subject: "History", topic: "作業系統", question: "作業系統的主要功能不包含下列哪項？",
+        subject: "History",
+        topic: "作業系統",
+        question: "下列何者「不是」死結 (Deadlock) 發生的四個必要條件之一？",
         answerOptions: [
-            { text: "處理器管理 (CPU 排程)", isCorrect: false, rationale: "包含。" },
-            { text: "記憶體管理", isCorrect: false, rationale: "包含。" },
-            { text: "輸入/輸出 (I/O) 設備管理", isCorrect: false, rationale: "包含。" },
-            { text: "繪製 3D 圖形", isCorrect: true, rationale: "這是應用程式或圖形卡驅動程式的功能。" }
+            { text: "互斥 (Mutual Exclusion)", isCorrect: false, rationale: "這是必要條件之一。" },
+            { text: "持有並等待 (Hold and Wait)", isCorrect: false, rationale: "這是必要條件之一。" },
+            { text: "可奪取 (Preemption)", isCorrect: true, rationale: "死結的條件是「不可奪取 (No Preemption)」。若資源可被奪取，就不會發生死結。" },
+            { text: "循環等待 (Circular Wait)", isCorrect: false, rationale: "這是必要條件之一。" }
         ]
-    },
-
+    }
     // --- 經濟學 (Geography) ---
     {
         subject: "Geography", topic: "供需平衡", question: "在經濟學中，如果供給超過需求，市場會產生什麼？",

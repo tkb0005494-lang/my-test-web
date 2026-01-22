@@ -121,100 +121,118 @@ const ALL_QUIZ_DATA = [
         ]
     },
     
-    // --- 計算機概論 (History) ---
+ // --- 計算機概論 (History) ---
     {
-        subject: "History", topic: "主題範圍", question: "請問 '計概' 通常不包含哪個主題？",
+        subject: "History", 
+        topic: "資料表示法",
+        question: "在 IEEE 754 單倍精確度 (Single Precision) 浮點數表示法中，偏置值 (Bias) 的設定主要是為了？",
         answerOptions: [
-            { text: "網路通訊", isCorrect: false, rationale: "包含。" },
-            { text: "資料結構", isCorrect: false, rationale: "包含。" },
-            { text: "作業系統", isCorrect: false, rationale: "包含。" },
-            { text: "生物化學", isCorrect: true, rationale: "這是獨立的生命科學領域。" }
+            { text: "增加有效數字的精度", isCorrect: false, rationale: "精度由分數 (Fraction) 位元決定。" },
+            { text: "使指數部分能以無號整數比較大小", isCorrect: true, rationale: "透過 Bias 將指數平移，使正負指數皆變為正數，方便處理器硬體快速比較。" },
+            { text: "處理溢位 (Overflow) 問題", isCorrect: false, rationale: "溢位是由指數位元上限決定，與 Bias 無直接關係。" },
+            { text: "實現正規化 (Normalization)", isCorrect: false, rationale: "正規化是為了確保唯一表示法，與 Bias 無直接關係。" }
         ]
     },
     {
-        subject: "History", topic: "記憶體", question: "在計算機中，哪個儲存裝置在斷電後會丟失數據？",
+        subject: "History",
+        topic: "計算機結構",
+        question: "關於快取記憶體 (Cache) 的空間局部性 (Spatial Locality)，下列敘述何者正確？",
         answerOptions: [
-            { text: "硬碟 (HDD)", isCorrect: false, rationale: "非揮發性儲存。" },
-            { text: "唯讀記憶體 (ROM)", isCorrect: false, rationale: "非揮發性儲存。" },
-            { text: "隨機存取記憶體 (RAM)", isCorrect: true, rationale: "RAM 是揮發性記憶體，斷電後數據遺失。" },
-            { text: "固態硬碟 (SSD)", isCorrect: false, rationale: "非揮發性儲存。" }
+            { text: "指的是 CPU 最近存取過的指令，短時間內極可能再次存取", isCorrect: false, rationale: "這是時間局部性 (Temporal Locality)。" },
+            { text: "增加快取區塊 (Block Size) 大小通常能提升空間局部性的效益", isCorrect: true, rationale: "空間局部性指存取某資料時，其相鄰資料也常被存取，加大 Block 可一次載入更多相鄰資料。" },
+            { text: "它是為了補償硬碟與主記憶體之間的速差", isCorrect: false, rationale: "快取主要是補償 CPU 與主記憶體 (DRAM) 之間的速差。" },
+            { text: "全關聯映射 (Fully Associative) 是利用此特性來運作", isCorrect: false, rationale: "映射方式是決定資料存放位置，與局部性特性無關。" }
         ]
     },
     {
-        subject: "History", topic: "網路協定", question: "網頁瀏覽器用於從伺服器請求網頁的協定是？",
+        subject: "History",
+        topic: "網路通訊",
+        question: "在 TCP 協定的三向握手 (Three-way Handshake) 過程中，若客戶端發送 SYN 包後收到伺服器的 SYN/ACK，客戶端最後回傳的是？",
         answerOptions: [
-            { text: "FTP", isCorrect: false, rationale: "用於檔案傳輸。" },
-            { text: "SMTP", isCorrect: false, rationale: "用於郵件傳輸。" },
-            { text: "HTTP/HTTPS", isCorrect: true, rationale: "超文本傳輸協定。" },
-            { text: "TCP", isCorrect: false, rationale: "用於連線的傳輸層協定。" }
+            { text: "FIN", isCorrect: false, rationale: "FIN 用於終止連線。" },
+            { text: "RST", isCorrect: false, rationale: "RST 用於強制重置連線。" },
+            { text: "ACK", isCorrect: true, rationale: "客戶端必須回傳最後一個 ACK 才能完成連線建立。" },
+            { text: "PSH", isCorrect: false, rationale: "PSH 用於請求立即傳送數據。" }
         ]
     },
     {
-        subject: "History", topic: "資料結構", question: "先進先出 (FIFO) 的資料結構是？",
+        subject: "History",
+        topic: "資料結構",
+        question: "若已知一棵二元樹的「中序走訪 (Inorder)」與「後序走訪 (Postorder)」，下列敘述何者正確？",
         answerOptions: [
-            { text: "堆疊 (Stack)", isCorrect: false, rationale: "後進先出 (LIFO)。" },
-            { text: "佇列 (Queue)", isCorrect: true, rationale: "先進先出 (FIFO)。" },
-            { text: "連結串列 (Linked List)", isCorrect: false, rationale: "這是一種線性結構，但不是存取方式。" },
-            { text: "樹 (Tree)", isCorrect: false, rationale: "非線性結構。" }
+            { text: "無法唯一確定該二元樹的型態", isCorrect: false, rationale: "只要有中序搭配前序或後序其中之一，即可唯一確定二元樹。" },
+            { text: "可以唯一確定該二元樹，且後序第一個節點為根節點", isCorrect: false, rationale: "後序的最後一個節點才是根節點。" },
+            { text: "可以唯一確定該二元樹，且後序最後一個節點為根節點", isCorrect: true, rationale: "後序走訪 (左-右-根) 的最後一個元素必為當前子樹的根。" },
+            { text: "僅能確定該樹是否為平衡樹 (AVL Tree)", isCorrect: false, rationale: "走訪序列主要用於重建結構，無法直接判斷平衡性質。" }
         ]
     },
     {
-        subject: "History", topic: "作業系統", question: "作業系統的主要功能不包含下列哪項？",
+        subject: "History",
+        topic: "作業系統",
+        question: "下列何者「不是」死結 (Deadlock) 發生的四個必要條件之一？",
         answerOptions: [
-            { text: "處理器管理 (CPU 排程)", isCorrect: false, rationale: "包含。" },
-            { text: "記憶體管理", isCorrect: false, rationale: "包含。" },
-            { text: "輸入/輸出 (I/O) 設備管理", isCorrect: false, rationale: "包含。" },
-            { text: "繪製 3D 圖形", isCorrect: true, rationale: "這是應用程式或圖形卡驅動程式的功能。" }
+            { text: "互斥 (Mutual Exclusion)", isCorrect: false, rationale: "這是死結必要條件之一。" },
+            { text: "持有並等待 (Hold and Wait)", isCorrect: false, rationale: "這是死結必要條件之一。" },
+            { text: "可奪取 (Preemption)", isCorrect: true, rationale: "死結的條件是「不可奪取 (No Preemption)」。若資源可被奪取，就不會發生死結。" },
+            { text: "循環等待 (Circular Wait)", isCorrect: false, rationale: "這是死結必要條件之一。" }
         ]
-    },
-
-    // --- 經濟學 (Geography) ---
+    }, 
+  // --- 經濟學 (Geography) ---
     {
-        subject: "Geography", topic: "供需平衡", question: "在經濟學中，如果供給超過需求，市場會產生什麼？",
+        subject: "Geography", 
+        topic: "需求彈性", 
+        question: "若某商品的需求價格彈性 $E_d > 1$ (富有彈性)，當廠商為了增加總收益 (Total Revenue) 時，其定價策略應為？",
         answerOptions: [
-            { text: "短缺 (Shortage)", isCorrect: false, rationale: "需求超過供給會短缺。" },
-            { text: "過剩 (Surplus)", isCorrect: true, rationale: "供給超過需求會造成過剩，導致價格下跌。" },
-            { text: "平衡 (Equilibrium)", isCorrect: false, rationale: "供給等於需求時達到平衡。" },
-            { text: "通膨 (Inflation)", isCorrect: false, rationale: "物價普遍上漲的現象。" }
-        ]
-    },
-    {
-        subject: "Geography", topic: "價格彈性", question: "當某商品的需求價格彈性大於 1 時，稱該需求為？",
-        answerOptions: [
-            { text: "缺乏彈性", isCorrect: false, rationale: "彈性小於 1。" },
-            { text: "單一彈性", isCorrect: false, rationale: "彈性等於 1。" },
-            { text: "富有彈性", isCorrect: true, rationale: "彈性大於 1，價格變動會導致需求量大幅變動。" },
-            { text: "完全彈性", isCorrect: false, rationale: "彈性趨近於無限大。" }
+            { text: "調漲價格", isCorrect: false, rationale: "彈性大於 1 時，漲價會導致需求量減少的比例大於價格增加比例，總收益會下降。" },
+            { text: "調降價格", isCorrect: true, rationale: "當 $E_d > 1$ 時，降價所誘發的需求量增加百分比大於漲價百分比，可提升總收益。" },
+            { text: "維持價格不變", isCorrect: false, rationale: "此非極大化收益之策略。" },
+            { text: "無法判斷，需視供給彈性而定", isCorrect: false, rationale: "總收益僅由需求端價格與數量的關係決定。" }
         ]
     },
     {
-        subject: "Geography", topic: "GDP 計算", question: "計算 GDP 時，下列哪項不應計入？",
+        subject: "Geography", 
+        topic: "市場結構", 
+        question: "在古諾模型 (Cournot Model) 的雙佔市場中，若兩家廠商的邊際成本均為 0，則市場均衡總產量與完全競爭市場產量的比例為何？",
         answerOptions: [
-            { text: "新生產的汽車銷售額", isCorrect: false, rationale: "計入。" },
-            { text: "二手房屋交易佣金", isCorrect: false, rationale: "佣金是服務，計入；但房屋本身不計入。" },
-            { text: "政府提供的國防服務價值", isCorrect: false, rationale: "計入。" },
-            { text: "在股市買賣股票的金額", isCorrect: true, rationale: "股票交易只是資產轉移，不屬於當期生產的商品或服務。" }
+            { text: "1/2", isCorrect: false, rationale: "這是獨佔市場相對於完全競爭的比例。" },
+            { text: "2/3", isCorrect: true, rationale: "古諾雙佔模型中，市場總產量為 $Q = [n/(n+1)]Q_{pc}$，當 $n=2$ 時比例為 2/3。" },
+            { text: "3/4", isCorrect: false, rationale: "計算錯誤。" },
+            { text: "1/3", isCorrect: false, rationale: "這是單一廠商在雙佔中的產量比例。" }
         ]
     },
     {
-        subject: "Geography", topic: "市場結構", question: "只有單一生產者，且產品沒有近似替代品的市場結構稱為？",
+        subject: "Geography", 
+        topic: "消費者理論", 
+        question: "若消費者的偏好滿足「邊際替代率遞減 (Diminishing MRS)」，則其無異曲線 (Indifference Curve) 的幾何形狀為何？",
         answerOptions: [
-            { text: "寡占", isCorrect: false, rationale: "少數生產者。" },
-            { text: "壟斷性競爭", isCorrect: false, rationale: "多數生產者，產品差異化。" },
-            { text: "完全競爭", isCorrect: false, rationale: "許多生產者，同質產品。" },
-            { text: "獨佔 (Monopoly)", isCorrect: true, rationale: "單一生產者，沒有近似替代品。" }
+            { text: "凹向原點 (Concave)", isCorrect: false, rationale: "凹向原點代表 MRS 遞增。" },
+            { text: "凸向原點 (Convex)", isCorrect: true, rationale: "MRS 遞減確保了無異曲線凸向原點，代表消費者偏好消費組合的適度均衡。" },
+            { text: "一條斜率為負的直線", isCorrect: false, rationale: "這代表兩商品為完全替代品，MRS 為常數。" },
+            { text: "L 型曲線", isCorrect: false, rationale: "這代表兩商品為完全互補品。" }
         ]
     },
     {
-        subject: "Geography", topic: "財政政策", question: "政府為了刺激經濟而增加開支，屬於哪種財政政策？",
+        subject: "Geography", 
+        topic: "IS-LM 模型", 
+        question: "在 IS-LM 模型中，若發生「流動性陷阱 (Liquidity Trap)」，則下列敘述何者正確？",
         answerOptions: [
-            { text: "緊縮性財政政策", isCorrect: false, rationale: "用於抑制過熱的經濟。" },
-            { text: "擴張性財政政策", isCorrect: true, rationale: "透過增加政府支出或減稅來刺激總需求。" },
-            { text: "貨幣政策", isCorrect: false, rationale: "由中央銀行控制利率或貨幣供給。" },
-            { text: "中性財政政策", isCorrect: false, rationale: "錯誤。" }
+            { text: "LM 曲線為垂直線", isCorrect: false, rationale: "流動性陷阱時，LM 曲線應為水平線。" },
+            { text: "財政政策完全無效", isCorrect: false, rationale: "此時財政政策效果最大 (無擠出效應)。" },
+            { text: "貨幣政策完全無效", isCorrect: true, rationale: "在 LM 為水平的情況下，增加貨幣供給無法進一步調降利率，無法刺激投資。" },
+            { text: "利率處於極高水準", isCorrect: false, rationale: "流動性陷阱發生於利率極低時。" }
         ]
     },
-
+    {
+        subject: "Geography", 
+        topic: "國民所得", 
+        question: "關於 GDP 與 GNP 的差異，下列公式何者正確？",
+        answerOptions: [
+            { text: "GNP = GDP + 國外要素所得淨額 (NFI)", isCorrect: true, rationale: "這是兩者之間標準的轉換公式。" },
+            { text: "GDP = GNP + 資本折舊", isCorrect: false, rationale: "折舊用於計算 NNP 或 NDP。" },
+            { text: "GNP = GDP - 間接稅淨額", isCorrect: false, rationale: "這是計算要素成本所得的調整。" },
+            { text: "兩者永遠相等", isCorrect: false, rationale: "除非該國為封閉經濟且無國外所得。" }
+        ]
+    },
     // --- 微積分 (English) ---
     {
         subject: "English", topic: "微分基本式", question: "微積分中，函數 $f(x) = x^2$ 的導數是？",

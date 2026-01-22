@@ -1,5 +1,18 @@
-// === A. Google 表單設定與變數 ===
+// === 0. LINE 環境偵測與強制外部瀏覽器跳轉 ===
+(function() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isLine = (ua.indexOf("Line") > -1);
+    const hasExternalParam = window.location.search.includes("openExternalBrowser=1");
 
+    // 如果偵測到在 LINE 內，且尚未帶有外部開啟參數，則強制跳轉
+    if (isLine && !hasExternalParam) {
+        const separator = window.location.href.includes("?") ? "&" : "?";
+        const newUrl = window.location.href + separator + "openExternalBrowser=1";
+        window.location.href = newUrl;
+    }
+})();
+
+// === A. Google 表單設定與變數 ===
 const GOOGLE_FORM_A_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdr-83jVYrDX1jp6YvBMmdPH-Rsk99mjXmJjcihfEnPw2CNcg/formResponse';
 
 const FORM_IDS = {
@@ -112,9 +125,7 @@ const ALL_QUIZ_DATA = [
     },
     // --- 計算機概論 (History) ---
     {
-        subject: "History", 
-        topic: "資料表示法",
-        question: "在 IEEE 754 單倍精確度 (Single Precision) 浮點數表示法中，偏置值 (Bias) 的設定主要是為了？",
+        subject: "History", topic: "資料表示法", question: "在 IEEE 754 單倍精確度 (Single Precision) 浮點數表示法中，偏置值 (Bias) 的設定主要是為了？",
         answerOptions: [
             { text: "增加有效數字的精度", isCorrect: false, rationale: "精度由分數 (Fraction) 位元決定。" },
             { text: "使指數部分能以無號整數比較大小", isCorrect: true, rationale: "透過 Bias 將指數平移，使正負指數皆變為正數，方便處理器硬體快速比較。" },
@@ -123,9 +134,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "History",
-        topic: "計算機結構",
-        question: "關於快取記憶體 (Cache) 的空間局部性 (Spatial Locality)，下列敘述何者正確？",
+        subject: "History", topic: "計算機結構", question: "關於快取記憶體 (Cache) 的空間局部性 (Spatial Locality)，下列敘述何者正確？",
         answerOptions: [
             { text: "指的是 CPU 最近存取過的指令，短時間內極可能再次存取", isCorrect: false, rationale: "這是時間局部性 (Temporal Locality)。" },
             { text: "增加快取區塊 (Block Size) 大小通常能提升空間局部性的效益", isCorrect: true, rationale: "空間局部性指存取某資料時，其相鄰資料也常被存取，加大 Block 可一次載入更多相鄰資料。" },
@@ -134,9 +143,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "History",
-        topic: "網路通訊",
-        question: "在 TCP 協定的三向握手 (Three-way Handshake) 過程中，若客戶端發送 SYN 包後收到伺服器的 SYN/ACK，客戶端最後回傳的是？",
+        subject: "History", topic: "網路通訊", question: "在 TCP 協定的三向握手 (Three-way Handshake) 過程中，若客戶端發送 SYN 包後收到伺服器的 SYN/ACK，客戶端最後回傳的是？",
         answerOptions: [
             { text: "FIN", isCorrect: false, rationale: "FIN 用於終止連線。" },
             { text: "RST", isCorrect: false, rationale: "RST 用於強制重置連線。" },
@@ -145,9 +152,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "History",
-        topic: "資料結構",
-        question: "若已知一棵二元樹的「中序走訪 (Inorder)」與「後序走訪 (Postorder)」，下列敘述何者正確？",
+        subject: "History", topic: "資料結構", question: "若已知一棵二元樹的「中序走訪 (Inorder)」與「後序走訪 (Postorder)」，下列敘述何者正確？",
         answerOptions: [
             { text: "無法唯一確定該二元樹的型態", isCorrect: false, rationale: "只要有中序搭配前序或後序其中之一，即可唯一確定二元樹。" },
             { text: "可以唯一確定該二元樹，且後序第一個節點為根節點", isCorrect: false, rationale: "後序的最後一個節點才是根節點。" },
@@ -156,9 +161,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "History",
-        topic: "作業系統",
-        question: "下列何者「不是」死結 (Deadlock) 發生的四個必要條件之一？",
+        subject: "History", topic: "作業系統", question: "下列何者「不是」死結 (Deadlock) 發生的四個必要條件之一？",
         answerOptions: [
             { text: "互斥 (Mutual Exclusion)", isCorrect: false, rationale: "這是死結必要條件之一。" },
             { text: "持有並等待 (Hold and Wait)", isCorrect: false, rationale: "這是死結必要條件之一。" },
@@ -168,9 +171,7 @@ const ALL_QUIZ_DATA = [
     }, 
     // --- 經濟學 (Geography) ---
     {
-        subject: "Geography", 
-        topic: "需求彈性", 
-        question: "若某商品的需求價格彈性 $E_d > 1$ (富有彈性)，當廠商為了增加總收益 (Total Revenue) 時，其定價策略應為？",
+        subject: "Geography", topic: "需求彈性", question: "若某商品的需求價格彈性 $E_d > 1$ (富有彈性)，當廠商為了增加總收益 (Total Revenue) 時，其定價策略應為？",
         answerOptions: [
             { text: "調漲價格", isCorrect: false, rationale: "彈性大於 1 時，漲價會導致需求量減少的比例大於價格增加比例，總收益會下降。" },
             { text: "調降價格", isCorrect: true, rationale: "當 $E_d > 1$ 時，降價所誘發的需求量增加百分比大於漲價百分比，可提升總收益。" },
@@ -179,9 +180,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Geography", 
-        topic: "市場結構", 
-        question: "在古諾模型 (Cournot Model) 的雙佔市場中，若兩家廠商的邊際成本均為 0，則市場均衡總產量與完全競爭市場產量的比例為何？",
+        subject: "Geography", topic: "市場結構", question: "在古諾模型 (Cournot Model) 的雙佔市場中，若兩家廠商的邊際成本均為 0，則市場均衡總產量與完全競爭市場產量的比例為何？",
         answerOptions: [
             { text: "1/2", isCorrect: false, rationale: "這是獨佔市場相對於完全競爭的比例。" },
             { text: "2/3", isCorrect: true, rationale: "古諾雙佔模型中，市場總產量為 $Q = [n/(n+1)]Q_{pc}$，當 $n=2$ 時比例為 2/3。" },
@@ -190,9 +189,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Geography", 
-        topic: "消費者理論", 
-        question: "若消費者的偏好滿足「邊際替代率遞減 (Diminishing MRS)」，則其無異曲線 (Indifference Curve) 的幾何形狀為何？",
+        subject: "Geography", topic: "消費者理論", question: "若消費者的偏好滿足「邊際替代率遞減 (Diminishing MRS)」，則其無異曲線 (Indifference Curve) 的幾何形狀為何？",
         answerOptions: [
             { text: "凹向原點 (Concave)", isCorrect: false, rationale: "凹向原點代表 MRS 遞增。" },
             { text: "凸向原點 (Convex)", isCorrect: true, rationale: "MRS 遞減確保了無異曲線凸向原點，代表消費者偏好消費組合的適度均衡。" },
@@ -201,9 +198,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Geography", 
-        topic: "IS-LM 模型", 
-        question: "在 IS-LM 模型中，若發生「流動性陷阱 (Liquidity Trap)」，則下列敘述何者正確？",
+        subject: "Geography", topic: "IS-LM 模型", question: "在 IS-LM 模型中，若發生「流動性陷阱 (Liquidity Trap)」，則下列敘述何者正確？",
         answerOptions: [
             { text: "LM 曲線為垂直線", isCorrect: false, rationale: "流動性陷阱時，LM 曲線應為水平線。" },
             { text: "財政政策完全無效", isCorrect: false, rationale: "此時財政政策效果最大 (無擠出效應)。" },
@@ -212,9 +207,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Geography", 
-        topic: "國民所得", 
-        question: "關於 GDP 與 GNP 的差異，下列公式何者正確？",
+        subject: "Geography", topic: "國民所得", question: "關於 GDP 與 GNP 的差異，下列公式何者正確？",
         answerOptions: [
             { text: "GNP = GDP + 國外要素所得淨額 (NFI)", isCorrect: true, rationale: "這是兩者之間標準的轉換公式。" },
             { text: "GDP = GNP + 資本折舊", isCorrect: false, rationale: "折舊用於計算 NNP 或 NDP。" },
@@ -270,9 +263,7 @@ const ALL_QUIZ_DATA = [
     },
     // --- 統計學 (Coding) ---
     {
-        subject: "Coding", 
-        topic: "抽樣分佈", 
-        question: "在抽樣調查中，『標準誤 (Standard Error)』與『標準差 (Standard Deviation)』的主要區別為何？",
+        subject: "Coding", topic: "抽樣分佈", question: "在抽樣調查中，『標準誤 (Standard Error)』與『標準差 (Standard Deviation)』的主要區別為何？",
         answerOptions: [
             { text: "兩者意義完全相同，只是名稱不同", isCorrect: false, rationale: "標準差描述樣本原始數據的離散度；標準誤描述統計量 (如平均數) 抽樣分佈的離散度。" },
             { text: "標準誤是描述『統計量抽樣分佈』的離散程度", isCorrect: true, rationale: "根據中央極限定理，樣本平均數的標準誤為 $\\sigma/\\sqrt{n}$，衡量樣本平均數與母體參數的距離。" },
@@ -281,9 +272,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Coding", 
-        topic: "常態分佈特性", 
-        question: "若隨機變數 $X \\sim N(\\mu, \\sigma^2)$，則根據實證規則 (Empirical Rule)，約有多少比例的資料會落在 $\\mu \\pm 2\\sigma$ 之內？",
+        subject: "Coding", topic: "常態分佈特性", question: "若隨機變數 $X \\sim N(\\mu, \\sigma^2)$，則根據實證規則 (Empirical Rule)，約有多少比例的資料會落在 $\\mu \\pm 2\\sigma$ 之內？",
         answerOptions: [
             { text: "68%", isCorrect: false, rationale: "這是 $\\pm 1\\sigma$ 的比例。" },
             { text: "95%", isCorrect: true, rationale: "常態分佈中，約有 95.4% (一般簡稱 95%) 的資料落於平均數正負兩個標準差之內。" },
@@ -292,9 +281,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Coding", 
-        topic: "假設檢定決策", 
-        question: "在樣本數 ($n$) 固定且其他條件不變的情況下，關於型一錯誤率 ($\\alpha$) 與型二錯誤率 ($\\beta$) 的敘述何者正確？",
+        subject: "Coding", topic: "假設檢定決策", question: "在樣本數 ($n$) 固定且其他條件不變的情況下，關於型一錯誤率 ($\\alpha$) 與型二錯誤率 ($\\beta$) 的敘述何者正確？",
         answerOptions: [
             { text: "調低 $\\alpha$ 的同時，$\\beta$ 也會隨之降低", isCorrect: false, rationale: "在固定樣本數下，$\\alpha$ 與 $\\beta$ 存在權衡關係，調低其中一個通常會增加另一個。" },
             { text: "調低 $\\alpha$ 會導致 $\\beta$ 增加", isCorrect: true, rationale: "這是統計檢定中的 Trade-off。當你對拒絕虛無假設變得更嚴謹時，就越容易漏掉真實的效果。" },
@@ -303,9 +290,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Coding", 
-        topic: "迴歸分析", 
-        question: "在簡單線性迴歸中，判定係數 (Coefficient of Determination, $R^2$) 的經濟意義為何？",
+        subject: "Coding", topic: "迴歸分析", question: "在簡單線性迴歸中，判定係數 (Coefficient of Determination, $R^2$) 的經濟意義為何？",
         answerOptions: [
             { text: "自變數 $X$ 與應變數 $Y$ 之間的相關係數", isCorrect: false, rationale: "這是 $r$，而 $R^2 = r^2$。" },
             { text: "總變異中可由迴歸模型解釋的比例", isCorrect: true, rationale: " $R^2 = SSR / SST$，代表應變數總變異中能被自變數解釋的部分。" },
@@ -314,9 +299,7 @@ const ALL_QUIZ_DATA = [
         ]
     },
     {
-        subject: "Coding", 
-        topic: "估計式性質", 
-        question: "若一個估計式 $\\hat{\\theta}$ 的期望值等於母體參數 $\\theta$ (即 $E[\\hat{\\theta}] = \\theta$)，則稱此估計式具有？",
+        subject: "Coding", topic: "估計式性質", question: "若一個估計式 $\\hat{\\theta}$ 的期望值等於母體參數 $\\theta$ (即 $E[\\hat{\\theta}] = \\theta$)，則稱此估計式具有？",
         answerOptions: [
             { text: "一致性 (Consistency)", isCorrect: false, rationale: "一致性是指樣本數趨於無限大時，估計式收斂至參數。" },
             { text: "有效性 (Efficiency)", isCorrect: false, rationale: "有效性是指估計式的變異數較小。" },
@@ -372,16 +355,11 @@ let hasClickedFirstTime = false;
 let isNotificationActive = false; 
 
 // === E. 格式驗證函式 ===
-function isValidName(name) {
-    return /^[\u4e00-\u9fa5]{2,}$/.test(name);
-}
-function isValidTaiwanPhone(phone) {
-    return /^\d{10}$/.test(phone);
-}
+function isValidName(name) { return /^[\u4e00-\u9fa5]{2,}$/.test(name); }
+function isValidTaiwanPhone(phone) { return /^\d{10}$/.test(phone); }
 
 // === F. 頁面控制 ===
 function showPage(pageId) {
-    console.log(`切換到頁面: ${pageId}`);
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById(pageId).classList.remove('hidden');
     
@@ -390,18 +368,12 @@ function showPage(pageId) {
     
     if (pageId === 'userInfoPage') {
         startNotificationCycle();
-        if(notification2) {
-            notification2.classList.remove('active');
-            notification2.classList.add('hidden');
-        }
+        if(notification2) { notification2.classList.remove('active'); notification2.classList.add('hidden'); }
         isNotificationActive = false;
     } else {
         stopNotificationCycle();
         if(notification) notification.classList.add('hidden');
-        if(notification2) {
-            notification2.classList.remove('active');
-            notification2.classList.add('hidden');
-        }
+        if(notification2) { notification2.classList.remove('active'); notification2.classList.add('hidden'); }
         isNotificationActive = false;
     }
     
@@ -417,48 +389,41 @@ function startNotificationCycle() {
     notificationIndex = Math.floor(Math.random() * NOTIFICATION_TEXTS.length);
     notificationTimer = setTimeout(showNotification, 3000);
 }
-
 function stopNotificationCycle() {
-    if (notificationTimer) {
-        clearTimeout(notificationTimer);
-        notificationTimer = null;
-    }
+    if (notificationTimer) { clearTimeout(notificationTimer); notificationTimer = null; }
 }
-
 function showNotification() {
     const notification = document.getElementById('floatingNotification');
     const notificationText = document.getElementById('notificationText');
     if(!notification || !notificationText) return;
-
     notificationText.textContent = NOTIFICATION_TEXTS[notificationIndex];
     notification.classList.remove('hidden');
     notificationIndex = (notificationIndex + 1) % NOTIFICATION_TEXTS.length;
-    
     setTimeout(() => {
         notification.classList.add('hidden');
         notificationTimer = setTimeout(showNotification, 3000);
     }, 2000);
 }
 
-// === H. 表單資料提交函數 (優化 LINE 環境相容性) ===
+// === H. 表單資料提交函數 (針對外部瀏覽器優化) ===
 function submitDataToGoogleForm(url, dataToSubmit) {
     const body = new URLSearchParams();
     for (const key in dataToSubmit) {
         body.append(key, dataToSubmit[key]);
     }
     
-    // 背景靜默發送，不使用 await 以防阻塞跳轉
     fetch(url, {
         method: 'POST',
         body: body,
         mode: 'no-cors',
+        keepalive: true, // 確保在頁面切換時請求能繼續完成
         cache: 'no-cache'
-    }).catch(err => console.error("表單發送失敗:", err));
+    }).catch(err => console.error("背景傳送失敗:", err));
     
-    return true; 
+    return true;
 }
 
-// === I. 表單邏輯 (加入 LINE 專用跳轉緩衝) ===
+// === I. 表單邏輯 ===
 document.getElementById('userInfoForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -467,7 +432,6 @@ document.getElementById('userInfoForm').addEventListener('submit', function(e) {
     const userPhone = document.getElementById(FORM_IDS.HTML_PHONE_ID).value.trim();
     const uniOtherText = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID).value.trim();
     const formError = document.getElementById('formError');
-
     const uniRadio = document.querySelector(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]:checked`);
     const gradeRadio = document.querySelector(`input[name="${FORM_IDS.HTML_GRADE_RADIO_NAME}"]:checked`);
 
@@ -478,13 +442,11 @@ document.getElementById('userInfoForm').addEventListener('submit', function(e) {
         formError.style.display = 'block';
         return;
     }
-
     if (!isValidName(userName)) {
         formError.textContent = "姓名格式錯誤：請填寫至少 2 個中文字。";
         formError.style.display = 'block';
         return;
     }
-
     if (!isValidTaiwanPhone(userPhone)) {
         formError.textContent = "聯絡手機格式錯誤：請輸入 10 碼數字。";
         formError.style.display = 'block';
@@ -493,7 +455,6 @@ document.getElementById('userInfoForm').addEventListener('submit', function(e) {
 
     const uniValue = uniRadio.value === '其他' ? uniOtherText : uniRadio.value;
     const userGrade = gradeRadio.value;
-    
     const dataToSubmit = {
         [FORM_IDS.FORM_A_NAME]: userName,
         [FORM_IDS.FORM_A_UNI]: uniValue,
@@ -502,15 +463,13 @@ document.getElementById('userInfoForm').addEventListener('submit', function(e) {
         [FORM_IDS.FORM_A_GRADE]: userGrade,
     };
 
-    // 1. 先執行發送
     submitDataToGoogleForm(GOOGLE_FORM_A_URL, dataToSubmit);
 
-    // 2. 存入本機
     localStorage.setItem('userData', JSON.stringify({
         name: userName, uni: uniValue, dept: userDepartment, grade: userGrade, phone: userPhone
     }));
 
-    // 3. 🚀 關鍵：在 LINE 中延遲 150ms 確保封包已發出再換頁
+    // 外部瀏覽器環境下 150ms 緩衝已足夠
     setTimeout(() => {
         startTime = Date.now();
         showPage('subjectSelectPage');
@@ -522,13 +481,9 @@ document.querySelectorAll(`input[name="${FORM_IDS.HTML_UNI_RADIO_NAME}"]`).forEa
     r.addEventListener('change', function() {
         const textInput = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
         if (this.value === '其他') {
-            textInput.disabled = false;
-            textInput.required = true;
-            textInput.focus();
+            textInput.disabled = false; textInput.required = true; textInput.focus();
         } else {
-            textInput.disabled = true;
-            textInput.required = false;
-            textInput.value = '';
+            textInput.disabled = true; textInput.required = false; textInput.value = '';
         }
     });
 });
@@ -547,14 +502,12 @@ function startQuiz(subject) {
     currentScore = 0;
     answeredQuestions.clear();
     wrongQuestionsData = [];
-    
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-content').classList.remove('hidden');
     
     const quizList = ALL_QUIZ_DATA.filter(q => q.subject === subject);
     const container = document.getElementById('quiz-content');
     container.innerHTML = '';
-    
     const button = document.querySelector(`.subject-button[data-subject="${subject}"]`);
     const subjectName = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
     document.getElementById('quizTitle').innerText = `正在測驗：${subjectName}`;
@@ -620,10 +573,7 @@ function handleAnswerClick() {
             delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}]
         });
     }
-
-    if (answeredQuestions.size === 5) {
-        setTimeout(showQuizResult, 800);
-    }
+    if (answeredQuestions.size === 5) { setTimeout(showQuizResult, 800); }
 }
 
 function showQuizResult() {
@@ -640,8 +590,6 @@ function showQuizResult() {
     
     document.getElementById('scoreComment').innerHTML = `銳評：<strong>${potentialLevel}</strong><br>${comment}`;
     localStorage.setItem('potentialLevel', potentialLevel);
-    
-    // 重新綁定資源按鈕事件
     bindResourceButton();
 }
 
@@ -651,22 +599,14 @@ function setupEventListeners() {
         const notification2 = document.getElementById('floatingNotification2');
         if (notification2 && notification2.classList.contains('active')) {
             const content = notification2.querySelector('.notification-content2');
-            if (content && !content.contains(event.target)) {
-                closeSecondNotification();
-            }
+            if (content && !content.contains(event.target)) { closeSecondNotification(); }
         }
     });
 }
-
 function closeSecondNotification() {
     const notification2 = document.getElementById('floatingNotification2');
-    if (notification2) {
-        notification2.classList.remove('active');
-        notification2.classList.add('hidden');
-        isNotificationActive = false;
-    }
+    if (notification2) { notification2.classList.remove('active'); notification2.classList.add('hidden'); isNotificationActive = false; }
 }
-
 function bindResourceButton() {
     const goToResourceBtn = document.getElementById('goToResourceBtn');
     if (goToResourceBtn) {
@@ -677,10 +617,8 @@ function bindResourceButton() {
         btn.addEventListener('click', handleFirstClick);
     }
 }
-
 function handleFirstClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     hasClickedFirstTime = true;
     const notification2 = document.getElementById('floatingNotification2');
     if (notification2) {
@@ -690,30 +628,20 @@ function handleFirstClick(e) {
         const btn = document.getElementById('goToResourceBtn');
         btn.removeEventListener('click', handleFirstClick);
         btn.addEventListener('click', handleSecondClick);
-    } else {
-        goToResourcePage();
-    }
+    } else { goToResourcePage(); }
 }
-
 function handleSecondClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     closeSecondNotification();
     setTimeout(goToResourcePage, 300);
 }
-
 function goToResourcePage() {
     document.getElementById('finalScoreDisplay').innerText = currentScore;
     const button = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`);
-    if (button) {
-        document.getElementById('finalSubjectName').innerText = button.innerText.replace(/[^\u4e00-\u9fa5]/g, '');
-    }
-    if (VIDEO_LINKS[currentSubject]) {
-        document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title;
-    }
+    if (button) { document.getElementById('finalSubjectName').innerText = button.innerText.replace(/[^\u4e00-\u9fa5]/g, ''); }
+    if (VIDEO_LINKS[currentSubject]) { document.getElementById('videoSubjectName').innerText = VIDEO_LINKS[currentSubject].title; }
     document.getElementById('potentialLevelDisplay').innerText = localStorage.getItem('potentialLevel') || '尚未評等';
     document.getElementById('scoreMessage').innerText = currentScore === 100 ? "實力驚人！挑戰極限！" : "推薦您由這部影片打底：";
-    
     const lineCta = document.getElementById('lineCtaButton');
     if (lineCta) lineCta.href = LINE_CTA_LINK;
     showPage('resourcePage');
@@ -724,7 +652,6 @@ function generateStudyPlan() {
     const weeks = [1, 2, 3, 4].map(i => document.getElementById(`plan-week-${i}`));
     const weaknessTag = document.getElementById('weaknessTag');
     weeks.forEach(el => { if (el) el.innerHTML = ''; });
-
     let topics = wrongQuestionsData.map(d => d.topic);
     if (topics.length > 0) {
         if (weaknessTag) weaknessTag.innerText = topics.join('、');
@@ -736,7 +663,6 @@ function generateStudyPlan() {
         if (weeks[0]) weeks[0].innerHTML = "<ul><li>🚀 <strong>超前部署：</strong>挑戰考古題</li></ul>";
         if (weeks[1]) weeks[1].innerHTML = "<ul><li>⚡ <strong>速度訓練：</strong>模擬試卷</li></ul>";
     }
-
     const sName = document.querySelector(`.subject-button[data-subject="${currentSubject}"]`)?.innerText.replace(/[^\u4e00-\u9fa5]/g, '') || "學科";
     if (weeks[2]) weeks[2].innerHTML = `<ul><li>🧩 <strong>${sName} 整合：</strong>繪製心智圖</li><li>✍️ <strong>五年考古：</strong>完成台聯大試題</li></ul>`;
     if (weeks[3]) weeks[3].innerHTML = `<ul><li>🏁 <strong>考前模擬：</strong>比照考試時間</li><li>❤️ <strong>調整狀態：</strong>複習筆記</li></ul>`;
@@ -755,14 +681,10 @@ function initYouTube() {
 // === N. 初始化 ===
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
-    if (localStorage.getItem('userData')) {
-        showPage('subjectSelectPage');
-    } else {
-        showPage('userInfoPage');
-    }
+    if (localStorage.getItem('userData')) { showPage('subjectSelectPage'); }
+    else { showPage('userInfoPage'); }
     const uniOther = document.getElementById(FORM_IDS.HTML_UNI_OTHER_ID);
     if (uniOther) { uniOther.disabled = true; uniOther.required = false; }
-    
     if (window.renderMathInElement) {
         renderMathInElement(document.body, {
             delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}],
